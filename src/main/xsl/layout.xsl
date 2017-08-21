@@ -58,7 +58,7 @@
                     </article>
                     <footer>
                         <nav>
-                            <ul style="color:gray;" class="bottom">
+                            <ul style="color:gray;">
                                 <li title="Currently deployed version">
                                     <xsl:text>v</xsl:text>
                                     <xsl:value-of select="version/name"/>
@@ -111,7 +111,7 @@
                             </ul>
                         </nav>
                         <nav>
-                            <ul>
+                            <ul style="color:gray;">
                                 <li>
                                     <xsl:text>The logo is made by </xsl:text>
                                     <a href="https://www.flaticon.com/authors/those-icons">
