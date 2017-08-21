@@ -134,7 +134,7 @@ public final class TkApp extends TkWrap {
                                                 )
                                             ),
                                             new FkRegex(
-                                                "/re/(.+)",
+                                                "/r/(.+)",
                                                 (TkRegex) req -> base.target(
                                                     new URL(req.matcher().group(1)),
                                                     System.nanoTime()

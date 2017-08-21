@@ -54,7 +54,7 @@ public final class TkAppITCase {
                 take.act(
                     new RqFake(
                         new ListOf<>(
-                            "GET /re/http%3A%2F%2Fwww.yegor256.com%2F",
+                            "GET /r/http%3A%2F%2Fwww.yegor256.com%2F",
                             "Host: www.rehttp.net"
                         ),
                         ""
