@@ -34,8 +34,11 @@
     </xsl:template>
     <xsl:template match="page" mode="body">
         <p>
+            <strong>
+                <xsl:text>ReHTTP</xsl:text>
+            </strong>
             <xsl:text>
-                This is an HTTP repeater.
+                is an HTTP repeater.
                 When someone is sending you HTTP requests with an
                 important information, you may fail to accept it for
                 some reasons. For example, an HTTP POST is coming
