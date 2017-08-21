@@ -1,0 +1,6 @@
+Rehttp-Revision: BUILD
+Rehttp-Version: ${project.version}
+Rehttp-Date: ${timestamp}
+Rehttp-DynamoKey: ${dynamo.key}
+Rehttp-DynamoSecret: ${dynamo.secret}
+Rehttp-SentryDsn: ${sentry.dsn}

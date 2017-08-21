@@ -1,0 +1,57 @@
+{
+  "TableName": "targets",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "url",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "time",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "code",
+      "AttributeType": "N"
+    },
+    {
+      "AttributeName": "next",
+      "AttributeType": "N"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "url",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "time",
+      "KeyType": "RANGE"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": "1",
+    "WriteCapacityUnits": "1"
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "mine",
+      "KeySchema": [
+        {
+          "AttributeName": "code",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "next",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": "1",
+        "WriteCapacityUnits": "1"
+      }
+    }
+  ]
+}

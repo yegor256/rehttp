@@ -1,0 +1,6 @@
+Rehttp-Revision: a1b2c3e
+Rehttp-Version: 1.0
+Rehttp-Date: ${timestamp}
+Rehttp-DynamoKey: ${failsafe.dynamo.key}
+Rehttp-DynamoSecret: ${failsafe.dynamo.secret}
+Rehttp-SentryDsn: test
