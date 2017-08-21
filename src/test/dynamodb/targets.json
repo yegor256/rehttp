@@ -10,11 +10,11 @@
       "AttributeType": "N"
     },
     {
-      "AttributeName": "code",
-      "AttributeType": "N"
+      "AttributeName": "success",
+      "AttributeType": "S"
     },
     {
-      "AttributeName": "next",
+      "AttributeName": "when",
       "AttributeType": "N"
     }
   ],
@@ -34,14 +34,14 @@
   },
   "GlobalSecondaryIndexes": [
     {
-      "IndexName": "mine",
+      "IndexName": "expired",
       "KeySchema": [
         {
-          "AttributeName": "code",
+          "AttributeName": "success",
           "KeyType": "HASH"
         },
         {
-          "AttributeName": "next",
+          "AttributeName": "when",
           "KeyType": "RANGE"
         }
       ],

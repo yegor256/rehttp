@@ -20,50 +20,49 @@
  * in connection with the software or  the  use  or other dealings in the
  * software.
  */
-package net.rehttp;
+package net.rehttp.tk;
 
-import com.jcabi.log.VerboseCallable;
-import com.jcabi.manifests.Manifests;
-import io.sentry.Sentry;
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import net.rehttp.base.Base;
+import java.net.HttpURLConnection;
+import net.rehttp.Dynamo;
 import net.rehttp.base.DyBase;
-import net.rehttp.tk.TkApp;
-import org.cactoos.func.RunnableOf;
-import org.takes.http.Exit;
-import org.takes.http.FtCli;
+import org.cactoos.iterable.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.junit.Test;
+import org.takes.Take;
+import org.takes.facets.hamcrest.HmRsStatus;
+import org.takes.rq.RqFake;
+import org.takes.rs.RsPrint;
 
 /**
- * Command line entry.
- *
+ * Integration case for {@link TkApp}.
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class Entrance {
+public final class TkAppITCase {
 
     /**
-     * Ctor.
+     * App can pass a request through.
+     * @throws Exception If some problem inside
      */
-    private Entrance() {
-        // utility class
-    }
-
-    /**
-     * Main entry point.
-     * @param args Arguments
-     * @throws IOException If fails
-     */
-    public static void main(final String... args) throws IOException {
-        Sentry.init(Manifests.read("Rehttp-SentryDsn"));
-        final Base base = new DyBase(new Dynamo());
-        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
-            new RunnableOf<>(new VerboseCallable<Void>(new Retry(base), true)),
-            1L, 1L, TimeUnit.MINUTES
+    @Test
+    public void passesRequestThrough() throws Exception {
+        final Take take = new TkApp(new DyBase(new Dynamo()));
+        MatcherAssert.assertThat(
+            new RsPrint(
+                take.act(
+                    new RqFake(
+                        new ListOf<>(
+                            "GET /re/http%3A%2F%2Fwww.yegor256.com%2F",
+                            "Host: www.rehttp.net"
+                        ),
+                        ""
+                    )
+                )
+            ),
+            new HmRsStatus(HttpURLConnection.HTTP_OK)
         );
-        new FtCli(new TkApp(base), args).start(Exit.NEVER);
     }
 
 }

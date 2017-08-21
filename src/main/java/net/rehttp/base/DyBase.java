@@ -22,11 +22,22 @@
  */
 package net.rehttp.base;
 
-import java.net.MalformedURLException;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.Select;
+import com.jcabi.dynamo.Attributes;
+import com.jcabi.dynamo.Conditions;
+import com.jcabi.dynamo.Item;
+import com.jcabi.dynamo.QueryValve;
+import com.jcabi.dynamo.Region;
+import com.jcabi.dynamo.Table;
+import java.io.IOException;
 import java.net.URL;
-import org.cactoos.iterable.ListOf;
+import java.util.Collection;
+import java.util.concurrent.TimeUnit;
+import org.cactoos.iterable.Mapped;
 import org.takes.Take;
-import org.takes.rs.RsText;
 
 /**
  * Base in DynamoDB.
@@ -34,16 +45,78 @@ import org.takes.rs.RsText;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public final class DyBase implements Base {
 
-    @Override
-    public Take target(final URL url, final long time) {
-        return request -> new RsText("Everything is fine");
+    /**
+     * The region to work with.
+     */
+    private final transient Region region;
+
+    /**
+     * Ctor.
+     * @param reg Region
+     */
+    public DyBase(final Region reg) {
+        this.region = reg;
     }
 
     @Override
-    public Iterable<Take> expired() throws MalformedURLException {
-        return new ListOf<>(this.target(new URL("#"), 0L));
+    public Take target(final URL url, final long time) throws IOException {
+        final Collection<Item> items = this.table()
+            .frame()
+            .through(
+                new QueryValve()
+                    .withSelect(Select.ALL_ATTRIBUTES)
+                    .withLimit(1)
+            )
+            .where("url", Conditions.equalTo(url))
+            .where("time", Conditions.equalTo(time));
+        final Item item;
+        if (items.isEmpty()) {
+            item = this.table().put(
+                new Attributes()
+                    .with("url", url)
+                    .with("time", time)
+                    .with(
+                        "ttl",
+                        System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2L)
+                    )
+            );
+        } else {
+            item = items.iterator().next();
+        }
+        return new DyTake(item);
     }
+
+    @Override
+    public Iterable<Take> expired() {
+        return new Mapped<>(
+            this.table()
+                .frame()
+                .through(new QueryValve().withSelect(Select.ALL_ATTRIBUTES))
+                .where("result", Conditions.equalTo(Boolean.toString(false)))
+                .where(
+                    "when",
+                    new Condition()
+                        .withComparisonOperator(ComparisonOperator.LT)
+                        .withAttributeValueList(
+                            new AttributeValue().withN(
+                                Long.toString(System.currentTimeMillis())
+                            )
+                        )
+                ),
+            DyTake::new
+        );
+    }
+
+    /**
+     * Table to work with.
+     * @return Table
+     */
+    private Table table() {
+        return this.region.table("targets");
+    }
+
 }

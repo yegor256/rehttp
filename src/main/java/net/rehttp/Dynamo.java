@@ -22,18 +22,13 @@
  */
 package net.rehttp;
 
-import com.jcabi.log.VerboseCallable;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.jcabi.dynamo.Credentials;
+import com.jcabi.dynamo.Region;
+import com.jcabi.dynamo.Table;
+import com.jcabi.dynamo.retry.ReRegion;
+import com.jcabi.log.Logger;
 import com.jcabi.manifests.Manifests;
-import io.sentry.Sentry;
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import net.rehttp.base.Base;
-import net.rehttp.base.DyBase;
-import net.rehttp.tk.TkApp;
-import org.cactoos.func.RunnableOf;
-import org.takes.http.Exit;
-import org.takes.http.FtCli;
 
 /**
  * Command line entry.
@@ -42,28 +37,47 @@ import org.takes.http.FtCli;
  * @version $Id$
  * @since 1.0
  */
-public final class Entrance {
+public final class Dynamo implements Region {
 
     /**
-     * Ctor.
+     * Region.
      */
-    private Entrance() {
-        // utility class
+    private final transient Region region = Dynamo.connect();
+
+    @Override
+    public AmazonDynamoDB aws() {
+        return this.region.aws();
+    }
+
+    @Override
+    public Table table(final String name) {
+        return this.region.table(name);
     }
 
     /**
-     * Main entry point.
-     * @param args Arguments
-     * @throws IOException If fails
+     * Connect.
+     * @return Region
      */
-    public static void main(final String... args) throws IOException {
-        Sentry.init(Manifests.read("Rehttp-SentryDsn"));
-        final Base base = new DyBase(new Dynamo());
-        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
-            new RunnableOf<>(new VerboseCallable<Void>(new Retry(base), true)),
-            1L, 1L, TimeUnit.MINUTES
+    private static Region connect() {
+        final String key = Manifests.read("Rehttp-DynamoKey");
+        final Credentials creds = new Credentials.Simple(
+            key, Manifests.read("Rehttp-DynamoSecret")
         );
-        new FtCli(new TkApp(base), args).start(Exit.NEVER);
+        final Region region;
+        if (key.startsWith("AAAAA")) {
+            final int port = Integer.parseInt(
+                System.getProperty("dynamo.port")
+            );
+            region = new Region.Simple(new Credentials.Direct(creds, port));
+            Logger.warn(Entrance.class, "Test DynamoDB at port #%d", port);
+        } else {
+            region = new Region.Prefixed(
+                new ReRegion(new Region.Simple(creds)),
+                "rehttp-"
+            );
+        }
+        Logger.info(Entrance.class, "DynamoDB connected as %s", key);
+        return region;
     }
 
 }

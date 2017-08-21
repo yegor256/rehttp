@@ -40,11 +40,11 @@
             <xsl:text>
                 is an HTTP repeater.
                 When someone is sending you HTTP requests with an
-                important information, you may fail to accept it for
+                important information, you may fail to accept them for
                 some reasons. For example, an HTTP POST is coming
                 from a GitHub Webhook to your server, but the server
-                is temporarily down. You will loose the information and
-                GitHub won't retry. Our repeater will help you solve
+                is temporary down. You will loose the information and
+                GitHub won't retry. Our repeater helps you solve exactly
                 this problem.
             </xsl:text>
         </p>
@@ -59,14 +59,14 @@
                 <xsl:text>this encoder</xsl:text>
             </a>
             <xsl:text>).</xsl:text>
-            <xsl:text> GitHub will send POST or PUT request to us,
-            and we will send it through to your server. If your
-            server doesn't reply, we will re-try again, in a few seconds.
+            <xsl:text> GitHub will send POST or PUT requests to us,
+            and we will send them through, to your server. If your
+            server doesn't reply, we will try again in a minute.
             Then, we will retry in a few minutes, and in a few hours.
-            Only after 32 failures we will abandon it.</xsl:text>
+            Only after 24 hours of failed attempts we will abandon it.</xsl:text>
         </p>
         <p>
-            <xsl:text>The service is absolutely free, but please don't abuse it.</xsl:text>
+            <xsl:text>The service is absolutely free, please don't abuse it.</xsl:text>
         </p>
     </xsl:template>
 </xsl:stylesheet>

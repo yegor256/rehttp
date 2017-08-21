@@ -22,48 +22,42 @@
  */
 package net.rehttp;
 
-import com.jcabi.log.VerboseCallable;
-import com.jcabi.manifests.Manifests;
-import io.sentry.Sentry;
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Callable;
 import net.rehttp.base.Base;
-import net.rehttp.base.DyBase;
-import net.rehttp.tk.TkApp;
-import org.cactoos.func.RunnableOf;
-import org.takes.http.Exit;
-import org.takes.http.FtCli;
+import org.takes.Request;
+import org.takes.Take;
+import org.takes.rq.RqFake;
 
 /**
- * Command line entry.
+ * Retry them all.
  *
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public final class Entrance {
+final class Retry implements Callable<Void> {
+
+    /**
+     * The base.
+     */
+    private final Base base;
 
     /**
      * Ctor.
+     * @param bse Base
      */
-    private Entrance() {
-        // utility class
+    Retry(final Base bse) {
+        this.base = bse;
     }
 
-    /**
-     * Main entry point.
-     * @param args Arguments
-     * @throws IOException If fails
-     */
-    public static void main(final String... args) throws IOException {
-        Sentry.init(Manifests.read("Rehttp-SentryDsn"));
-        final Base base = new DyBase(new Dynamo());
-        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
-            new RunnableOf<>(new VerboseCallable<Void>(new Retry(base), true)),
-            1L, 1L, TimeUnit.MINUTES
-        );
-        new FtCli(new TkApp(base), args).start(Exit.NEVER);
+    @Override
+    public Void call() throws IOException {
+        final Request req = new RqFake();
+        for (final Take take : this.base.expired()) {
+            take.act(req);
+        }
+        return null;
     }
 
 }

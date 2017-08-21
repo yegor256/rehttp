@@ -85,18 +85,11 @@
             <artifactId>sentry</artifactId>
             <version>1.4.0</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-core</artifactId>
-            <version>1.11.179</version>
-        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-dynamodb</artifactId>
             <version>1.11.179</version>
         </dependency>
-        -->
         <dependency>
             <groupId>org.takes</groupId>
             <artifactId>takes</artifactId>
@@ -144,13 +137,11 @@
             <artifactId>jcabi-log</artifactId>
             <version>0.17.2</version>
         </dependency>
-        <!--
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-dynamo</artifactId>
             <version>0.21.4</version>
         </dependency>
-        -->
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-matchers</artifactId>
