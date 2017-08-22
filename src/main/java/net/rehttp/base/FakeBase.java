@@ -51,4 +51,9 @@ public final class FakeBase implements Base {
     public String history(final URL url) {
         return "";
     }
+
+    @Override
+    public String history(final URL url, final long time) {
+        return "";
+    }
 }

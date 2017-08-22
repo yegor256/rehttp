@@ -55,6 +55,7 @@ import org.takes.Take;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class DyBase implements Base {
 
     /**
@@ -157,7 +158,7 @@ public final class DyBase implements Base {
                     Tv.FIFTY
                 ),
                 item -> String.format(
-                    "%s\t%b/%d\t%d",
+                    "%s\t%b/%d\t%d\t%s",
                     ZonedDateTime.ofInstant(
                         new Date(
                             Long.parseLong(item.get("time").getN())
@@ -176,6 +177,40 @@ public final class DyBase implements Base {
                 )
             )
         ).asString();
+    }
+
+    @Override
+    public String history(final URL url, final long time) throws IOException {
+        final Item item = this.table()
+            .frame()
+            .through(
+                new QueryValve()
+                    .withSelect(Select.ALL_ATTRIBUTES)
+                    .withLimit(1)
+            )
+            .where("url", Conditions.equalTo(url))
+            .where("time", Conditions.equalTo(time))
+            .iterator()
+            .next();
+        return String.format(
+            "URL: %s\nTime: %s\nCode: %d\nAttempts: %d\nWhen: %s\n\n%s",
+            item.get("url"),
+            ZonedDateTime.ofInstant(
+                new Date(
+                    Long.parseLong(item.get("time").getN())
+                ).toInstant(),
+                ZoneOffset.UTC
+            ).format(DateTimeFormatter.ISO_INSTANT),
+            Integer.parseInt(item.get("code").getN()),
+            Integer.parseInt(item.get("attempts").getN()),
+            ZonedDateTime.ofInstant(
+                new Date(
+                    Long.parseLong(item.get("when").getN())
+                ).toInstant(),
+                ZoneOffset.UTC
+            ).format(DateTimeFormatter.ISO_INSTANT),
+            item.get("request").getS()
+        );
     }
 
     /**

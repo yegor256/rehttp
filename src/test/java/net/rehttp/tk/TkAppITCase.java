@@ -102,7 +102,7 @@ public final class TkAppITCase {
                             new RqFake(
                                 new ListOf<>(
                                     String.format(
-                                        "GET /%s",
+                                        "GET /%s?something",
                                         URLEncoder.encode(
                                             home.toString(),
                                             StandardCharsets.UTF_8.displayName()

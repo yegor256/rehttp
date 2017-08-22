@@ -59,4 +59,13 @@ public interface Base {
      */
     String history(URL url) throws IOException;
 
+    /**
+     * History of the URL and time.
+     * @param url The URL
+     * @param time The time
+     * @return The history
+     * @throws IOException If fails
+     */
+    String history(URL url, long time) throws IOException;
+
 }

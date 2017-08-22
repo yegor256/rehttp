@@ -88,80 +88,96 @@ public final class TkApp extends TkWrap {
      * @throws IOException If fails
      */
     public TkApp(final Base base) throws IOException {
-        super(
-            new TkWithHeaders(
-                new TkVersioned(
-                    new TkMeasured(
-                        new TkFlash(
-                            TkApp.safe(
-                                new TkForward(
-                                    new TkGzip(
-                                        new TkFork(
-                                            new FkRegex("/robots.txt", ""),
-                                            new FkRegex(
-                                                "/favicon.ico",
-                                                new RsWithType(
-                                                    new RsWithBody(
-                                                        new BytesOf(
-                                                            new ResourceOf("images/logo.png")
-                                                        ).asBytes()
-                                                    ),
-                                                    "image/png"
-                                                )
-                                            ),
-                                            new FkHost(
-                                                "p.rehttp.net",
-                                                req -> base.target(
-                                                    new URL(new RqHref.Base(req).href().path().substring(1)),
-                                                    System.currentTimeMillis()
-                                                ).act(req)
-                                            ),
-                                            new FkHost(
-                                                "i.rehttp.net",
-                                                req -> new RsText(
-                                                    base.history(
-                                                        new URL(new RqHref.Base(req).href().path().substring(1))
-                                                    )
-                                                )
-                                            ),
-                                            new FkRegex(
-                                                "/org/takes/.+\\.xsl",
-                                                new TkClasspath()
-                                            ),
-                                            new FkRegex(
-                                                "/xsl/[a-z\\-]+\\.xsl",
-                                                new TkWithType(
-                                                    TkApp.refresh("./src/main/xsl"),
-                                                    "text/xsl"
-                                                )
-                                            ),
-                                            new FkRegex(
-                                                "/css/[a-z]+\\.css",
-                                                new TkWithType(
-                                                    TkApp.refresh("./src/main/scss"),
-                                                    "text/css"
-                                                )
-                                            ),
-                                            new FkRegex(
-                                                "/images/[a-z]+\\.svg",
-                                                new TkWithType(
-                                                    TkApp.refresh("./src/main/resources"),
-                                                    "image/svg+xml"
-                                                )
-                                            ),
-                                            new FkRegex(
-                                                "/images/[a-z]+\\.png",
-                                                new TkWithType(
-                                                    TkApp.refresh("./src/main/resources"),
-                                                    "image/png"
-                                                )
-                                            ),
-                                            new FkRegex(
-                                                "/",
-                                                (Take) request -> new RsPage(
-                                                    "/xsl/index.xsl",
-                                                    request
-                                                )
+        super(TkApp.app(base));
+    }
+
+    /**
+     * Ctor.
+     * @param base Base
+     * @return App
+     * @throws IOException If fails
+     */
+    private static Take app(final Base base) throws IOException {
+        return new TkWithHeaders(
+            new TkVersioned(
+                new TkMeasured(
+                    new TkFlash(
+                        TkApp.safe(
+                            new TkForward(
+                                new TkGzip(
+                                    new TkFork(
+                                        new FkRegex("/robots.txt", ""),
+                                        new FkRegex(
+                                            "/favicon.ico",
+                                            new RsWithType(
+                                                new RsWithBody(
+                                                    new BytesOf(
+                                                        new ResourceOf("images/logo.png")
+                                                    ).asBytes()
+                                                ),
+                                                "image/png"
+                                            )
+                                        ),
+                                        new FkHost(
+                                            "p.rehttp.net",
+                                            req -> base.target(
+                                                new URL(new RqHref.Base(req).href().path().substring(1)),
+                                                System.currentTimeMillis()
+                                            ).act(req)
+                                        ),
+                                        new FkHost(
+                                            "i.rehttp.net",
+                                            req -> {
+                                                final URL url = new URL(new RqHref.Base(req).href().path().substring(1));
+                                                final String text;
+                                                if (new RqHref.Smart(req).single("time", "").isEmpty()) {
+                                                    text = base.history(url);
+                                                } else {
+                                                    text = base.history(
+                                                        url,
+                                                        Long.parseLong(new RqHref.Smart(req).single("time"))
+                                                    );
+                                                }
+                                                return new RsText(text);
+                                            }
+                                        ),
+                                        new FkRegex(
+                                            "/org/takes/.+\\.xsl",
+                                            new TkClasspath()
+                                        ),
+                                        new FkRegex(
+                                            "/xsl/[a-z\\-]+\\.xsl",
+                                            new TkWithType(
+                                                TkApp.refresh("./src/main/xsl"),
+                                                "text/xsl"
+                                            )
+                                        ),
+                                        new FkRegex(
+                                            "/css/[a-z]+\\.css",
+                                            new TkWithType(
+                                                TkApp.refresh("./src/main/scss"),
+                                                "text/css"
+                                            )
+                                        ),
+                                        new FkRegex(
+                                            "/images/[a-z]+\\.svg",
+                                            new TkWithType(
+                                                TkApp.refresh("./src/main/resources"),
+                                                "image/svg+xml"
+                                            )
+                                        ),
+                                        new FkRegex(
+                                            "/images/[a-z]+\\.png",
+                                            new TkWithType(
+                                                TkApp.refresh("./src/main/resources"),
+                                                "image/png"
+                                            )
+                                        ),
+                                        new FkRegex(
+                                            "/",
+                                            (Take) request -> new RsPage(
+                                                "/xsl/index.xsl",
+                                                request
                                             )
                                         )
                                     )
@@ -169,10 +185,10 @@ public final class TkApp extends TkWrap {
                             )
                         )
                     )
-                ),
-                new Sprintf("X-Rehttp-Revision: %s", TkApp.REV).toString(),
-                "Vary: Cookie"
-            )
+                )
+            ),
+            new Sprintf("X-Rehttp-Revision: %s", TkApp.REV).toString(),
+            "Vary: Cookie"
         );
     }
 
