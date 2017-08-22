@@ -87,7 +87,9 @@ final class DyStatus implements Status {
                         .through(
                             new QueryValve()
                                 .withIndexName("failures")
-                                .withSelect(Select.ALL_ATTRIBUTES)
+                                .withAttributesToGet(
+                                    "url", "time", "code", "attempts", "when"
+                                )
                                 .withLimit(Tv.FIFTY)
                                 .withConsistentRead(false)
                                 .withScanIndexForward(false)
@@ -119,7 +121,9 @@ final class DyStatus implements Status {
                         .frame()
                         .through(
                             new QueryValve()
-                                .withSelect(Select.ALL_ATTRIBUTES)
+                                .withAttributesToGet(
+                                    "url", "time", "code", "attempts", "when"
+                                )
                                 .withLimit(Tv.FIFTY)
                                 .withScanIndexForward(false)
                         )
