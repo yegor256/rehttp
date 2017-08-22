@@ -158,7 +158,8 @@ public final class DyBase implements Base {
                     Tv.FIFTY
                 ),
                 item -> String.format(
-                    "%s\t%b/%d\t%d\t%s",
+                    "<a href='?time=%d'>%s</a>\t%b/%d\t%d\t%s",
+                    Long.parseLong(item.get("time").getN()),
                     ZonedDateTime.ofInstant(
                         new Date(
                             Long.parseLong(item.get("time").getN())
