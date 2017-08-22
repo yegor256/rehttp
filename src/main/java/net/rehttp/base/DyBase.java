@@ -41,6 +41,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
 import org.cactoos.text.JoinedText;
@@ -191,8 +192,8 @@ public final class DyBase implements Base {
             Integer.parseInt(item.get("code").getN()),
             Integer.parseInt(item.get("attempts").getN()),
             DyBase.utc(item.get("when").getN()),
-            item.get("request").getS(),
-            item.get("response").getS()
+            StringEscapeUtils.escapeHtml4(item.get("request").getS()),
+            StringEscapeUtils.escapeHtml4(item.get("response").getS())
         );
     }
 
