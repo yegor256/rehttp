@@ -24,6 +24,8 @@ package net.rehttp.tk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import net.rehttp.base.Base;
 import org.takes.Request;
 import org.takes.Response;
@@ -61,6 +63,10 @@ final class TkHistory implements Take {
             "/xsl/history.xsl",
             req,
             new XeAppend("url", url.toString()),
+            new XeAppend(
+                "encoded_url",
+                URLEncoder.encode(url.toString(), StandardCharsets.UTF_8.name())
+            ),
             new XeAppend(
                 "targets",
                 new XeDirectives(
