@@ -25,6 +25,7 @@ package net.rehttp.base;
 import com.amazonaws.services.dynamodbv2.model.AttributeAction;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
+import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Item;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import org.cactoos.io.InputStreamOf;
 import org.cactoos.iterable.MapEntry;
 import org.cactoos.iterable.Skipped;
 import org.cactoos.iterable.StickyMap;
+import org.cactoos.text.SubText;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -43,6 +45,7 @@ import org.takes.rq.RqGreedy;
 import org.takes.rq.RqLive;
 import org.takes.rq.RqMethod;
 import org.takes.rq.RqPrint;
+import org.takes.rs.RsPrint;
 import org.takes.tk.TkProxy;
 
 /**
@@ -107,6 +110,17 @@ final class DyTake implements Take {
                     new AttributeValueUpdate().withValue(
                         new AttributeValue().withS(
                             new RqPrint(request).print()
+                        )
+                    ).withAction(AttributeAction.PUT)
+                ),
+                new MapEntry<>(
+                    "response",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withS(
+                            new SubText(
+                                new RsPrint(response).print(), 0,
+                                Tv.TWENTY * Tv.THOUSAND
+                            ).asString()
                         )
                     ).withAction(AttributeAction.PUT)
                 ),

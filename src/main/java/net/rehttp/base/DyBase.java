@@ -184,13 +184,14 @@ public final class DyBase implements Base {
             .iterator()
             .next();
         return String.format(
-            "URL: %s\nTime: %s\nCode: %d\nAttempts: %d\nWhen: %s\n\n%s",
-            item.get("url"),
+            "URL: %s\nTime: %s\nCode: %d\nAttempts: %d\nNext attempt: %s\n\n%s",
+            item.get("url").getS(),
             DyBase.utc(item.get("time").getN()),
             Integer.parseInt(item.get("code").getN()),
             Integer.parseInt(item.get("attempts").getN()),
             DyBase.utc(item.get("when").getN()),
-            item.get("request").getS()
+            item.get("request").getS(),
+            item.get("response").getS()
         );
     }
 

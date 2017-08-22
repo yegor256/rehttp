@@ -49,6 +49,7 @@ import org.takes.facets.forward.TkForward;
 import org.takes.misc.Opt;
 import org.takes.misc.Sprintf;
 import org.takes.rq.RqHref;
+import org.takes.rs.RsHtml;
 import org.takes.rs.RsText;
 import org.takes.rs.RsVelocity;
 import org.takes.rs.RsWithBody;
@@ -138,7 +139,7 @@ public final class TkApp extends TkWrap {
                                                         Long.parseLong(new RqHref.Smart(req).single("time"))
                                                     );
                                                 }
-                                                return new RsText(text);
+                                                return new RsHtml(text);
                                             }
                                         ),
                                         new FkRegex(
