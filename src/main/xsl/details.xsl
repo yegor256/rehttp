@@ -41,22 +41,20 @@
             <code>
                 <xsl:value-of select="url"/>
             </code>
+            <br/>
             <xsl:text>Created: </xsl:text>
-            <code>
-                <xsl:value-of select="time_utc"/>
-            </code>
+            <xsl:value-of select="time_utc"/>
+            <br/>
             <xsl:text>Attempts: </xsl:text>
-            <code>
-                <xsl:value-of select="attempts"/>
-            </code>
+            <xsl:value-of select="attempts"/>
+            <br/>
             <xsl:text>Recent HTTP code: </xsl:text>
             <code>
                 <xsl:value-of select="code"/>
             </code>
+            <br/>
             <xsl:text>Next attempt on: </xsl:text>
-            <code>
-                <xsl:value-of select="when_utc"/>
-            </code>
+            <xsl:value-of select="when_utc"/>
         </p>
         <p>
             <xsl:text>HTTP request:</xsl:text>
