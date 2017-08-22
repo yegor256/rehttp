@@ -28,7 +28,9 @@ import com.jcabi.http.response.XmlResponse;
 import com.jcabi.http.wire.VerboseWire;
 import com.jcabi.matchers.XhtmlMatchers;
 import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 import net.rehttp.base.FakeBase;
+import org.cactoos.iterable.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -46,6 +48,33 @@ import org.takes.rs.RsPrint;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class TkAppTest {
+
+    /**
+     * App can pass a request through.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void passesRequestThrough() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake(
+                        new ListOf<>(
+                            String.format(
+                                "GET /%s",
+                                URLEncoder.encode(
+                                    "http://www.yegor256.com", "UTF-8"
+                                )
+                            ),
+                            "Host: p.rehttp.net"
+                        ),
+                        ""
+                    )
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 200")
+        );
+    }
 
     /**
      * App can render front page.

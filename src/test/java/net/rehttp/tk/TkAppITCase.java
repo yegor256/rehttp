@@ -23,7 +23,9 @@
 package net.rehttp.tk;
 
 import com.jcabi.aspects.Tv;
+import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.rehttp.Dynamo;
 import net.rehttp.Retry;
@@ -34,11 +36,13 @@ import org.cactoos.iterable.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.takes.Response;
 import org.takes.Take;
-import org.takes.facets.forward.RsFailure;
 import org.takes.http.FtRemote;
 import org.takes.rq.RqFake;
+import org.takes.rs.RsPrint;
 import org.takes.rs.RsText;
+import org.takes.rs.RsWithStatus;
 
 /**
  * Integration case for {@link TkApp}.
@@ -57,25 +61,36 @@ public final class TkAppITCase {
     public void passesRequestThrough() throws Exception {
         final AtomicInteger count = new AtomicInteger(3);
         final Take take = req -> {
+            final Response response;
             if (count.decrementAndGet() > 0) {
-                throw new RsFailure("Error");
+                response = new RsWithStatus(HttpURLConnection.HTTP_FORBIDDEN);
+            } else {
+                response = new RsText("Success");
             }
-            return new RsText("Success");
+            return response;
         };
         new FtRemote(take).exec(
             home -> {
                 final Base base = new DyBase(new Dynamo(), 0L);
-                new TkApp(base).act(
-                    new RqFake(
-                        new ListOf<>(
-                            String.format(
-                                "GET /r/%s",
-                                URLEncoder.encode(home.toString(), "UTF-8")
-                            ),
-                            "Host: www.rehttp.net"
-                        ),
-                        ""
-                    )
+                MatcherAssert.assertThat(
+                    new RsPrint(
+                        new TkApp(base).act(
+                            new RqFake(
+                                new ListOf<>(
+                                    String.format(
+                                        "GET /%s",
+                                        URLEncoder.encode(
+                                            home.toString(),
+                                            StandardCharsets.UTF_8.displayName()
+                                        )
+                                    ),
+                                    "Host: p.rehttp.net"
+                                ),
+                                ""
+                            )
+                        )
+                    ).print(),
+                    Matchers.startsWith("HTTP/1.1 403")
                 );
                 final Runnable retry = new RunnableOf<>(new Retry(base));
                 for (int idx = 0; idx < Tv.TEN; ++idx) {

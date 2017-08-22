@@ -40,12 +40,13 @@ import org.takes.facets.fallback.TkFallback;
 import org.takes.facets.flash.TkFlash;
 import org.takes.facets.fork.FkFixed;
 import org.takes.facets.fork.FkHitRefresh;
+import org.takes.facets.fork.FkHost;
 import org.takes.facets.fork.FkRegex;
 import org.takes.facets.fork.TkFork;
-import org.takes.facets.fork.TkRegex;
 import org.takes.facets.forward.TkForward;
 import org.takes.misc.Opt;
 import org.takes.misc.Sprintf;
+import org.takes.rq.RqHref;
 import org.takes.rs.RsText;
 import org.takes.rs.RsVelocity;
 import org.takes.rs.RsWithStatus;
@@ -93,6 +94,13 @@ public final class TkApp extends TkWrap {
                                 new TkForward(
                                     new TkGzip(
                                         new TkFork(
+                                            new FkHost(
+                                                "p.rehttp.net",
+                                                req -> base.target(
+                                                    new URL(new RqHref.Base(req).href().path().substring(1)),
+                                                    System.nanoTime()
+                                                ).act(req)
+                                            ),
                                             new FkRegex("/robots.txt", ""),
                                             new FkRegex(
                                                 "/org/takes/.+\\.xsl",
@@ -132,13 +140,6 @@ public final class TkApp extends TkWrap {
                                                     "/xsl/index.xsl",
                                                     request
                                                 )
-                                            ),
-                                            new FkRegex(
-                                                "/r/(.+)",
-                                                (TkRegex) req -> base.target(
-                                                    new URL(req.matcher().group(1)),
-                                                    System.nanoTime()
-                                                ).act(req)
                                             )
                                         )
                                     )

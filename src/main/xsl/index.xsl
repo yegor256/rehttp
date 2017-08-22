@@ -53,7 +53,7 @@
             <code>http://www.example.com/hook</code>
             <xsl:text>. Instead of giving this URL directly to GitHub,
             give them this: </xsl:text>
-            <code>http://www.rehttp.net/r/http%3A%2F%2Fwww.example.com%2Fhook</code>
+            <code>http://p.rehttp.net/http%3A%2F%2Fwww.example.com%2Fhook</code>
             <xsl:text> (you can use </xsl:text>
             <a href="https://www.urlencoder.org/">
                 <xsl:text>this encoder</xsl:text>
