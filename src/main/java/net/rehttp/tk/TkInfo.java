@@ -27,6 +27,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import net.rehttp.base.Base;
+import org.cactoos.iterable.ListOf;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -62,21 +63,25 @@ final class TkInfo implements Take {
         return new RsPage(
             "/xsl/info.xsl",
             req,
-            new XeAppend("url", url.toString()),
-            new XeAppend(
-                "encoded_url",
-                URLEncoder.encode(url.toString(), StandardCharsets.UTF_8.name())
-            ),
-            new XeAppend(
-                "targets",
-                new XeDirectives(
-                    this.base.status(url).failures(Long.MAX_VALUE)
-                )
-            ),
-            new XeAppend(
-                "history",
-                new XeDirectives(
-                    this.base.status(url).history(Long.MAX_VALUE)
+            () -> new ListOf<>(
+                new XeAppend("url", url.toString()),
+                new XeAppend(
+                    "encoded_url",
+                    URLEncoder.encode(
+                        url.toString(), StandardCharsets.UTF_8.name()
+                    )
+                ),
+                new XeAppend(
+                    "targets",
+                    new XeDirectives(
+                        this.base.status(url).failures(Long.MAX_VALUE)
+                    )
+                ),
+                new XeAppend(
+                    "history",
+                    new XeDirectives(
+                        this.base.status(url).history(Long.MAX_VALUE)
+                    )
                 )
             )
         );

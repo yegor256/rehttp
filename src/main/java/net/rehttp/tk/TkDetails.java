@@ -25,6 +25,7 @@ package net.rehttp.tk;
 import java.io.IOException;
 import java.net.URL;
 import net.rehttp.base.Base;
+import org.cactoos.iterable.ListOf;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -60,8 +61,10 @@ final class TkDetails implements Take {
         return new RsPage(
             "/xsl/details.xsl",
             req,
-            new XeDirectives(
-                this.base.status(url).details(time)
+            () -> new ListOf<>(
+                new XeDirectives(
+                    this.base.status(url).details(time)
+                )
             )
         );
     }

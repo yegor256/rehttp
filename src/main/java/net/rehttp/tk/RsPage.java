@@ -23,10 +23,11 @@
 package net.rehttp.tk;
 
 import com.jcabi.manifests.Manifests;
-import java.util.Arrays;
+import java.util.Collections;
 import lombok.EqualsAndHashCode;
 import org.takes.Request;
 import org.takes.Response;
+import org.takes.Scalar;
 import org.takes.facets.flash.XeFlash;
 import org.takes.facets.fork.FkTypes;
 import org.takes.facets.fork.RsFork;
@@ -56,16 +57,15 @@ import org.takes.rs.xe.XeStylesheet;
  */
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("PMD.ExcessiveImports")
-public final class RsPage extends RsWrap {
+final class RsPage extends RsWrap {
 
     /**
      * Ctor.
      * @param xsl XSL
      * @param req Request
-     * @param src Source
      */
-    public RsPage(final String xsl, final Request req, final XeSource... src) {
-        this(xsl, req, Arrays.asList(src));
+    RsPage(final String xsl, final Request req) {
+        super(RsPage.make(xsl, req, Collections::emptyList));
     }
 
     /**
@@ -74,8 +74,8 @@ public final class RsPage extends RsWrap {
      * @param req Request
      * @param src Source
      */
-    public RsPage(final String xsl, final Request req,
-        final Iterable<XeSource> src) {
+    RsPage(final String xsl, final Request req,
+        final Scalar<Iterable<XeSource>> src) {
         super(RsPage.make(xsl, req, src));
     }
 
@@ -87,7 +87,7 @@ public final class RsPage extends RsWrap {
      * @return Response
      */
     private static Response make(final String xsl, final Request req,
-        final Iterable<XeSource> src) {
+        final Scalar<Iterable<XeSource>> src) {
         final Response raw = new RsXembly(
             new XeStylesheet(xsl),
             new XeAppend(
