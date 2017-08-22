@@ -55,11 +55,26 @@ public final class DyBase implements Base {
     private final transient Region region;
 
     /**
+     * Delay in msecs between attempts.
+     */
+    private final transient long delay;
+
+    /**
      * Ctor.
      * @param reg Region
      */
     public DyBase(final Region reg) {
+        this(reg, TimeUnit.HOURS.toMillis(1L));
+    }
+
+    /**
+     * Ctor.
+     * @param reg Region
+     * @param msec Delay in msecs between attempts
+     */
+    public DyBase(final Region reg, final long msec) {
         this.region = reg;
+        this.delay = msec;
     }
 
     @Override
@@ -81,13 +96,13 @@ public final class DyBase implements Base {
                     .with("time", time)
                     .with(
                         "ttl",
-                        System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2L)
+                        System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1L)
                     )
             );
         } else {
             item = items.iterator().next();
         }
-        return new DyTake(item);
+        return new DyTake(item, this.delay);
     }
 
     @Override
@@ -95,8 +110,13 @@ public final class DyBase implements Base {
         return new Mapped<>(
             this.table()
                 .frame()
-                .through(new QueryValve().withSelect(Select.ALL_ATTRIBUTES))
-                .where("result", Conditions.equalTo(Boolean.toString(false)))
+                .through(
+                    new QueryValve()
+                        .withIndexName("expired")
+                        .withConsistentRead(false)
+                        .withSelect(Select.ALL_ATTRIBUTES)
+                )
+                .where("success", Conditions.equalTo(Boolean.toString(false)))
                 .where(
                     "when",
                     new Condition()
@@ -107,7 +127,7 @@ public final class DyBase implements Base {
                             )
                         )
                 ),
-            DyTake::new
+            item -> new DyTake(item, this.delay)
         );
     }
 

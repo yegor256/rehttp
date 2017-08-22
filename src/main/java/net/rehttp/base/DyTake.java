@@ -22,19 +22,26 @@
  */
 package net.rehttp.base;
 
-import com.jcabi.dynamo.AttributeUpdates;
+import com.amazonaws.services.dynamodbv2.model.AttributeAction;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
 import com.jcabi.dynamo.Item;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
+import org.cactoos.io.InputStreamOf;
+import org.cactoos.iterable.MapEntry;
 import org.cactoos.iterable.Skipped;
+import org.cactoos.iterable.StickyMap;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
 import org.takes.misc.Concat;
+import org.takes.rq.RqGreedy;
+import org.takes.rq.RqLive;
 import org.takes.rq.RqMethod;
+import org.takes.rq.RqPrint;
 import org.takes.tk.TkProxy;
 
 /**
@@ -43,6 +50,8 @@ import org.takes.tk.TkProxy;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 final class DyTake implements Take {
 
@@ -52,29 +61,78 @@ final class DyTake implements Take {
     private final Item item;
 
     /**
+     * Delay in msecs between attempts.
+     */
+    private final transient long delay;
+
+    /**
      * Ctor.
      * @param itm The item
+     * @param msec Delay
      */
-    DyTake(final Item itm) {
+    DyTake(final Item itm, final long msec) {
         this.item = itm;
+        this.delay = msec;
     }
 
     @Override
     public Response act(final Request req) throws IOException {
         final URI uri = URI.create(this.item.get("url").getS());
+        Request request = req;
+        if (this.item.has("request")) {
+            request = new RqLive(
+                new InputStreamOf(this.item.get("request").getS())
+            );
+        }
+        request = new RqGreedy(request);
         final Response response = new TkProxy(uri).act(
-            DyTake.request(req, uri)
+            DyTake.request(request, uri)
         );
         final int code = DyTake.code(response);
         this.item.put(
-            new AttributeUpdates()
-                // @checkstyle MagicNumber (1 line)
-                .with("success", Boolean.toString(code > 199 && code < 300))
-                .with("code", code)
-                .with(
-                    "next",
-                    System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1L)
+            new StickyMap<String, AttributeValueUpdate>(
+                new MapEntry<>(
+                    "attempts",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withN("1")
+                    ).withAction(AttributeAction.ADD)
+                ),
+                new MapEntry<>(
+                    "request",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withS(
+                            new RqPrint(request).print()
+                        )
+                    ).withAction(AttributeAction.PUT)
+                ),
+                new MapEntry<>(
+                    "success",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withS(
+                            // @checkstyle MagicNumber (1 line)
+                            Boolean.toString(code > 199 && code < 300)
+                        )
+                    ).withAction(AttributeAction.PUT)
+                ),
+                new MapEntry<>(
+                    "code",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withN(
+                            Integer.toString(code)
+                        )
+                    ).withAction(AttributeAction.PUT)
+                ),
+                new MapEntry<>(
+                    "when",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withN(
+                            Long.toString(
+                                System.currentTimeMillis() + this.delay
+                            )
+                        )
+                    ).withAction(AttributeAction.PUT)
                 )
+            )
         );
         return response;
     }

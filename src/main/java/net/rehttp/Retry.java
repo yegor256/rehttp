@@ -36,7 +36,7 @@ import org.takes.rq.RqFake;
  * @version $Id$
  * @since 1.0
  */
-final class Retry implements Callable<Void> {
+public final class Retry implements Callable<Void> {
 
     /**
      * The base.
@@ -47,7 +47,7 @@ final class Retry implements Callable<Void> {
      * Ctor.
      * @param bse Base
      */
-    Retry(final Base bse) {
+    public Retry(final Base bse) {
         this.base = bse;
     }
 
