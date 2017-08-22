@@ -72,6 +72,12 @@ final class TkInfo implements Take {
                 new XeDirectives(
                     this.base.status(url).failures(Long.MAX_VALUE)
                 )
+            ),
+            new XeAppend(
+                "history",
+                new XeDirectives(
+                    this.base.status(url).history(Long.MAX_VALUE)
+                )
             )
         );
     }

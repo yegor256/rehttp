@@ -39,13 +39,40 @@
             </code>
         </p>
         <xsl:apply-templates select="targets"/>
+        <xsl:apply-templates select="history"/>
     </xsl:template>
-    <xsl:template match="targets[not(target)]">
+    <xsl:template match="targets[target]">
         <p>
-            <xsl:text>There are no failures.</xsl:text>
+            <xsl:text>Recent failures:</xsl:text>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <xsl:text>Time</xsl:text>
+                    </th>
+                    <th>
+                        <xsl:text>Code</xsl:text>
+                    </th>
+                    <th>
+                        <xsl:text>Attempts</xsl:text>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <xsl:apply-templates select="target"/>
+            </tbody>
+        </table>
+    </xsl:template>
+    <xsl:template match="history[not(target)]">
+        <p>
+            <xsl:text>There are no HTTP requests yet.</xsl:text>
         </p>
     </xsl:template>
-    <xsl:template match="targets">
+    <xsl:template match="history[target]">
+        <p>
+            <xsl:text>Recent requests:</xsl:text>
+        </p>
         <table>
             <thead>
                 <tr>
@@ -69,7 +96,7 @@
         <tr>
             <td>
                 <a href="/d?u={/page/encoded_url}&amp;t={time}">
-                    <xsl:value-of select="time"/>
+                    <xsl:value-of select="time_utc"/>
                 </a>
             </td>
             <td>

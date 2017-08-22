@@ -104,7 +104,7 @@ public final class TkAppITCase {
                                 new RqFake(
                                     new ListOf<>(
                                         String.format(
-                                            "GET /h?u=%s",
+                                            "GET /i?u=%s",
                                             URLEncoder.encode(
                                                 home.toString(),
                                                 StandardCharsets.UTF_8.name()
@@ -119,8 +119,9 @@ public final class TkAppITCase {
                         ).printBody()
                     ),
                     XhtmlMatchers.hasXPaths(
-                        "/page/targets/target[code='200']",
-                        "/page/targets/target[attempts='3']"
+                        "/page/targets[not(target)]",
+                        "/page/history/target[code='200']",
+                        "/page/history/target[attempts='3']"
                     )
                 );
             }
