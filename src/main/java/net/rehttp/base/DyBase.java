@@ -166,7 +166,13 @@ public final class DyBase implements Base {
                     ).format(DateTimeFormatter.ISO_INSTANT),
                     Boolean.parseBoolean(item.get("success").getS()),
                     Integer.parseInt(item.get("code").getN()),
-                    Integer.parseInt(item.get("attempts").getN())
+                    Integer.parseInt(item.get("attempts").getN()),
+                    ZonedDateTime.ofInstant(
+                        new Date(
+                            Long.parseLong(item.get("when").getN())
+                        ).toInstant(),
+                        ZoneOffset.UTC
+                    ).format(DateTimeFormatter.ISO_INSTANT)
                 )
             )
         ).asString();

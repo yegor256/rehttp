@@ -26,6 +26,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeAction;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
 import com.jcabi.dynamo.Item;
+import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -82,6 +83,10 @@ final class DyTake implements Take {
         if (this.item.has("request")) {
             request = new RqLive(
                 new InputStreamOf(this.item.get("request").getS())
+            );
+            Logger.info(
+                this, "Retrying %s with \"%s\"",
+                uri, request.head().iterator().next()
             );
         }
         request = new RqGreedy(request);
