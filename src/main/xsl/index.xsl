@@ -61,11 +61,17 @@
             Then, we will retry in a few minutes, and in a few hours.
             Only after 24 hours of failed attempts we will abandon it.</xsl:text>
         </p>
-        <p>
-            <xsl:text>To see the history of the URL being called, just open </xsl:text>
-            <code>http://i.rehttp.net/&lt;url&gt;</code>
-            <xsl:text>.</xsl:text>
-        </p>
+        <form action="/i" method="get">
+            <fieldset>
+                <label>
+                    <xsl:text>To see the history of a URL:</xsl:text>
+                </label>
+                <input type="text" name="u"/>
+                <button>
+                    <xsl:text>Open</xsl:text>
+                </button>
+            </fieldset>
+        </form>
         <p>
             <xsl:text>The service is absolutely free, please don't abuse it.</xsl:text>
         </p>

@@ -188,7 +188,7 @@ final class DyStatus implements Status {
                 .add("response")
                 .set(Xembler.escape(item.get("response").getS())).up();
         }
-        return dirs;
+        return dirs.up();
     }
 
     /**
