@@ -53,12 +53,8 @@
             <code>http://www.example.com/hook</code>
             <xsl:text>. Instead of giving this URL directly to GitHub,
             give them this: </xsl:text>
-            <code>http://p.rehttp.net/http%3A%2F%2Fwww.example.com%2Fhook</code>
-            <xsl:text> (you can use </xsl:text>
-            <a href="https://www.urlencoder.org/">
-                <xsl:text>this encoder</xsl:text>
-            </a>
-            <xsl:text>).</xsl:text>
+            <code>http://p.rehttp.net/http://www.example.com/hook</code>
+            <xsl:text>.</xsl:text>
             <xsl:text> GitHub will send POST or PUT requests to us,
             and we will send them through, to your server. If your
             server doesn't reply, we will try again in a minute.

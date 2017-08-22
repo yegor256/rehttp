@@ -51,4 +51,12 @@ public interface Base {
      */
     Iterable<Take> expired() throws IOException;
 
+    /**
+     * History of the URL.
+     * @param url The URL
+     * @return The history
+     * @throws IOException If fails
+     */
+    String history(URL url) throws IOException;
+
 }

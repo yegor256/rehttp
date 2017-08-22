@@ -26,6 +26,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.Select;
+import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Attributes;
 import com.jcabi.dynamo.Conditions;
 import com.jcabi.dynamo.Item;
@@ -36,7 +37,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
+import org.cactoos.text.JoinedText;
 import org.takes.Take;
 
 /**
@@ -129,6 +132,30 @@ public final class DyBase implements Base {
                 ),
             item -> new DyTake(item, this.delay)
         );
+    }
+
+    @Override
+    public String history(final URL url) throws IOException {
+        return new JoinedText(
+            "",
+            new Mapped<>(
+                new Limited<>(
+                    this.table()
+                        .frame()
+                        .through(
+                            new QueryValve()
+                                .withSelect(Select.ALL_ATTRIBUTES)
+                                .withLimit(Tv.FIFTY)
+                                .withScanIndexForward(false)
+                        )
+                        .where("url", Conditions.equalTo(url)),
+                    Tv.FIFTY
+                ),
+                item -> String.format(
+                    "%d"
+                )
+            )
+        ).asString();
     }
 
     /**
