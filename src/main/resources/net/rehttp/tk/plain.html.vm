@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"/>
+    <link rel="stylesheet" href="http://yegor256.github.io/tacit/tacit.min.css"/>
+    <title>i.rehttp.net</title>
+</head>
+<body>
+<pre>${body}</pre>
+</body>
+</html>

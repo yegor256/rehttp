@@ -139,7 +139,12 @@ public final class TkApp extends TkWrap {
                                                         Long.parseLong(new RqHref.Smart(req).single("time"))
                                                     );
                                                 }
-                                                return new RsHtml(text);
+                                                return new RsHtml(
+                                                    new RsVelocity(
+                                                        TkApp.class.getResource("plain.html.vm"),
+                                                        new RsVelocity.Pair("body", text)
+                                                    )
+                                                );
                                             }
                                         ),
                                         new FkRegex(
@@ -233,7 +238,7 @@ public final class TkApp extends TkWrap {
      */
     private static Response fatal(final RqFallback req) throws IOException {
         return new RsWithStatus(
-            new RsWithType(
+            new RsHtml(
                 new RsVelocity(
                     TkApp.class.getResource("error.html.vm"),
                     new RsVelocity.Pair(
@@ -241,8 +246,7 @@ public final class TkApp extends TkWrap {
                         new TextOf(req.throwable()).asString()
                     ),
                     new RsVelocity.Pair("rev", Manifests.read("Rehttp-Revision"))
-                ),
-                "text/html"
+                )
             ),
             HttpURLConnection.HTTP_INTERNAL_ERROR
         );
