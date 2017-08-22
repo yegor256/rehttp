@@ -62,13 +62,13 @@
             <xsl:text>HTTP request:</xsl:text>
         </p>
         <pre>
-            <xsl:value-of select="request" disable-output-escaping="yes"/>
+            <xsl:value-of select="request" disable-output-escaping="no"/>
         </pre>
         <p>
             <xsl:text>HTTP response:</xsl:text>
         </p>
         <pre>
-            <xsl:value-of select="response" disable-output-escaping="yes"/>
+            <xsl:value-of select="response" disable-output-escaping="no"/>
         </pre>
     </xsl:template>
 </xsl:stylesheet>
