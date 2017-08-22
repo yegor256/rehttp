@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import net.rehttp.base.Base;
-import org.cactoos.io.BytesOf;
-import org.cactoos.io.ResourceOf;
 import org.cactoos.text.TextOf;
 import org.takes.Response;
 import org.takes.Take;
@@ -52,9 +50,7 @@ import org.takes.rq.RqHref;
 import org.takes.rs.RsHtml;
 import org.takes.rs.RsText;
 import org.takes.rs.RsVelocity;
-import org.takes.rs.RsWithBody;
 import org.takes.rs.RsWithStatus;
-import org.takes.rs.RsWithType;
 import org.takes.tk.TkClasspath;
 import org.takes.tk.TkFiles;
 import org.takes.tk.TkGzip;
@@ -108,44 +104,12 @@ public final class TkApp extends TkWrap {
                                 new TkGzip(
                                     new TkFork(
                                         new FkRegex("/robots.txt", ""),
-                                        new FkRegex(
-                                            "/favicon.ico",
-                                            new RsWithType(
-                                                new RsWithBody(
-                                                    new BytesOf(
-                                                        new ResourceOf("images/logo.png")
-                                                    ).asBytes()
-                                                ),
-                                                "image/png"
-                                            )
-                                        ),
                                         new FkHost(
                                             "p.rehttp.net",
                                             req -> base.target(
                                                 new URL(new RqHref.Base(req).href().path().substring(1)),
                                                 System.currentTimeMillis()
                                             ).act(req)
-                                        ),
-                                        new FkHost(
-                                            "i.rehttp.net",
-                                            req -> {
-                                                final URL url = new URL(new RqHref.Base(req).href().path().substring(1));
-                                                final String text;
-                                                if (new RqHref.Smart(req).single("time", "").isEmpty()) {
-                                                    text = base.history(url);
-                                                } else {
-                                                    text = base.history(
-                                                        url,
-                                                        Long.parseLong(new RqHref.Smart(req).single("time"))
-                                                    );
-                                                }
-                                                return new RsHtml(
-                                                    new RsVelocity(
-                                                        TkApp.class.getResource("plain.html.vm"),
-                                                        new RsVelocity.Pair("body", text)
-                                                    )
-                                                );
-                                            }
                                         ),
                                         new FkRegex(
                                             "/org/takes/.+\\.xsl",
@@ -185,7 +149,17 @@ public final class TkApp extends TkWrap {
                                                 "/xsl/index.xsl",
                                                 request
                                             )
-                                        )
+                                        ),
+                                        new FkRegex(
+                                            "/",
+                                            (Take) request -> new RsPage(
+                                                "/xsl/index.xsl",
+                                                request
+                                            )
+                                        ),
+                                        new FkRegex("/i", new TkInfo(base)),
+                                        new FkRegex("/h", new TkHistory(base)),
+                                        new FkRegex("/d", new TkDetails(base))
                                     )
                                 )
                             )

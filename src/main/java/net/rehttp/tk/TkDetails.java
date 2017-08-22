@@ -20,43 +20,50 @@
  * in connection with the software or  the  use  or other dealings in the
  * software.
  */
-package net.rehttp.base;
+package net.rehttp.tk;
 
 import java.io.IOException;
 import java.net.URL;
+import net.rehttp.base.Base;
+import org.takes.Request;
+import org.takes.Response;
 import org.takes.Take;
+import org.takes.rq.RqHref;
+import org.takes.rs.xe.XeDirectives;
 
 /**
- * Base.
+ * Details of request.
  *
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface Base {
+final class TkDetails implements Take {
 
     /**
-     * Get target by URL and time.
-     * @param url The URL
-     * @param time The time
-     * @return The request
-     * @throws IOException If fails
+     * Base.
      */
-    Take target(URL url, long time) throws IOException;
+    private final Base base;
 
     /**
-     * Expired targets.
-     * @return List of expired targets
-     * @throws IOException If fails
+     * Ctor.
+     * @param bse Base
      */
-    Iterable<Take> expired() throws IOException;
+    TkDetails(final Base bse) {
+        this.base = bse;
+    }
 
-    /**
-     * History of the URL.
-     * @param url The URL
-     * @return The status
-     * @throws IOException If fails
-     */
-    Status status(URL url) throws IOException;
+    @Override
+    public Response act(final Request req) throws IOException {
+        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final long time = Long.parseLong(new RqHref.Smart(req).single("t"));
+        return new RsPage(
+            "/xsl/details.xsl",
+            req,
+            new XeDirectives(
+                this.base.status(url).details(time)
+            )
+        );
+    }
 
 }

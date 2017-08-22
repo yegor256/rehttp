@@ -23,6 +23,7 @@
 package net.rehttp.tk;
 
 import com.jcabi.aspects.Tv;
+import com.jcabi.matchers.XhtmlMatchers;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -76,7 +77,7 @@ public final class TkAppITCase {
                     new RsPrint(
                         new TkApp(base).act(
                             new RqFake(
-                                new ListOf<>(
+                                new ListOf<String>(
                                     String.format(
                                         "PUT /%s",
                                         URLEncoder.encode(
@@ -97,24 +98,30 @@ public final class TkAppITCase {
                     retry.run();
                 }
                 MatcherAssert.assertThat(
-                    new RsPrint(
-                        new TkApp(base).act(
-                            new RqFake(
-                                new ListOf<>(
-                                    String.format(
-                                        "GET /%s?something",
-                                        URLEncoder.encode(
-                                            home.toString(),
-                                            StandardCharsets.UTF_8.displayName()
-                                        )
+                    XhtmlMatchers.xhtml(
+                        new RsPrint(
+                            new TkApp(base).act(
+                                new RqFake(
+                                    new ListOf<>(
+                                        String.format(
+                                            "GET /h?u=%s",
+                                            URLEncoder.encode(
+                                                home.toString(),
+                                                StandardCharsets.UTF_8.name()
+                                            )
+                                        ),
+                                        "Host: www.rehttp.net",
+                                        "Accept: application/xml"
                                     ),
-                                    "Host: i.rehttp.net"
-                                ),
-                                ""
+                                    ""
+                                )
                             )
-                        )
-                    ).print(),
-                    Matchers.containsString("true/200")
+                        ).printBody()
+                    ),
+                    XhtmlMatchers.hasXPaths(
+                        "/page/targets/target[code='200']",
+                        "/page/targets/target[attempts='3']"
+                    )
                 );
             }
         );

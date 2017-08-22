@@ -20,43 +20,60 @@
  * in connection with the software or  the  use  or other dealings in the
  * software.
  */
-package net.rehttp.base;
+package net.rehttp.tk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import net.rehttp.base.Base;
+import org.takes.Request;
+import org.takes.Response;
 import org.takes.Take;
+import org.takes.rq.RqHref;
+import org.takes.rs.xe.XeAppend;
+import org.takes.rs.xe.XeDirectives;
 
 /**
- * Base.
+ * Info about URL.
  *
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
  */
-public interface Base {
+final class TkInfo implements Take {
 
     /**
-     * Get target by URL and time.
-     * @param url The URL
-     * @param time The time
-     * @return The request
-     * @throws IOException If fails
+     * Base.
      */
-    Take target(URL url, long time) throws IOException;
+    private final Base base;
 
     /**
-     * Expired targets.
-     * @return List of expired targets
-     * @throws IOException If fails
+     * Ctor.
+     * @param bse Base
      */
-    Iterable<Take> expired() throws IOException;
+    TkInfo(final Base bse) {
+        this.base = bse;
+    }
 
-    /**
-     * History of the URL.
-     * @param url The URL
-     * @return The status
-     * @throws IOException If fails
-     */
-    Status status(URL url) throws IOException;
+    @Override
+    public Response act(final Request req) throws IOException {
+        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        return new RsPage(
+            "/xsl/info.xsl",
+            req,
+            new XeAppend("url", url.toString()),
+            new XeAppend(
+                "encoded_url",
+                URLEncoder.encode(url.toString(), StandardCharsets.UTF_8.name())
+            ),
+            new XeAppend(
+                "targets",
+                new XeDirectives(
+                    this.base.status(url).failures(Long.MAX_VALUE)
+                )
+            )
+        );
+    }
 
 }

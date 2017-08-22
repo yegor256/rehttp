@@ -31,11 +31,15 @@ import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Map;
 import org.cactoos.io.InputStreamOf;
-import org.cactoos.iterable.MapEntry;
+import org.cactoos.iterable.ListOf;
 import org.cactoos.iterable.Skipped;
-import org.cactoos.iterable.StickyMap;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.StickyMap;
 import org.cactoos.text.SubText;
 import org.takes.Request;
 import org.takes.Response;
@@ -97,8 +101,12 @@ final class DyTake implements Take {
             DyTake.request(request, uri)
         );
         final int code = DyTake.code(response);
-        this.item.put(
-            new StickyMap<String, AttributeValueUpdate>(
+        // @checkstyle MagicNumber (1 line)
+        final boolean success = code > 199 && code < 300;
+        final Collection<Map.Entry<String, AttributeValueUpdate>> update =
+            new LinkedList<>();
+        update.addAll(
+            new ListOf<Map.Entry<String, AttributeValueUpdate>>(
                 new MapEntry<>(
                     "attempts",
                     new AttributeValueUpdate().withValue(
@@ -128,8 +136,7 @@ final class DyTake implements Take {
                     "success",
                     new AttributeValueUpdate().withValue(
                         new AttributeValue().withS(
-                            // @checkstyle MagicNumber (1 line)
-                            Boolean.toString(code > 199 && code < 300)
+                            Boolean.toString(success)
                         )
                     ).withAction(AttributeAction.PUT)
                 ),
@@ -153,6 +160,28 @@ final class DyTake implements Take {
                 )
             )
         );
+        if (success) {
+            update.add(
+                new MapEntry<>(
+                    "failed_url",
+                    new AttributeValueUpdate().withAction(
+                        AttributeAction.DELETE
+                    )
+                )
+            );
+        } else {
+            update.add(
+                new MapEntry<>(
+                    "failed_url",
+                    new AttributeValueUpdate().withValue(
+                        new AttributeValue().withS(
+                            uri.toString()
+                        )
+                    ).withAction(AttributeAction.PUT)
+                )
+            );
+        }
+        this.item.put(new StickyMap<>(update));
         return response;
     }
 

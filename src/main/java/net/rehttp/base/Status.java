@@ -23,8 +23,7 @@
 package net.rehttp.base;
 
 import java.io.IOException;
-import java.net.URL;
-import org.takes.Take;
+import org.xembly.Directive;
 
 /**
  * Base.
@@ -33,30 +32,30 @@ import org.takes.Take;
  * @version $Id$
  * @since 1.0
  */
-public interface Base {
+public interface Status {
 
     /**
-     * Get target by URL and time.
-     * @param url The URL
+     * Failures.
+     * @param after After this date (epoch in milliseconds)
+     * @return Map of recent failures
+     * @throws IOException If fails
+     */
+    Iterable<Directive> failures(long after) throws IOException;
+
+    /**
+     * Full history of the URL.
+     * @param after After this date (epoch in milliseconds)
+     * @return The history
+     * @throws IOException If fails
+     */
+    Iterable<Directive> history(long after) throws IOException;
+
+    /**
+     * Full details of one particular request.
      * @param time The time
-     * @return The request
+     * @return The details in plain text
      * @throws IOException If fails
      */
-    Take target(URL url, long time) throws IOException;
-
-    /**
-     * Expired targets.
-     * @return List of expired targets
-     * @throws IOException If fails
-     */
-    Iterable<Take> expired() throws IOException;
-
-    /**
-     * History of the URL.
-     * @param url The URL
-     * @return The status
-     * @throws IOException If fails
-     */
-    Status status(URL url) throws IOException;
+    Iterable<Directive> details(long time) throws IOException;
 
 }

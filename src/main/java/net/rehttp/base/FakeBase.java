@@ -48,12 +48,8 @@ public final class FakeBase implements Base {
     }
 
     @Override
-    public String history(final URL url) {
-        return "";
+    public Status status(final URL url) {
+        return new FakeStatus();
     }
 
-    @Override
-    public String history(final URL url, final long time) {
-        return "";
-    }
 }

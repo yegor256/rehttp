@@ -57,7 +57,6 @@ public final class PingingTest {
             new Object[][] {
                 {"/?x=y"},
                 {"/robots.txt"},
-                {"/favicon.ico"},
                 {"/xsl/layout.xsl"},
                 {"/css/main.css"},
                 {"/images/logo.svg"},

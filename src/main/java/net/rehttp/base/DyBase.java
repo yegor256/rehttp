@@ -26,7 +26,6 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.Select;
-import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Attributes;
 import com.jcabi.dynamo.Conditions;
 import com.jcabi.dynamo.Item;
@@ -35,16 +34,9 @@ import com.jcabi.dynamo.Region;
 import com.jcabi.dynamo.Table;
 import java.io.IOException;
 import java.net.URL;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
-import org.cactoos.text.JoinedText;
 import org.takes.Take;
 
 /**
@@ -142,71 +134,8 @@ public final class DyBase implements Base {
     }
 
     @Override
-    public String history(final URL url) throws IOException {
-        return new JoinedText(
-            "\n",
-            new Mapped<>(
-                new Limited<>(
-                    this.table()
-                        .frame()
-                        .through(
-                            new QueryValve()
-                                .withSelect(Select.ALL_ATTRIBUTES)
-                                .withLimit(Tv.FIFTY)
-                                .withScanIndexForward(false)
-                        )
-                        .where("url", Conditions.equalTo(url)),
-                    Tv.FIFTY
-                ),
-                item -> String.format(
-                    "<a href='?time=%d'>%s</a>\t%b/%d\t%d\t%s",
-                    Long.parseLong(item.get("time").getN()),
-                    DyBase.utc(item.get("time").getN()),
-                    Boolean.parseBoolean(item.get("success").getS()),
-                    Integer.parseInt(item.get("code").getN()),
-                    Integer.parseInt(item.get("attempts").getN()),
-                    DyBase.utc(item.get("when").getN())
-                )
-            )
-        ).asString();
-    }
-
-    @Override
-    public String history(final URL url, final long time) throws IOException {
-        final Item item = this.table()
-            .frame()
-            .through(
-                new QueryValve()
-                    .withSelect(Select.ALL_ATTRIBUTES)
-                    .withLimit(1)
-            )
-            .where("url", Conditions.equalTo(url))
-            .where("time", Conditions.equalTo(time))
-            .iterator()
-            .next();
-        return String.format(
-            // @checkstyle LineLength (1 line)
-            "URL: %s\nTime: %s\nCode: %d\nAttempts: %d\nNext attempt: %s\n\n%s\n\n%s",
-            item.get("url").getS(),
-            DyBase.utc(item.get("time").getN()),
-            Integer.parseInt(item.get("code").getN()),
-            Integer.parseInt(item.get("attempts").getN()),
-            DyBase.utc(item.get("when").getN()),
-            StringEscapeUtils.escapeHtml4(item.get("request").getS()),
-            StringEscapeUtils.escapeHtml4(item.get("response").getS())
-        );
-    }
-
-    /**
-     * Time to UTC.
-     * @param time Time in the DB
-     * @return UTC
-     */
-    private static String utc(final String time) {
-        return ZonedDateTime.ofInstant(
-            new Date(Long.parseLong(time)).toInstant(),
-            ZoneOffset.UTC
-        ).format(DateTimeFormatter.ISO_INSTANT);
+    public Status status(final URL url) {
+        return new DyStatus(this.region, url);
     }
 
     /**

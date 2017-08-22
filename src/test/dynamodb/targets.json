@@ -10,6 +10,10 @@
       "AttributeType": "N"
     },
     {
+      "AttributeName": "failed_url",
+      "AttributeType": "S"
+    },
+    {
       "AttributeName": "success",
       "AttributeType": "S"
     },
@@ -42,6 +46,26 @@
         },
         {
           "AttributeName": "when",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": "1",
+        "WriteCapacityUnits": "1"
+      }
+    },
+    {
+      "IndexName": "failures",
+      "KeySchema": [
+        {
+          "AttributeName": "failed_url",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "time",
           "KeyType": "RANGE"
         }
       ],
