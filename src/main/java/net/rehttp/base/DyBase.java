@@ -139,7 +139,7 @@ public final class DyBase implements Base {
     @Override
     public String history(final URL url) throws IOException {
         return new JoinedText(
-            "",
+            "\n",
             new Mapped<>(
                 new Limited<>(
                     this.table()
