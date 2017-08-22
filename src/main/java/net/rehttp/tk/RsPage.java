@@ -42,6 +42,7 @@ import org.takes.rs.xe.XeDate;
 import org.takes.rs.xe.XeLinkHome;
 import org.takes.rs.xe.XeLinkSelf;
 import org.takes.rs.xe.XeLocalhost;
+import org.takes.rs.xe.XeMemory;
 import org.takes.rs.xe.XeMillis;
 import org.takes.rs.xe.XeSla;
 import org.takes.rs.xe.XeSource;
@@ -94,6 +95,7 @@ final class RsPage extends RsWrap {
                 "page",
                 new XeMillis(false),
                 new XeChain(src),
+                new XeMemory(),
                 new XeLinkHome(req),
                 new XeLinkSelf(req),
                 new XeMillis(true),
