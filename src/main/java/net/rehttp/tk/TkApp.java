@@ -98,8 +98,16 @@ public final class TkApp extends TkWrap {
                                                 "p.rehttp.net",
                                                 req -> base.target(
                                                     new URL(new RqHref.Base(req).href().path().substring(1)),
-                                                    System.nanoTime()
+                                                    System.currentTimeMillis()
                                                 ).act(req)
+                                            ),
+                                            new FkHost(
+                                                "i.rehttp.net",
+                                                req -> new RsText(
+                                                    base.history(
+                                                        new URL(new RqHref.Base(req).href().path().substring(1))
+                                                    )
+                                                )
                                             ),
                                             new FkRegex("/robots.txt", ""),
                                             new FkRegex(

@@ -36,6 +36,7 @@ import com.jcabi.dynamo.Table;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
@@ -49,6 +50,7 @@ import org.takes.Take;
  * @version $Id$
  * @since 1.0
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class DyBase implements Base {
 
@@ -152,7 +154,11 @@ public final class DyBase implements Base {
                     Tv.FIFTY
                 ),
                 item -> String.format(
-                    "%d"
+                    "%s\t%b/%d\t%d",
+                    new Date(Long.parseLong(item.get("time").getN())),
+                    Boolean.parseBoolean(item.get("success").getS()),
+                    Integer.parseInt(item.get("code").getN()),
+                    Integer.parseInt(item.get("attempts").getN())
                 )
             )
         ).asString();

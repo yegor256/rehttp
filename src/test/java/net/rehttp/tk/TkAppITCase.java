@@ -78,7 +78,7 @@ public final class TkAppITCase {
                             new RqFake(
                                 new ListOf<>(
                                     String.format(
-                                        "GET /%s",
+                                        "PUT /%s",
                                         URLEncoder.encode(
                                             home.toString(),
                                             StandardCharsets.UTF_8.displayName()
@@ -96,6 +96,26 @@ public final class TkAppITCase {
                 for (int idx = 0; idx < Tv.TEN; ++idx) {
                     retry.run();
                 }
+                MatcherAssert.assertThat(
+                    new RsPrint(
+                        new TkApp(base).act(
+                            new RqFake(
+                                new ListOf<>(
+                                    String.format(
+                                        "GET /%s",
+                                        URLEncoder.encode(
+                                            home.toString(),
+                                            StandardCharsets.UTF_8.displayName()
+                                        )
+                                    ),
+                                    "Host: i.rehttp.net"
+                                ),
+                                ""
+                            )
+                        )
+                    ).print(),
+                    Matchers.containsString("true/200")
+                );
             }
         );
         MatcherAssert.assertThat(count.get(), Matchers.equalTo(0));

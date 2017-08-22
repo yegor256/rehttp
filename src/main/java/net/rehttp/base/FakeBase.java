@@ -46,4 +46,9 @@ public final class FakeBase implements Base {
     public Iterable<Take> expired() throws MalformedURLException {
         return new ListOf<>(this.target(new URL("#"), 0L));
     }
+
+    @Override
+    public String history(final URL url) {
+        return "";
+    }
 }
