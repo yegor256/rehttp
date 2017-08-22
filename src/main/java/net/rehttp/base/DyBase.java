@@ -35,6 +35,9 @@ import com.jcabi.dynamo.Region;
 import com.jcabi.dynamo.Table;
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -155,7 +158,12 @@ public final class DyBase implements Base {
                 ),
                 item -> String.format(
                     "%s\t%b/%d\t%d",
-                    new Date(Long.parseLong(item.get("time").getN())),
+                    ZonedDateTime.ofInstant(
+                        new Date(
+                            Long.parseLong(item.get("time").getN())
+                        ).toInstant(),
+                        ZoneOffset.UTC
+                    ).format(DateTimeFormatter.ISO_INSTANT),
                     Boolean.parseBoolean(item.get("success").getS()),
                     Integer.parseInt(item.get("code").getN()),
                     Integer.parseInt(item.get("attempts").getN())
