@@ -40,33 +40,24 @@ import org.takes.rq.RqFake;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle JavadocVariableCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * @checkstyle VisibilityModifierCheck (500 lines)
  */
 @RunWith(Parameterized.class)
 public final class PingingTest {
 
-    /**
-     * The URL to ping.
-     */
-    private final transient String url;
+    @Parameterized.Parameter
+    public String url;
 
-    /**
-     * Ctor.
-     * @param addr The URL to test
-     */
-    public PingingTest(final String addr) {
-        this.url = addr;
-    }
-
-    /**
-     * Params for JUnit.
-     * @return Parameters
-     */
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> params() {
         return Arrays.asList(
             new Object[][] {
                 {"/?x=y"},
                 {"/robots.txt"},
+                {"/favicon.ico"},
                 {"/xsl/layout.xsl"},
                 {"/css/main.css"},
                 {"/images/logo.svg"},
@@ -75,10 +66,6 @@ public final class PingingTest {
         );
     }
 
-    /**
-     * App can render the URL.
-     * @throws Exception If some problem inside
-     */
     @Test
     public void rendersAllPossibleUrls() throws Exception {
         final Take take = new TkApp(new FakeBase());

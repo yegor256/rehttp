@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import net.rehttp.base.Base;
+import org.cactoos.io.BytesOf;
+import org.cactoos.io.ResourceOf;
 import org.cactoos.text.TextOf;
 import org.takes.Response;
 import org.takes.Take;
@@ -49,6 +51,7 @@ import org.takes.misc.Sprintf;
 import org.takes.rq.RqHref;
 import org.takes.rs.RsText;
 import org.takes.rs.RsVelocity;
+import org.takes.rs.RsWithBody;
 import org.takes.rs.RsWithStatus;
 import org.takes.rs.RsWithType;
 import org.takes.tk.TkClasspath;
@@ -94,6 +97,18 @@ public final class TkApp extends TkWrap {
                                 new TkForward(
                                     new TkGzip(
                                         new TkFork(
+                                            new FkRegex("/robots.txt", ""),
+                                            new FkRegex(
+                                                "/favicon.ico",
+                                                new RsWithType(
+                                                    new RsWithBody(
+                                                        new BytesOf(
+                                                            new ResourceOf("images/logo.png")
+                                                        ).asBytes()
+                                                    ),
+                                                    "image/png"
+                                                )
+                                            ),
                                             new FkHost(
                                                 "p.rehttp.net",
                                                 req -> base.target(
@@ -109,7 +124,6 @@ public final class TkApp extends TkWrap {
                                                     )
                                                 )
                                             ),
-                                            new FkRegex("/robots.txt", ""),
                                             new FkRegex(
                                                 "/org/takes/.+\\.xsl",
                                                 new TkClasspath()
