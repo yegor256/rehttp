@@ -160,21 +160,11 @@ public final class DyBase implements Base {
                 item -> String.format(
                     "<a href='?time=%d'>%s</a>\t%b/%d\t%d\t%s",
                     Long.parseLong(item.get("time").getN()),
-                    ZonedDateTime.ofInstant(
-                        new Date(
-                            Long.parseLong(item.get("time").getN())
-                        ).toInstant(),
-                        ZoneOffset.UTC
-                    ).format(DateTimeFormatter.ISO_INSTANT),
+                    DyBase.utc(item.get("time").getN()),
                     Boolean.parseBoolean(item.get("success").getS()),
                     Integer.parseInt(item.get("code").getN()),
                     Integer.parseInt(item.get("attempts").getN()),
-                    ZonedDateTime.ofInstant(
-                        new Date(
-                            Long.parseLong(item.get("when").getN())
-                        ).toInstant(),
-                        ZoneOffset.UTC
-                    ).format(DateTimeFormatter.ISO_INSTANT)
+                    DyBase.utc(item.get("when").getN())
                 )
             )
         ).asString();
@@ -196,22 +186,24 @@ public final class DyBase implements Base {
         return String.format(
             "URL: %s\nTime: %s\nCode: %d\nAttempts: %d\nWhen: %s\n\n%s",
             item.get("url"),
-            ZonedDateTime.ofInstant(
-                new Date(
-                    Long.parseLong(item.get("time").getN())
-                ).toInstant(),
-                ZoneOffset.UTC
-            ).format(DateTimeFormatter.ISO_INSTANT),
+            DyBase.utc(item.get("time").getN()),
             Integer.parseInt(item.get("code").getN()),
             Integer.parseInt(item.get("attempts").getN()),
-            ZonedDateTime.ofInstant(
-                new Date(
-                    Long.parseLong(item.get("when").getN())
-                ).toInstant(),
-                ZoneOffset.UTC
-            ).format(DateTimeFormatter.ISO_INSTANT),
+            DyBase.utc(item.get("when").getN()),
             item.get("request").getS()
         );
+    }
+
+    /**
+     * Time to UTC.
+     * @param time Time in the DB
+     * @return UTC
+     */
+    private static String utc(final String time) {
+        return ZonedDateTime.ofInstant(
+            new Date(Long.parseLong(time)).toInstant(),
+            ZoneOffset.UTC
+        ).format(DateTimeFormatter.ISO_INSTANT);
     }
 
     /**
