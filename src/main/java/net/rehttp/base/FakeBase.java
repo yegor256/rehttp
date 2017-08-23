@@ -24,7 +24,7 @@ package net.rehttp.base;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.cactoos.iterable.ListOf;
+import org.cactoos.list.ListOf;
 import org.takes.Take;
 import org.takes.rs.RsText;
 

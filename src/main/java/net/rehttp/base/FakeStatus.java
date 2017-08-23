@@ -22,6 +22,9 @@
  */
 package net.rehttp.base;
 
+import java.util.Collection;
+import java.util.Collections;
+import org.xembly.Directive;
 import org.xembly.Directives;
 
 /**
@@ -34,13 +37,13 @@ import org.xembly.Directives;
 public final class FakeStatus implements Status {
 
     @Override
-    public Directives failures(final long after) {
-        return new Directives();
+    public Collection<Iterable<Directive>> failures(final long after) {
+        return Collections.emptyList();
     }
 
     @Override
-    public Directives history(final long after) {
-        return new Directives();
+    public Collection<Iterable<Directive>> history(final long after) {
+        return Collections.emptyList();
     }
 
     @Override

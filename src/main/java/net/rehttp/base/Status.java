@@ -23,6 +23,7 @@
 package net.rehttp.base;
 
 import java.io.IOException;
+import java.util.Collection;
 import org.xembly.Directive;
 
 /**
@@ -40,7 +41,7 @@ public interface Status {
      * @return Map of recent failures
      * @throws IOException If fails
      */
-    Iterable<Directive> failures(long after) throws IOException;
+    Collection<Iterable<Directive>> failures(long after) throws IOException;
 
     /**
      * Full history of the URL.
@@ -48,7 +49,7 @@ public interface Status {
      * @return The history
      * @throws IOException If fails
      */
-    Iterable<Directive> history(long after) throws IOException;
+    Collection<Iterable<Directive>> history(long after) throws IOException;
 
     /**
      * Full details of one particular request.

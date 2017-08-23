@@ -30,7 +30,7 @@ import com.jcabi.matchers.XhtmlMatchers;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import net.rehttp.base.FakeBase;
-import org.cactoos.iterable.ListOf;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

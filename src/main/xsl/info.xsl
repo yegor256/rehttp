@@ -81,7 +81,9 @@
         <p>
             <xsl:text>Recent </xsl:text>
             <xsl:value-of select="count(target)"/>
-            <xsl:text> requests:</xsl:text>
+            <xsl:text> requests (out of </xsl:text>
+            <xsl:value-of select="/page/total_history"/>
+            <xsl:text> total):</xsl:text>
         </p>
         <table>
             <thead>

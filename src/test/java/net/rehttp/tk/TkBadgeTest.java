@@ -28,7 +28,7 @@ import net.rehttp.base.FakeBase;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.OutputTo;
 import org.cactoos.io.TeeInput;
-import org.cactoos.iterable.ListOf;
+import org.cactoos.list.ListOf;
 import org.cactoos.text.TextOf;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;

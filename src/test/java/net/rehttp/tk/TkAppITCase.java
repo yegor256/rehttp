@@ -33,7 +33,7 @@ import net.rehttp.Retry;
 import net.rehttp.base.Base;
 import net.rehttp.base.DyBase;
 import org.cactoos.func.RunnableOf;
-import org.cactoos.iterable.ListOf;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;

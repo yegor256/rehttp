@@ -40,9 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import org.cactoos.iterable.Joined;
-import org.cactoos.iterable.Limited;
-import org.cactoos.iterable.Mapped;
+import org.cactoos.collection.Mapped;
 import org.xembly.Directive;
 import org.xembly.Directives;
 import org.xembly.Xembler;
@@ -80,70 +78,60 @@ final class DyStatus implements Status {
     }
 
     @Override
-    public Iterable<Directive> failures(final long after) {
-        return new Joined<>(
-            new Mapped<Item, Iterable<Directive>>(
-                new Limited<>(
-                    this.table()
-                        .frame()
-                        .through(
-                            new QueryValve()
-                                .withIndexName("failures")
-                                .withAttributesToGet(
-                                    "url", "time", "code", "attempts", "when"
-                                )
-                                .withLimit(Tv.FIFTY)
-                                .withConsistentRead(false)
-                                .withScanIndexForward(false)
+    public Collection<Iterable<Directive>> failures(final long after) {
+        return new Mapped<>(
+            this.table()
+                .frame()
+                .through(
+                    new QueryValve()
+                        .withIndexName("failures")
+                        .withAttributesToGet(
+                            "url", "time", "code", "attempts", "when"
                         )
-                        .where("failed_url", Conditions.equalTo(this.url))
-                        .where(
-                            "time",
-                            new Condition()
-                                .withComparisonOperator(ComparisonOperator.LT)
-                                .withAttributeValueList(
-                                    new AttributeValue().withN(
-                                        Long.toString(after)
-                                    )
-                                )
-                        ),
-                    Tv.FIFTY
+                        .withLimit(Tv.FIFTY)
+                        .withConsistentRead(false)
+                        .withScanIndexForward(false)
+                )
+                .where("failed_url", Conditions.equalTo(this.url))
+                .where(
+                    "time",
+                    new Condition()
+                        .withComparisonOperator(ComparisonOperator.LT)
+                        .withAttributeValueList(
+                            new AttributeValue().withN(
+                                Long.toString(after)
+                            )
+                        )
                 ),
-                item -> DyStatus.xembly(item, false)
-            )
+            item -> DyStatus.xembly(item, false)
         );
     }
 
     @Override
-    public Iterable<Directive> history(final long after) {
-        return new Joined<>(
-            new Mapped<Item, Iterable<Directive>>(
-                new Limited<>(
-                    this.table()
-                        .frame()
-                        .through(
-                            new QueryValve()
-                                .withAttributesToGet(
-                                    "url", "time", "code", "attempts", "when"
-                                )
-                                .withLimit(Tv.FIFTY)
-                                .withScanIndexForward(false)
+    public Collection<Iterable<Directive>> history(final long after) {
+        return new Mapped<>(
+            this.table()
+                .frame()
+                .through(
+                    new QueryValve()
+                        .withAttributesToGet(
+                            "url", "time", "code", "attempts", "when"
                         )
-                        .where("url", Conditions.equalTo(this.url))
-                        .where(
-                            "time",
-                            new Condition()
-                                .withComparisonOperator(ComparisonOperator.LT)
-                                .withAttributeValueList(
-                                    new AttributeValue().withN(
-                                        Long.toString(after)
-                                    )
-                                )
-                        ),
-                    Tv.FIFTY
+                        .withLimit(Tv.FIFTY)
+                        .withScanIndexForward(false)
+                )
+                .where("url", Conditions.equalTo(this.url))
+                .where(
+                    "time",
+                    new Condition()
+                        .withComparisonOperator(ComparisonOperator.LT)
+                        .withAttributeValueList(
+                            new AttributeValue().withN(
+                                Long.toString(after)
+                            )
+                        )
                 ),
-                item -> DyStatus.xembly(item, false)
-            )
+            item -> DyStatus.xembly(item, false)
         );
     }
 

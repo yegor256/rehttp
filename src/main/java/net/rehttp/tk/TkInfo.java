@@ -22,12 +22,15 @@
  */
 package net.rehttp.tk;
 
+import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import net.rehttp.base.Base;
-import org.cactoos.iterable.ListOf;
+import org.cactoos.iterable.Joined;
+import org.cactoos.iterable.Limited;
+import org.cactoos.list.ListOf;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -41,6 +44,7 @@ import org.takes.rs.xe.XeDirectives;
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class TkInfo implements Take {
 
@@ -74,13 +78,29 @@ final class TkInfo implements Take {
                 new XeAppend(
                     "targets",
                     new XeDirectives(
-                        this.base.status(url).failures(Long.MAX_VALUE)
+                        new Joined<>(
+                            new Limited<>(
+                                this.base.status(url).failures(Long.MAX_VALUE),
+                                Tv.TWENTY
+                            )
+                        )
                     )
                 ),
                 new XeAppend(
                     "history",
                     new XeDirectives(
-                        this.base.status(url).history(Long.MAX_VALUE)
+                        new Joined<>(
+                            new Limited<>(
+                                this.base.status(url).history(Long.MAX_VALUE),
+                                Tv.TWENTY
+                            )
+                        )
+                    )
+                ),
+                new XeAppend(
+                    "total_history",
+                    Integer.toString(
+                        this.base.status(url).history(Long.MAX_VALUE).size()
                     )
                 )
             )
