@@ -96,6 +96,9 @@ public final class DyBase implements Base {
                 new Attributes()
                     .with("url", url)
                     .with("time", time)
+                    .with("code", 0)
+                    .with("attempts", 0)
+                    .with("when", System.currentTimeMillis())
                     .with(
                         "ttl",
                         System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1L)
