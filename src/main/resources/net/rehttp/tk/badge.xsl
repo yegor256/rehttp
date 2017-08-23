@@ -26,6 +26,14 @@
     <xsl:output method="xml" omit-xml-declaration="yes"/>
     <xsl:template match="/info">
         <svg width="106" height="20">
+            <xsl:comment>
+                <xsl:text>URL: </xsl:text>
+                <xsl:value-of select="url"/>
+                <xsl:text>, total: </xsl:text>
+                <xsl:value-of select="failures"/>
+                <xsl:text>, failures: </xsl:text>
+                <xsl:value-of select="total"/>
+            </xsl:comment>
             <xsl:if test="$style = 'round'">
                 <linearGradient id="b" x2="0" y2="100%">
                     <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>

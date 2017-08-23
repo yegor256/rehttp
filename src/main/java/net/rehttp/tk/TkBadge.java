@@ -80,6 +80,9 @@ final class TkBadge implements Take {
                             new Xembler(
                                 new Directives()
                                     .add("info")
+                                    .add("url")
+                                    .set(url)
+                                    .up()
                                     .add("total")
                                     .set(
                                         new LengthOf(
