@@ -63,7 +63,10 @@
                         <xsl:text>Attempts</xsl:text>
                     </th>
                     <th>
-                        <xsl:text>Minutes left</xsl:text>
+                        <xsl:text>Retry</xsl:text>
+                    </th>
+                    <th>
+                        <xsl:text>Give up</xsl:text>
                     </th>
                 </tr>
             </thead>
@@ -116,11 +119,16 @@
                     <xsl:value-of select="code"/>
                 </code>
             </td>
-            <td>
+            <td style="text-align: right;">
                 <xsl:value-of select="attempts"/>
             </td>
             <td>
                 <xsl:value-of select="minutes_left"/>
+                <xsl:text> mins</xsl:text>
+            </td>
+            <td>
+                <xsl:value-of select="ttl_minutes_left"/>
+                <xsl:text> mins</xsl:text>
             </td>
         </tr>
     </xsl:template>
@@ -136,7 +144,7 @@
                     <xsl:value-of select="code"/>
                 </code>
             </td>
-            <td>
+            <td style="text-align: right;">
                 <xsl:value-of select="attempts"/>
             </td>
         </tr>

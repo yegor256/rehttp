@@ -86,7 +86,7 @@ final class DyStatus implements Status {
                     new QueryValve()
                         .withIndexName("failures")
                         .withAttributesToGet(
-                            "url", "time", "code", "attempts", "when"
+                            "url", "time", "code", "attempts", "when", "ttl"
                         )
                         .withLimit(Tv.FIFTY)
                         .withConsistentRead(false)
@@ -115,7 +115,7 @@ final class DyStatus implements Status {
                 .through(
                     new QueryValve()
                         .withAttributesToGet(
-                            "url", "time", "code", "attempts", "when"
+                            "url", "time", "code", "attempts", "when", "ttl"
                         )
                         .withLimit(Tv.FIFTY)
                         .withScanIndexForward(false)
@@ -182,9 +182,20 @@ final class DyStatus implements Status {
             .set(item.get("when").getN()).up()
             .add("when_utc")
             .set(DyStatus.utc(item.get("when").getN())).up()
+            .add("ttl")
+            .set(item.get("ttl").getN()).up()
+            .add("ttl_utc")
+            .set(DyStatus.utc(item.get("ttl").getN())).up()
             .add("minutes_left")
             .set(
                 (Long.parseLong(item.get("when").getN())
+                    - System.currentTimeMillis())
+                    / TimeUnit.MINUTES.toMillis(1L)
+            )
+            .up()
+            .add("ttl_minutes_left")
+            .set(
+                (Long.parseLong(item.get("ttl").getN())
                     - System.currentTimeMillis())
                     / TimeUnit.MINUTES.toMillis(1L)
             )
