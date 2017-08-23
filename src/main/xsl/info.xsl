@@ -161,22 +161,28 @@
     <xsl:template name="minutes">
         <xsl:param name="minutes"/>
         <xsl:choose>
+            <xsl:when test="$minutes &lt; 0">
+                <span title="{$minutes} minutes" style="color:red;">
+                    <xsl:value-of select="$minutes"/>
+                    <xsl:text> minutes</xsl:text>
+                </span>
+            </xsl:when>
             <xsl:when test="$minutes &lt; 60">
                 <span title="{$minutes} minutes">
                     <xsl:value-of select="$minutes"/>
-                    <xsl:text>mins</xsl:text>
+                    <xsl:text> mins</xsl:text>
                 </span>
             </xsl:when>
             <xsl:when test="$minutes &lt; 24 * 60">
                 <span title="{format-number($minutes div 60, '0')} hours ({$minutes} minutes)">
                     <xsl:value-of select="format-number($minutes div 60, '0')"/>
-                    <xsl:text>hrs</xsl:text>
+                    <xsl:text> hrs</xsl:text>
                 </span>
             </xsl:when>
             <xsl:otherwise>
                 <span title="{format-number($minutes div (60 * 24), '0')} days ({$minutes} minutes)">
                     <xsl:value-of select="format-number($minutes div (60 * 24), '0')"/>
-                    <xsl:text>days</xsl:text>
+                    <xsl:text> days</xsl:text>
                 </span>
             </xsl:otherwise>
         </xsl:choose>
