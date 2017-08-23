@@ -171,6 +171,9 @@
                     <xsl:text> minutes</xsl:text>
                 </span>
             </xsl:when>
+            <xsl:when test="$minutes = 0">
+                <xsl:text>seconds</xsl:text>
+            </xsl:when>
             <xsl:when test="$minutes &lt; 60">
                 <span title="{$minutes} minutes">
                     <xsl:value-of select="$minutes"/>
