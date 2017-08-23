@@ -37,6 +37,13 @@
             <img src="/b?u={/page/encoded_url}"/>
         </p>
         <p>
+            <xsl:text>Status via HTTP: </xsl:text>
+            <a href="/s?u={/page/encoded_url}">
+                <xsl:text>here</xsl:text>
+            </a>
+        </p>
+        <p>
+            <xsl:text>URL: </xsl:text>
             <code>
                 <xsl:value-of select="url"/>
             </code>
@@ -54,7 +61,7 @@
             <thead>
                 <tr>
                     <th>
-                        <xsl:text>Time</xsl:text>
+                        <xsl:text>Received</xsl:text>
                     </th>
                     <th>
                         <xsl:text>Code</xsl:text>
@@ -63,10 +70,10 @@
                         <xsl:text>Attempts</xsl:text>
                     </th>
                     <th>
-                        <xsl:text>Retry</xsl:text>
+                        <xsl:text>Retry in</xsl:text>
                     </th>
                     <th>
-                        <xsl:text>Give up</xsl:text>
+                        <xsl:text>Give up in</xsl:text>
                     </th>
                 </tr>
             </thead>
@@ -92,7 +99,7 @@
             <thead>
                 <tr>
                     <th>
-                        <xsl:text>Time</xsl:text>
+                        <xsl:text>Received</xsl:text>
                     </th>
                     <th>
                         <xsl:text>Code</xsl:text>
