@@ -96,12 +96,6 @@ final class TkInfo implements Take {
                             )
                         )
                     )
-                ),
-                new XeAppend(
-                    "total_history",
-                    Integer.toString(
-                        this.base.status(url).history(Long.MAX_VALUE).size()
-                    )
                 )
             )
         );
