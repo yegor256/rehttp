@@ -92,7 +92,7 @@ final class TkInfo implements Take {
                         new Joined<>(
                             new Limited<>(
                                 this.base.status(url).history(Long.MAX_VALUE),
-                                Tv.TWENTY
+                                Tv.TEN
                             )
                         )
                     )

@@ -88,7 +88,7 @@ final class DyStatus implements Status {
                         .withAttributesToGet(
                             "url", "time", "code", "attempts", "when", "ttl"
                         )
-                        .withLimit(Tv.FIFTY)
+                        .withLimit(Tv.TWENTY)
                         .withConsistentRead(false)
                         .withScanIndexForward(false)
                 )
@@ -117,7 +117,7 @@ final class DyStatus implements Status {
                         .withAttributesToGet(
                             "url", "time", "code", "attempts", "when", "ttl"
                         )
-                        .withLimit(Tv.FIFTY)
+                        .withLimit(Tv.TEN)
                         .withScanIndexForward(false)
                 )
                 .where("url", Conditions.equalTo(this.url))
