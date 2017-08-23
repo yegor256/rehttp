@@ -22,60 +22,56 @@
  */
 package net.rehttp.tk;
 
-import java.net.HttpURLConnection;
-import java.util.Arrays;
-import java.util.Collection;
+import com.jcabi.matchers.XhtmlMatchers;
+import java.io.File;
 import net.rehttp.base.FakeBase;
+import org.cactoos.io.InputOf;
+import org.cactoos.io.OutputTo;
+import org.cactoos.io.TeeInput;
+import org.cactoos.iterable.ListOf;
+import org.cactoos.text.TextOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.takes.Take;
-import org.takes.facets.hamcrest.HmRsStatus;
 import org.takes.rq.RqFake;
+import org.takes.rs.RsPrint;
 
 /**
- * Test case for {@link TkApp}.
+ * Test case for {@link TkBadge}.
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle JavadocVariableCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle VisibilityModifierCheck (500 lines)
  */
-@RunWith(Parameterized.class)
-public final class PingingTest {
+public final class TkBadgeTest {
 
-    @Parameterized.Parameter
-    public String url;
-
-    @Parameterized.Parameters(name = "{0}")
-    public static Collection<Object[]> params() {
-        return Arrays.asList(
-            new Object[][] {
-                {"/?x=y"},
-                {"/robots.txt"},
-                {"/xsl/layout.xsl"},
-                {"/css/main.css"},
-                {"/images/logo.svg"},
-            }
-        );
-    }
-
+    /**
+     * TkBadge can render an SVG badge.
+     * @throws Exception If some problem inside
+     */
     @Test
-    public void rendersAllPossibleUrls() throws Exception {
-        final Take take = new TkApp(new FakeBase());
+    public void rendersSvgBadge() throws Exception {
         MatcherAssert.assertThat(
-            this.url,
-            take.act(new RqFake("INFO", this.url)),
-            Matchers.not(
-                new HmRsStatus(
-                    HttpURLConnection.HTTP_NOT_FOUND
-                )
-            )
+            XhtmlMatchers.xhtml(
+                new TextOf(
+                    new TeeInput(
+                        new InputOf(
+                            new RsPrint(
+                                new TkBadge(new FakeBase()).act(
+                                    new RqFake(
+                                        new ListOf<>(
+                                            "GET /?u=http://www.yegor256.com",
+                                            "Host: www.rehttp.net"
+                                        ),
+                                        ""
+                                    )
+                                )
+                            ).printBody()
+                        ),
+                        new OutputTo(new File("target/rehttp.svg"))
+                    )
+                ).asString()
+            ),
+            XhtmlMatchers.hasXPath("/svg:svg//svg:path")
         );
     }
-
 }

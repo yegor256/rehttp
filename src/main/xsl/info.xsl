@@ -34,6 +34,9 @@
     </xsl:template>
     <xsl:template match="page" mode="body">
         <p>
+            <img src="/b?u={/page/encoded_url}"/>
+        </p>
+        <p>
             <code>
                 <xsl:value-of select="url"/>
             </code>

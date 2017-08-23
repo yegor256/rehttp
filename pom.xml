@@ -155,7 +155,6 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-xml</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
