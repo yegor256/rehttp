@@ -101,7 +101,9 @@ public final class DyBase implements Base {
                     .with("when", System.currentTimeMillis())
                     .with(
                         "ttl",
-                        System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1L)
+                        (System.currentTimeMillis()
+                            + TimeUnit.DAYS.toMillis(1L))
+                            / TimeUnit.SECONDS.toMillis(1L)
                     )
             );
         } else {

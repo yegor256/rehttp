@@ -166,37 +166,32 @@ final class DyStatus implements Status {
      */
     private static Iterable<Directive> xembly(
         final Item item, final boolean full) throws IOException {
+        final long time = Long.parseLong(item.get("time").getN());
+        final long when = Long.parseLong(item.get("when").getN());
+        final long ttl = Long.parseLong(item.get("ttl").getN())
+            * TimeUnit.SECONDS.toMillis(1L);
         final Directives dirs = new Directives()
             .add("target")
             .add("url")
             .set(item.get("url").getS()).up()
-            .add("time")
-            .set(item.get("time").getN()).up()
-            .add("time_utc")
-            .set(DyStatus.utc(item.get("time").getN())).up()
-            .add("code")
-            .set(Integer.parseInt(item.get("code").getN())).up()
+            .add("time").set(time).up()
+            .add("time_utc").set(DyStatus.utc(time)).up()
+            .add("code").set(Integer.parseInt(item.get("code").getN())).up()
             .add("attempts")
-            .set(Integer.parseInt(item.get("attempts").getN())).up()
-            .add("when")
-            .set(item.get("when").getN()).up()
-            .add("when_utc")
-            .set(DyStatus.utc(item.get("when").getN())).up()
-            .add("ttl")
-            .set(item.get("ttl").getN()).up()
-            .add("ttl_utc")
-            .set(DyStatus.utc(item.get("ttl").getN())).up()
+            .set(Long.parseLong(item.get("attempts").getN())).up()
+            .add("when").set(when).up()
+            .add("when_utc").set(DyStatus.utc(when)).up()
+            .add("ttl").set(ttl).up()
+            .add("ttl_utc").set(DyStatus.utc(ttl)).up()
             .add("minutes_left")
             .set(
-                (Long.parseLong(item.get("when").getN())
-                    - System.currentTimeMillis())
+                (when - System.currentTimeMillis())
                     / TimeUnit.MINUTES.toMillis(1L)
             )
             .up()
             .add("ttl_minutes_left")
             .set(
-                (Long.parseLong(item.get("ttl").getN())
-                    - System.currentTimeMillis())
+                (ttl - System.currentTimeMillis())
                     / TimeUnit.MINUTES.toMillis(1L)
             )
             .up();
@@ -214,9 +209,9 @@ final class DyStatus implements Status {
      * @param time Time in the DB
      * @return UTC
      */
-    private static String utc(final String time) {
+    private static String utc(final long time) {
         return ZonedDateTime.ofInstant(
-            new Date(Long.parseLong(time)).toInstant(),
+            new Date(time).toInstant(),
             ZoneOffset.UTC
         ).format(DateTimeFormatter.ISO_INSTANT);
     }
