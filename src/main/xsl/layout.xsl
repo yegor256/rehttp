@@ -114,8 +114,8 @@
                             <ul style="color:gray;">
                                 <li>
                                     <xsl:text>The logo is made by </xsl:text>
-                                    <a href="https://www.flaticon.com/authors/those-icons">
-                                        <xsl:text>Those Icons</xsl:text>
+                                    <a href="https://www.flaticon.com/authors/epiccoders">
+                                        <xsl:text>EpicCoders</xsl:text>
                                     </a>
                                     <xsl:text>.</xsl:text>
                                 </li>
