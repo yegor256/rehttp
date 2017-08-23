@@ -22,13 +22,13 @@
  */
 package net.rehttp.tk;
 
+import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import com.jcabi.xml.XSL;
 import com.jcabi.xml.XSLDocument;
 import java.io.IOException;
 import java.net.URL;
 import net.rehttp.base.Base;
-import org.cactoos.iterable.LengthOf;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -72,38 +72,45 @@ final class TkBadge implements Take {
     @Override
     public Response act(final Request req) throws IOException {
         final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final XML xml = new XMLDocument(
+            new Xembler(
+                new Directives()
+                    .add("info")
+                    .add("url")
+                    .set(url)
+                    .up()
+                    .add("total")
+                    .set(
+                        new XMLDocument(
+                            new Xembler(
+                                new Directives().add("a0").append(
+                                    this.base.status(url).history(
+                                        Long.MAX_VALUE
+                                    )
+                                )
+                            ).xmlQuietly()
+                        ).nodes("/a0/target").size()
+                    )
+                    .up()
+                    .add("failures")
+                    .set(
+                        new XMLDocument(
+                            new Xembler(
+                                new Directives().add("a1").append(
+                                    this.base.status(url).failures(
+                                        Long.MAX_VALUE
+                                    )
+                                )
+                            ).xmlQuietly()
+                        ).nodes("/a1/target").size()
+                    )
+                    .up()
+            ).xmlQuietly()
+        );
         return new RsWithType(
             new RsWithHeaders(
                 new RsWithBody(
-                    TkBadge.SVG.with("style", "round").applyTo(
-                        new XMLDocument(
-                            new Xembler(
-                                new Directives()
-                                    .add("info")
-                                    .add("url")
-                                    .set(url)
-                                    .up()
-                                    .add("total")
-                                    .set(
-                                        new LengthOf(
-                                            this.base.status(url).history(
-                                                Long.MAX_VALUE
-                                            )
-                                        ).value()
-                                    )
-                                    .up()
-                                    .add("failures")
-                                    .set(
-                                        new LengthOf(
-                                            this.base.status(url).failures(
-                                                Long.MAX_VALUE
-                                            )
-                                        ).value()
-                                    )
-                                    .up()
-                            ).xmlQuietly()
-                        )
-                    )
+                    TkBadge.SVG.with("style", "round").applyTo(xml)
                 ),
                 "Cache-Control: no-cache"
             ),
