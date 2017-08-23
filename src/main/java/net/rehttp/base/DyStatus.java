@@ -37,6 +37,7 @@ import java.net.URL;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Date;
 import org.cactoos.iterable.Joined;
 import org.cactoos.iterable.Limited;
@@ -147,7 +148,7 @@ final class DyStatus implements Status {
 
     @Override
     public Iterable<Directive> details(final long time) throws IOException {
-        final Item item = this.table()
+        final Collection<Item> items = this.table()
             .frame()
             .through(
                 new QueryValve()
@@ -155,10 +156,16 @@ final class DyStatus implements Status {
                     .withLimit(1)
             )
             .where("url", Conditions.equalTo(this.url))
-            .where("time", Conditions.equalTo(time))
-            .iterator()
-            .next();
-        return DyStatus.xembly(item, true);
+            .where("time", Conditions.equalTo(time));
+        if (items.isEmpty()) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Request at %d for %s not found",
+                    time, this.url
+                )
+            );
+        }
+        return DyStatus.xembly(items.iterator().next(), true);
     }
 
     /**
