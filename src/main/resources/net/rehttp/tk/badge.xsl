@@ -30,9 +30,9 @@
                 <xsl:text>URL: </xsl:text>
                 <xsl:value-of select="url"/>
                 <xsl:text>, total: </xsl:text>
-                <xsl:value-of select="failures"/>
-                <xsl:text>, failures: </xsl:text>
                 <xsl:value-of select="total"/>
+                <xsl:text>, failures: </xsl:text>
+                <xsl:value-of select="failures"/>
             </xsl:comment>
             <xsl:if test="$style = 'round'">
                 <linearGradient id="b" x2="0" y2="100%">
@@ -81,10 +81,14 @@
                             <xsl:text>99+</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
-                    <xsl:text> of </xsl:text>
+                    <xsl:text>/</xsl:text>
                     <xsl:choose>
                         <xsl:when test="total &lt; 1000">
                             <xsl:value-of select="total"/>
+                        </xsl:when>
+                        <xsl:when test="total &lt; 1000000">
+                            <xsl:value-of select="format-number(total div 1000, '0')"/>
+                            <xsl:text>K</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:text>999+</xsl:text>
