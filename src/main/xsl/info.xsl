@@ -115,8 +115,11 @@
     <xsl:template match="target" mode="failures">
         <tr>
             <td>
-                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time}">
-                    <xsl:value-of select="time_utc"/>
+                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time_utc}">
+                    <xsl:call-template name="minutes">
+                        <xsl:with-param name="minutes" select="- age"/>
+                    </xsl:call-template>
+                    <xsl:text> ago</xsl:text>
                 </a>
             </td>
             <td>
@@ -142,8 +145,11 @@
     <xsl:template match="target" mode="history">
         <tr>
             <td>
-                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time}">
-                    <xsl:value-of select="time_utc"/>
+                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time_utc}">
+                    <xsl:call-template name="minutes">
+                        <xsl:with-param name="minutes" select="- age"/>
+                    </xsl:call-template>
+                    <xsl:text> ago</xsl:text>
                 </a>
             </td>
             <td>

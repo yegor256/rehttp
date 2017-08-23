@@ -176,6 +176,7 @@ final class DyStatus implements Status {
             .set(item.get("url").getS()).up()
             .add("time").set(time).up()
             .add("time_utc").set(DyStatus.utc(time)).up()
+            .add("age").set(DyStatus.age(time)).up()
             .add("code").set(Integer.parseInt(item.get("code").getN())).up()
             .add("attempts")
             .set(Long.parseLong(item.get("attempts").getN())).up()
@@ -183,18 +184,8 @@ final class DyStatus implements Status {
             .add("when_utc").set(DyStatus.utc(when)).up()
             .add("ttl").set(ttl).up()
             .add("ttl_utc").set(DyStatus.utc(ttl)).up()
-            .add("minutes_left")
-            .set(
-                (when - System.currentTimeMillis())
-                    / TimeUnit.MINUTES.toMillis(1L)
-            )
-            .up()
-            .add("ttl_minutes_left")
-            .set(
-                (ttl - System.currentTimeMillis())
-                    / TimeUnit.MINUTES.toMillis(1L)
-            )
-            .up();
+            .add("minutes_left").set(DyStatus.age(when)).up()
+            .add("ttl_minutes_left").set(DyStatus.age(ttl)).up();
         if (full) {
             dirs.add("request")
                 .set(Xembler.escape(item.get("request").getS())).up()
@@ -202,6 +193,16 @@ final class DyStatus implements Status {
                 .set(Xembler.escape(item.get("response").getS())).up();
         }
         return dirs.up();
+    }
+
+    /**
+     * Minutes interval between now and this date.
+     * @param time Time in msec
+     * @return Minutes
+     */
+    private static long age(final long time) {
+        return (time - System.currentTimeMillis())
+            / TimeUnit.MINUTES.toMillis(1L);
     }
 
     /**
