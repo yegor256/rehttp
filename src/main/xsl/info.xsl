@@ -46,7 +46,9 @@
     </xsl:template>
     <xsl:template match="targets[target]">
         <p>
-            <xsl:text>Recent failures:</xsl:text>
+            <xsl:text>Recent </xsl:text>
+            <xsl:value-of select="count(target)"/>
+            <xsl:text> failures:</xsl:text>
         </p>
         <table>
             <thead>
@@ -60,10 +62,13 @@
                     <th>
                         <xsl:text>Attempts</xsl:text>
                     </th>
+                    <th>
+                        <xsl:text>Minutes left</xsl:text>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <xsl:apply-templates select="target"/>
+                <xsl:apply-templates select="target" mode="failures"/>
             </tbody>
         </table>
     </xsl:template>
@@ -74,7 +79,9 @@
     </xsl:template>
     <xsl:template match="history[target]">
         <p>
-            <xsl:text>Recent requests:</xsl:text>
+            <xsl:text>Recent </xsl:text>
+            <xsl:value-of select="count(target)"/>
+            <xsl:text> requests:</xsl:text>
         </p>
         <table>
             <thead>
@@ -91,11 +98,31 @@
                 </tr>
             </thead>
             <tbody>
-                <xsl:apply-templates select="target"/>
+                <xsl:apply-templates select="target" mode="history"/>
             </tbody>
         </table>
     </xsl:template>
-    <xsl:template match="target">
+    <xsl:template match="target" mode="failures">
+        <tr>
+            <td>
+                <a href="/d?u={/page/encoded_url}&amp;t={time}">
+                    <xsl:value-of select="time_utc"/>
+                </a>
+            </td>
+            <td>
+                <code>
+                    <xsl:value-of select="code"/>
+                </code>
+            </td>
+            <td>
+                <xsl:value-of select="attempts"/>
+            </td>
+            <td>
+                <xsl:value-of select="minutes_left"/>
+            </td>
+        </tr>
+    </xsl:template>
+    <xsl:template match="target" mode="history">
         <tr>
             <td>
                 <a href="/d?u={/page/encoded_url}&amp;t={time}">

@@ -39,6 +39,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.cactoos.iterable.Joined;
 import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
@@ -192,7 +193,14 @@ final class DyStatus implements Status {
             .add("when")
             .set(item.get("when").getN()).up()
             .add("when_utc")
-            .set(DyStatus.utc(item.get("when").getN())).up();
+            .set(DyStatus.utc(item.get("when").getN())).up()
+            .add("minutes_left")
+            .set(
+                (Long.parseLong(item.get("when").getN())
+                    - System.currentTimeMillis())
+                    / TimeUnit.MINUTES.toMillis(1L)
+            )
+            .up();
         if (full) {
             dirs.add("request")
                 .set(Xembler.escape(item.get("request").getS())).up()

@@ -57,7 +57,7 @@
                             <xsl:when test="number(failures) = 0">
                                 <xsl:text>#44cc11</xsl:text>
                             </xsl:when>
-                            <xsl:when test="number(failures) &gt; 3">
+                            <xsl:when test="number(failures) &lt; 3">
                                 <xsl:text>#dfb317</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
