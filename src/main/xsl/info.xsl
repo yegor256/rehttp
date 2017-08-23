@@ -110,7 +110,7 @@
     <xsl:template match="target" mode="failures">
         <tr>
             <td>
-                <a href="/d?u={/page/encoded_url}&amp;t={time}">
+                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time}">
                     <xsl:value-of select="time_utc"/>
                 </a>
             </td>
@@ -122,11 +122,11 @@
             <td style="text-align: right;">
                 <xsl:value-of select="attempts"/>
             </td>
-            <td>
+            <td title="{when_utc}">
                 <xsl:value-of select="minutes_left"/>
                 <xsl:text> mins</xsl:text>
             </td>
-            <td>
+            <td title="{ttl_utc}">
                 <xsl:value-of select="ttl_minutes_left"/>
                 <xsl:text> mins</xsl:text>
             </td>
@@ -135,7 +135,7 @@
     <xsl:template match="target" mode="history">
         <tr>
             <td>
-                <a href="/d?u={/page/encoded_url}&amp;t={time}">
+                <a href="/d?u={/page/encoded_url}&amp;t={time}" title="{time}">
                     <xsl:value-of select="time_utc"/>
                 </a>
             </td>
