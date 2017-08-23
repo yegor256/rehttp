@@ -130,11 +130,14 @@
                 <xsl:value-of select="attempts"/>
             </td>
             <td title="{when_utc}">
-                <xsl:value-of select="minutes_left"/>
-                <xsl:text> mins</xsl:text>
+                <xsl:call-template name="minutes">
+                    <xsl:with-param name="minutes" select="minutes_left"/>
+                </xsl:call-template>
             </td>
             <td title="{ttl_utc}">
-                <xsl:value-of select="ttl_minutes_left"/>
+                <xsl:call-template name="minutes">
+                    <xsl:with-param name="minutes" select="ttl_minutes_left"/>
+                </xsl:call-template>
                 <xsl:text> mins</xsl:text>
             </td>
         </tr>
@@ -155,5 +158,29 @@
                 <xsl:value-of select="attempts"/>
             </td>
         </tr>
+    </xsl:template>
+    <xsl:template name="minutes">
+        <xsl:param name="minutes"/>
+        <xsl:choose>
+            <xsl:when test="$minutes &lt; 60">
+                <span title="{$minutes} minutes">
+                    <xsl:value-of select="$minutes"/>
+                    <xsl:text>m</xsl:text>
+                </span>
+            </xsl:when>
+            <xsl:when test="$minutes &lt; 24 * 60">
+                <span title="{format-number($minutes div 60, '0')} hours ({$minutes} minutes)">
+                    <xsl:value-of select="format-number($minutes div 60, '0')"/>
+                    <xsl:text>h</xsl:text>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <span title="{format-number($minutes div (60 * 24), '0')} days ({$minutes} minutes)">
+                    <xsl:value-of select="format-number($minutes div (60 * 24), '0')"/>
+                    <xsl:text>d</xsl:text>
+                </span>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>f</xsl:text>
     </xsl:template>
 </xsl:stylesheet>
