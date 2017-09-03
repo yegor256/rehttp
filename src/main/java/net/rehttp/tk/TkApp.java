@@ -150,13 +150,6 @@ public final class TkApp extends TkWrap {
                                                 request
                                             )
                                         ),
-                                        new FkRegex(
-                                            "/",
-                                            (Take) request -> new RsPage(
-                                                "/xsl/index.xsl",
-                                                request
-                                            )
-                                        ),
                                         new FkRegex("/i", new TkInfo(base)),
                                         new FkRegex("/d", new TkDetails(base)),
                                         new FkRegex("/s", new TkStatus(base)),
