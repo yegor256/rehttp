@@ -13,4 +13,4 @@ HTTP Repeater
 
 The logo is made by [EpicCoders](https://www.flaticon.com/authors/epiccoders).
 
-See how you can [contribute]().
+See how you can [contribute](https://github.com/yegor256/rehttp/blob/master/CONTRIBUTING.md).
