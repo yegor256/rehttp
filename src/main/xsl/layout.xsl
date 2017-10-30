@@ -87,7 +87,7 @@
                             <ul>
                                 <li>
                                     <a href="http://www.zerocracy.com">
-                                        <img src="http://www.zerocracy.com/badge.svg"/>
+                                        <img src="http://www.0crat.com/badge/C3RFVLU72.svg"/>
                                     </a>
                                 </li>
                             </ul>
