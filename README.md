@@ -11,6 +11,8 @@
 
 HTTP Repeater
 
+Read this blog post: [ReHTTP.net—HTTP Repeater](http://www.yegor256.com/2017/09/05/rehttp-http-repeater.html).
+
 The logo is made by [EpicCoders](https://www.flaticon.com/authors/epiccoders).
 
 See how you can [contribute](https://github.com/yegor256/rehttp/blob/master/CONTRIBUTING.md).
