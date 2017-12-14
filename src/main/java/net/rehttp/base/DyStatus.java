@@ -39,6 +39,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.collection.Mapped;
 import org.xembly.Directive;
@@ -137,7 +138,7 @@ final class DyStatus implements Status {
 
     @Override
     public Iterable<Directive> details(final long time) throws IOException {
-        final Collection<Item> items = this.table()
+        final Iterator<Item> items = this.table()
             .frame()
             .through(
                 new QueryValve()
@@ -145,8 +146,9 @@ final class DyStatus implements Status {
                     .withLimit(1)
             )
             .where("url", Conditions.equalTo(this.url))
-            .where("time", Conditions.equalTo(time));
-        if (items.isEmpty()) {
+            .where("time", Conditions.equalTo(time))
+            .iterator();
+        if (!items.hasNext()) {
             throw new IllegalArgumentException(
                 String.format(
                     "Request at %d for %s not found",
@@ -154,7 +156,7 @@ final class DyStatus implements Status {
                 )
             );
         }
-        return DyStatus.xembly(items.iterator().next(), true);
+        return DyStatus.xembly(items.next(), true);
     }
 
     /**
