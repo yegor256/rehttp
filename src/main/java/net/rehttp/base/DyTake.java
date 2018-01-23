@@ -102,7 +102,7 @@ final class DyTake implements Take {
         );
         final int code = DyTake.code(response);
         // @checkstyle MagicNumber (1 line)
-        final boolean success = code > 199 && code < 300;
+        final boolean success = code > 199 && code < 500;
         final Collection<Map.Entry<String, AttributeValueUpdate>> update =
             new LinkedList<>();
         update.addAll(

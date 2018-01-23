@@ -86,7 +86,7 @@ software.
               <ul>
                 <li>
                   <a href="http://www.zerocracy.com">
-                    <img src="http://www.0crat.com/badge/C3RFVLU72.svg"/>
+                    <img src="https://www.0crat.com/badge/C3RFVLU72.svg"/>
                   </a>
                 </li>
               </ul>
