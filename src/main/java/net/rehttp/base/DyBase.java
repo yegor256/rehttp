@@ -34,7 +34,7 @@ import com.jcabi.dynamo.Region;
 import com.jcabi.dynamo.Table;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.iterable.Mapped;
 import org.takes.Take;
@@ -81,7 +81,7 @@ public final class DyBase implements Base {
 
     @Override
     public Take target(final URL url, final long time) throws IOException {
-        final Iterator<Item> items = this.table()
+        final Collection<Item> items = this.table()
             .frame()
             .through(
                 new QueryValve()
@@ -89,12 +89,9 @@ public final class DyBase implements Base {
                     .withLimit(1)
             )
             .where("url", Conditions.equalTo(url))
-            .where("time", Conditions.equalTo(time))
-            .iterator();
+            .where("time", Conditions.equalTo(time));
         final Item item;
-        if (items.hasNext()) {
-            item = items.next();
-        } else {
+        if (items.isEmpty()) {
             item = this.table().put(
                 new Attributes()
                     .with("url", url)
@@ -109,6 +106,8 @@ public final class DyBase implements Base {
                             / TimeUnit.SECONDS.toMillis(1L)
                     )
             );
+        } else {
+            item = items.iterator().next();
         }
         return new DyTake(item, this.delay);
     }
