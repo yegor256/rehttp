@@ -27,7 +27,7 @@ software.
   <xsl:include href="/xsl/layout.xsl"/>
   <xsl:template match="page" mode="head">
     <title>
-      <xsl:text>rehttp</xsl:text>
+      <xsl:text>ReHTTP</xsl:text>
     </title>
   </xsl:template>
   <xsl:template match="page" mode="body">

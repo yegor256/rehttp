@@ -96,7 +96,7 @@ software.
     <dependency>
       <groupId>org.cactoos</groupId>
       <artifactId>cactoos</artifactId>
-      <version>0.29</version>
+      <version>0.29.1</version>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>

@@ -37,11 +37,11 @@ import java.net.URL;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
-import org.cactoos.iterable.Limited;
-import org.cactoos.iterable.Mapped;
+import org.cactoos.collection.Mapped;
 import org.xembly.Directive;
 import org.xembly.Directives;
 import org.xembly.Xembler;
@@ -79,7 +79,7 @@ final class DyStatus implements Status {
     }
 
     @Override
-    public Iterable<Iterable<Directive>> failures(final long after) {
+    public Collection<Iterable<Directive>> failures(final long after) {
         return new Mapped<>(
             item -> DyStatus.xembly(item, false),
             this.table()
@@ -109,33 +109,30 @@ final class DyStatus implements Status {
     }
 
     @Override
-    public Iterable<Iterable<Directive>> history(final long after) {
+    public Collection<Iterable<Directive>> history(final long after) {
         return new Mapped<>(
             item -> DyStatus.xembly(item, false),
-            new Limited<>(
-                Tv.TEN,
-                this.table()
-                    .frame()
-                    .through(
-                        new QueryValve()
-                            .withAttributesToGet(
-                                "url", "time", "code", "attempts", "when", "ttl"
+            this.table()
+                .frame()
+                .through(
+                    new QueryValve()
+                        .withAttributesToGet(
+                            "url", "time", "code", "attempts", "when", "ttl"
+                        )
+                        .withLimit(Tv.TEN)
+                        .withScanIndexForward(false)
+                )
+                .where("url", Conditions.equalTo(this.url))
+                .where(
+                    "time",
+                    new Condition()
+                        .withComparisonOperator(ComparisonOperator.LT)
+                        .withAttributeValueList(
+                            new AttributeValue().withN(
+                                Long.toString(after)
                             )
-                            .withLimit(Tv.TEN)
-                            .withScanIndexForward(false)
-                    )
-                    .where("url", Conditions.equalTo(this.url))
-                    .where(
-                        "time",
-                        new Condition()
-                            .withComparisonOperator(ComparisonOperator.LT)
-                            .withAttributeValueList(
-                                new AttributeValue().withN(
-                                    Long.toString(after)
-                                )
-                            )
-                    )
-            )
+                        )
+                )
         );
     }
 
