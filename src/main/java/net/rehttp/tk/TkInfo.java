@@ -28,8 +28,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import net.rehttp.base.Base;
+import org.cactoos.collection.Limited;
 import org.cactoos.iterable.Joined;
-import org.cactoos.iterable.Limited;
 import org.cactoos.list.ListOf;
 import org.takes.Request;
 import org.takes.Response;
@@ -91,7 +91,7 @@ final class TkInfo implements Take {
                     "history",
                     new XeDirectives(
                         new Joined<Directive>(
-                            new Limited<>(
+                            new Limited<Iterable<Directive>>(
                                 Tv.TEN,
                                 this.base.status(url).history(Long.MAX_VALUE)
                             )
