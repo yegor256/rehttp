@@ -81,26 +81,26 @@ public final class TkApp extends TkWrap {
      * @throws IOException If fails
      */
     private static Take app(final Base base) throws IOException {
-        return new TkFork(
-            new FkHost(
-                "p.rehttp.net",
-                req -> base.target(
-                    new URL(new RqHref.Base(req).href().path().substring(1)),
-                    System.currentTimeMillis()
-                ).act(req)
-            ),
-            new FkRegex(
-                "/p/(.+)",
-                (TkRegex) req -> base.target(
-                    new URL(req.matcher().group(1)),
-                    System.currentTimeMillis()
-                ).act(req)
-            ),
-            new FkFixed(
-                new TkSslOnly(
-                    new TkWithHeaders(
-                        new TkVersioned(
-                            new TkMeasured(
+        return new TkWithHeaders(
+            new TkVersioned(
+                new TkMeasured(
+                    new TkFork(
+                        new FkHost(
+                            "p.rehttp.net",
+                            req -> base.target(
+                                new URL(new RqHref.Base(req).href().path().substring(1)),
+                                System.currentTimeMillis()
+                            ).act(req)
+                        ),
+                        new FkRegex(
+                            "/p/(.+)",
+                            (TkRegex) req -> base.target(
+                                new URL(req.matcher().group(1)),
+                                System.currentTimeMillis()
+                            ).act(req)
+                        ),
+                        new FkFixed(
+                            new TkSslOnly(
                                 new TkFlash(
                                     new TkSafe(
                                         new TkForward(
@@ -164,12 +164,12 @@ public final class TkApp extends TkWrap {
                                     )
                                 )
                             )
-                        ),
-                        new Sprintf("X-Rehttp-Revision: %s", TkApp.REV).toString(),
-                        "Vary: Cookie"
+                        )
                     )
                 )
-            )
+            ),
+            new Sprintf("X-Rehttp-Revision: %s", TkApp.REV).toString(),
+            "Vary: Cookie"
         );
     }
 }
