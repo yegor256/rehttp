@@ -32,7 +32,7 @@ software.
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"/>
         <link rel="shortcut icon" href="/images/logo.png"/>
-        <link rel="stylesheet" href="http://yegor256.github.io/tacit/tacit.min.css"/>
+        <link rel="stylesheet" href="//yegor256.github.io/tacit/tacit.min.css"/>
         <link rel="stylesheet" href="/css/main.css"/>
         <xsl:apply-templates select="." mode="head"/>
       </head>
@@ -86,7 +86,7 @@ software.
               <ul>
                 <li>
                   <a href="http://www.zerocracy.com">
-                    <img src="https://www.0crat.com/badge/C3RFVLU72.svg"/>
+                    <img src="//www.0crat.com/badge/C3RFVLU72.svg"/>
                   </a>
                 </li>
               </ul>
@@ -95,7 +95,7 @@ software.
               <ul>
                 <li>
                   <a href="http://www.sixnines.io/h/bdc9">
-                    <img src="http://www.sixnines.io/b/bdc9?style=flat"/>
+                    <img src="//www.sixnines.io/b/bdc9?style=flat"/>
                   </a>
                 </li>
               </ul>
@@ -104,7 +104,7 @@ software.
               <ul>
                 <li>
                   <a href="https://github.com/yegor256/rehttp/stargazers">
-                    <img src="https://img.shields.io/github/stars/yegor256/rehttp.svg?style=flat-square" alt="github stars"/>
+                    <img src="//img.shields.io/github/stars/yegor256/rehttp.svg?style=flat-square" alt="github stars"/>
                   </a>
                 </li>
               </ul>

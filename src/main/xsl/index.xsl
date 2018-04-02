@@ -36,28 +36,28 @@ software.
         <xsl:text>ReHTTP</xsl:text>
       </strong>
       <xsl:text>
-                is an HTTP repeater.
-                When someone is sending you HTTP requests with an
-                important information, you may fail to accept them for
-                some reasons. For example, an HTTP POST is coming
-                from a GitHub Webhook to your server, but the server
-                is temporary down. You will loose the information and
-                GitHub won't retry. Our repeater helps you solve exactly
-                this problem.
-            </xsl:text>
+        is an HTTP repeater.
+        When someone is sending you HTTP requests with an
+        important information, you may fail to accept them for
+        some reasons. For example, an HTTP POST is coming
+        from a GitHub Webhook to your server, but the server
+        is temporary down. You will loose the information and
+        GitHub won't retry. Our repeater helps you solve exactly
+        this problem.
+      </xsl:text>
     </p>
     <p>
       <xsl:text>Let's say, the URL of your server is </xsl:text>
       <code>http://www.example.com/hook</code>
       <xsl:text>. Instead of giving this URL directly to GitHub,
-            give them this: </xsl:text>
-      <code>http://p.rehttp.net/http://www.example.com/hook</code>
+        give them this: </xsl:text>
+      <code>https://www.rehttp.net/p/http://www.example.com/hook</code>
       <xsl:text>.</xsl:text>
       <xsl:text> GitHub will send POST or PUT requests to us,
-            and we will send them through, to your server. If your
-            server doesn't reply, we will try again in a minute.
-            Then, we will retry in a few minutes, and in a few hours.
-            Only after 24 hours of failed attempts we will abandon it.</xsl:text>
+        and we will send them through, to your server. If your
+        server doesn't reply, we will try again in a minute.
+        Then, we will retry in a few minutes, and in a few hours.
+        Only after 24 hours of failed attempts we will abandon it.</xsl:text>
     </p>
     <form action="/i" method="get">
       <fieldset>

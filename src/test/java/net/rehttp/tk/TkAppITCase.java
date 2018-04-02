@@ -64,7 +64,9 @@ public final class TkAppITCase {
         final Take take = req -> {
             final Response response;
             if (count.decrementAndGet() > 0) {
-                response = new RsWithStatus(HttpURLConnection.HTTP_FORBIDDEN);
+                response = new RsWithStatus(
+                    HttpURLConnection.HTTP_INTERNAL_ERROR
+                );
             } else {
                 response = new RsText("Success");
             }
@@ -91,7 +93,7 @@ public final class TkAppITCase {
                             )
                         )
                     ).print(),
-                    Matchers.startsWith("HTTP/1.1 403")
+                    Matchers.startsWith("HTTP/1.1 500")
                 );
                 final Runnable retry = new RunnableOf<>(new Retry(base));
                 for (int idx = 0; idx < Tv.TEN; ++idx) {

@@ -37,6 +37,7 @@ import org.takes.Take;
 import org.takes.rq.RqHref;
 import org.takes.rs.xe.XeAppend;
 import org.takes.rs.xe.XeDirectives;
+import org.xembly.Directive;
 
 /**
  * Info about URL.
@@ -79,7 +80,7 @@ final class TkInfo implements Take {
                     "targets",
                     new XeDirectives(
                         new Joined<>(
-                            new Limited<>(
+                            new Limited<Iterable<Directive>>(
                                 this.base.status(url).failures(Long.MAX_VALUE),
                                 Tv.TWENTY
                             )
@@ -89,7 +90,7 @@ final class TkInfo implements Take {
                 new XeAppend(
                     "history",
                     new XeDirectives(
-                        new Joined<>(
+                        new Joined<Directive>(
                             new Limited<>(
                                 this.base.status(url).history(Long.MAX_VALUE),
                                 Tv.TEN

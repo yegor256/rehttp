@@ -32,6 +32,7 @@ import org.takes.facets.flash.TkFlash;
 import org.takes.facets.fork.FkHost;
 import org.takes.facets.fork.FkRegex;
 import org.takes.facets.fork.TkFork;
+import org.takes.facets.fork.TkRegex;
 import org.takes.facets.forward.TkForward;
 import org.takes.misc.Sprintf;
 import org.takes.rq.RqHref;
@@ -91,6 +92,13 @@ public final class TkApp extends TkWrap {
                                             "p.rehttp.net",
                                             req -> base.target(
                                                 new URL(new RqHref.Base(req).href().path().substring(1)),
+                                                System.currentTimeMillis()
+                                            ).act(req)
+                                        ),
+                                        new FkRegex(
+                                            "/p/(.+)",
+                                            (TkRegex) req -> base.target(
+                                                new URL(req.matcher().group(1)),
                                                 System.currentTimeMillis()
                                             ).act(req)
                                         ),
