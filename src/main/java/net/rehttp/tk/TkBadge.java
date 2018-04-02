@@ -28,6 +28,7 @@ import com.jcabi.xml.XSLDocument;
 import java.io.IOException;
 import java.net.URL;
 import net.rehttp.base.Base;
+import org.cactoos.iterable.LengthOf;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -84,16 +85,20 @@ final class TkBadge implements Take {
                                     .up()
                                     .add("total")
                                     .set(
-                                        this.base.status(url).history(
-                                            Long.MAX_VALUE
-                                        ).size()
+                                        new LengthOf(
+                                            this.base.status(url).history(
+                                                Long.MAX_VALUE
+                                            )
+                                        ).intValue()
                                     )
                                     .up()
                                     .add("failures")
                                     .set(
-                                        this.base.status(url).failures(
-                                            Long.MAX_VALUE
-                                        ).size()
+                                        new LengthOf(
+                                            this.base.status(url).failures(
+                                                Long.MAX_VALUE
+                                            )
+                                        ).intValue()
                                     )
                                     .up()
                             ).xmlQuietly()

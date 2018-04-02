@@ -79,7 +79,7 @@ final class TkInfo implements Take {
                 new XeAppend(
                     "targets",
                     new XeDirectives(
-                        new Joined<>(
+                        new Joined<Directive>(
                             new Limited<Iterable<Directive>>(
                                 Tv.TWENTY,
                                 this.base.status(url).failures(Long.MAX_VALUE)
