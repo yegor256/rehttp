@@ -40,6 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+import org.cactoos.iterable.Limited;
 import org.cactoos.iterable.Mapped;
 import org.xembly.Directive;
 import org.xembly.Directives;
@@ -111,27 +112,30 @@ final class DyStatus implements Status {
     public Iterable<Iterable<Directive>> history(final long after) {
         return new Mapped<>(
             item -> DyStatus.xembly(item, false),
-            this.table()
-                .frame()
-                .through(
-                    new QueryValve()
-                        .withAttributesToGet(
-                            "url", "time", "code", "attempts", "when", "ttl"
-                        )
-                        .withLimit(Tv.TEN)
-                        .withScanIndexForward(false)
-                )
-                .where("url", Conditions.equalTo(this.url))
-                .where(
-                    "time",
-                    new Condition()
-                        .withComparisonOperator(ComparisonOperator.LT)
-                        .withAttributeValueList(
-                            new AttributeValue().withN(
-                                Long.toString(after)
+            new Limited<>(
+                Tv.TEN,
+                this.table()
+                    .frame()
+                    .through(
+                        new QueryValve()
+                            .withAttributesToGet(
+                                "url", "time", "code", "attempts", "when", "ttl"
                             )
-                        )
-                )
+                            .withLimit(Tv.TEN)
+                            .withScanIndexForward(false)
+                    )
+                    .where("url", Conditions.equalTo(this.url))
+                    .where(
+                        "time",
+                        new Condition()
+                            .withComparisonOperator(ComparisonOperator.LT)
+                            .withAttributeValueList(
+                                new AttributeValue().withN(
+                                    Long.toString(after)
+                                )
+                            )
+                    )
+            )
         );
     }
 
