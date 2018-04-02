@@ -81,8 +81,8 @@ final class TkInfo implements Take {
                     new XeDirectives(
                         new Joined<>(
                             new Limited<Iterable<Directive>>(
-                                this.base.status(url).failures(Long.MAX_VALUE),
-                                Tv.TWENTY
+                                Tv.TWENTY,
+                                this.base.status(url).failures(Long.MAX_VALUE)
                             )
                         )
                     )
@@ -92,8 +92,8 @@ final class TkInfo implements Take {
                     new XeDirectives(
                         new Joined<Directive>(
                             new Limited<>(
-                                this.base.status(url).history(Long.MAX_VALUE),
-                                Tv.TEN
+                                Tv.TEN,
+                                this.base.status(url).history(Long.MAX_VALUE)
                             )
                         )
                     )

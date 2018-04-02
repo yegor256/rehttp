@@ -116,6 +116,7 @@ public final class DyBase implements Base {
     @Override
     public Iterable<Take> expired() {
         return new Mapped<>(
+            item -> new DyTake(item, this.delay),
             this.table()
                 .frame()
                 .through(
@@ -134,8 +135,7 @@ public final class DyBase implements Base {
                                 Long.toString(System.currentTimeMillis())
                             )
                         )
-                ),
-            item -> new DyTake(item, this.delay)
+                )
         );
     }
 

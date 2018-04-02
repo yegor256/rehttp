@@ -81,6 +81,7 @@ final class DyStatus implements Status {
     @Override
     public Collection<Iterable<Directive>> failures(final long after) {
         return new Mapped<>(
+            item -> DyStatus.xembly(item, false),
             this.table()
                 .frame()
                 .through(
@@ -103,14 +104,14 @@ final class DyStatus implements Status {
                                 Long.toString(after)
                             )
                         )
-                ),
-            item -> DyStatus.xembly(item, false)
+                )
         );
     }
 
     @Override
     public Collection<Iterable<Directive>> history(final long after) {
         return new Mapped<>(
+            item -> DyStatus.xembly(item, false),
             this.table()
                 .frame()
                 .through(
@@ -131,8 +132,7 @@ final class DyStatus implements Status {
                                 Long.toString(after)
                             )
                         )
-                ),
-            item -> DyStatus.xembly(item, false)
+                )
         );
     }
 

@@ -226,7 +226,7 @@ final class DyTake implements Take {
                             path
                         )
                     ),
-                    new Skipped<>(req.head(), 1)
+                    new Skipped<>(1, req.head())
                 );
             }
             @Override
