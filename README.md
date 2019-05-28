@@ -7,7 +7,7 @@
 [![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/rehttp)](http://www.rultor.com/p/yegor256/rehttp)
 [![We recommend IntelliJ IDEA](http://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 
-[![Availability at SixNines](http://www.sixnines.io/b/bdc9)](http://www.sixnines.io/h/bdc9)
+[![Availability at SixNines](https://www.sixnines.io/b/bdc9)](https://www.sixnines.io/h/bdc9)
 [![Build Status](https://travis-ci.org/yegor256/rehttp.svg?branch=master)](https://travis-ci.org/yegor256/rehttp)
 [![PDD status](http://www.0pdd.com/svg?name=yegor256/rehttp)](http://www.0pdd.com/p?name=teamed/yegor256/rehttp)
 
