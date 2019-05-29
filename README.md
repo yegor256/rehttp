@@ -3,7 +3,7 @@
 [![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RFVLU72.svg)](https://www.0crat.com/contrib/C3RFVLU72)
 
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
-[![Managed by Zerocracy](http://www.0crat.com/badge/C3RFVLU72.svg)](http://www.zerocracy.com)
+[![Managed by Zerocracy](https://www.0crat.com/badge/C3RFVLU72.svg)](http://www.zerocracy.com)
 [![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/rehttp)](http://www.rultor.com/p/yegor256/rehttp)
 [![We recommend IntelliJ IDEA](http://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 
