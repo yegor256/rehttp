@@ -45,6 +45,7 @@ merge:
     mvn clean site -Psite --settings ../settings.xml
     mvn clean
     pdd --source=$(pwd) --verbose --file=/dev/null
-  commanders: []
-architect:
-- yegor256
+merge:
+  script: |-
+    echo 'There is nothing to deploy'
+    exit -1
