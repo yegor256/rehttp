@@ -94,8 +94,8 @@ software.
             <nav>
               <ul>
                 <li>
-                  <a href="http://www.sixnines.io/h/bdc9">
-                    <img src="//www.sixnines.io/b/bdc9?style=flat"/>
+                  <a href="http://www.sixnines.io/h/a19c">
+                    <img src="//www.sixnines.io/b/a19c?style=flat"/>
                   </a>
                 </li>
               </ul>
@@ -104,7 +104,7 @@ software.
               <ul>
                 <li>
                   <a href="https://github.com/yegor256/rehttp/stargazers">
-                    <img src="//img.shields.io/github/stars/yegor256/rehttp.svg?style=flat-square" alt="github stars"/>
+                    <img src="//img.shields.io/github/stars/yegor256/rehttp.svg?style=flat-square" alt="GitHub stars"/>
                   </a>
                 </li>
               </ul>
@@ -123,13 +123,13 @@ software.
           </footer>
         </section>
         <script>
-                    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-                    ga('create', 'UA-1963507-52', 'auto');
-                    ga('send', 'pageview');
-                </script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-1963507-52', 'auto');
+          ga('send', 'pageview');
+        </script>
       </body>
     </html>
   </xsl:template>
