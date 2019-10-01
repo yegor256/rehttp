@@ -102,7 +102,7 @@ public final class TkApp extends TkWrap {
                             ),
                             new FkRegex(
                                 "/p/(.+)",
-                                (TkRegex)req -> base.target(
+                                (TkRegex) req -> base.target(
                                     new URL(req.matcher().group(1)),
                                     System.currentTimeMillis()
                                 ).act(req)
@@ -157,7 +157,7 @@ public final class TkApp extends TkWrap {
                                                         ),
                                                         new FkRegex(
                                                             "/",
-                                                            (Take)request -> new RsPage(
+                                                            (Take) request -> new RsPage(
                                                                 "/xsl/index.xsl",
                                                                 request
                                                             )
@@ -180,7 +180,7 @@ public final class TkApp extends TkWrap {
                 "Vary: Cookie"
             ),
             new Fallback() {
-                @Override public Opt<Response> route(RqFallback req) {
+                @Override public Opt<Response> route(final RqFallback req) {
                     return new Opt.Single<>(
                         new RsWithStatus(
                             new RsText(req.throwable().getMessage()),

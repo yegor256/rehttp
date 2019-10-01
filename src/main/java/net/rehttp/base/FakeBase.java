@@ -53,7 +53,7 @@ public final class FakeBase implements Base {
      * Ctor.
      * @param target The take as a target.
      */
-    public FakeBase(Take target) {
+    public FakeBase(final Take target) {
         this.target = target;
     }
 
