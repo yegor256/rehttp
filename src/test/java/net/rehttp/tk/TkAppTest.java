@@ -34,6 +34,7 @@ import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.takes.Request;
 import org.takes.Take;
 import org.takes.http.FtRemote;
 import org.takes.rq.RqFake;
@@ -144,6 +145,36 @@ public final class TkAppTest {
                 take.act(new RqFake("HEAD", "/not-found"))
             ).printBody(),
             Matchers.equalTo("Page not found")
+        );
+    }
+
+    @Test
+    public void responseBodyContainsRuntimeExceptionMessageOnly() throws Exception {
+        final String msg = "Execution error";
+        final Take take = new TkApp(
+            new FakeBase(
+                req -> {
+                    throw new RuntimeException(msg);
+                }
+            )
+        );
+        final Request rq = new RqFake(
+            new ListOf<>(
+                String.format(
+                    "GET /%s",
+                    URLEncoder.encode(
+                        "http://www.yegor256.com", "UTF-8"
+                    )
+                ),
+                "Host: p.rehttp.net"
+            ),
+            ""
+        );
+        MatcherAssert.assertThat(
+            new RsPrint(
+                take.act(rq)
+            ).printBody(),
+            Matchers.endsWith(msg)
         );
     }
 

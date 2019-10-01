@@ -37,9 +37,29 @@ import org.takes.rs.RsText;
  */
 public final class FakeBase implements Base {
 
+    /**
+     * The take as a target.
+     */
+    private final Take target;
+
+    /**
+     * Ctor.
+     */
+    public FakeBase() {
+        this(request -> new RsText("Everything is fine"));
+    }
+
+    /**
+     * Ctor.
+     * @param target The take as a target.
+     */
+    public FakeBase(Take target) {
+        this.target = target;
+    }
+
     @Override
     public Take target(final URL url, final long time) {
-        return request -> new RsText("Everything is fine");
+        return this.target;
     }
 
     @Override
