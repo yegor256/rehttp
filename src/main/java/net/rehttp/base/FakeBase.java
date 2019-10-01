@@ -40,7 +40,7 @@ public final class FakeBase implements Base {
     /**
      * The take as a target.
      */
-    private final Take target;
+    private final Take take;
 
     /**
      * Ctor.
@@ -51,15 +51,15 @@ public final class FakeBase implements Base {
 
     /**
      * Ctor.
-     * @param target The take as a target.
+     * @param take The take as a target.
      */
-    public FakeBase(final Take target) {
-        this.target = target;
+    public FakeBase(final Take take) {
+        this.take = take;
     }
 
     @Override
     public Take target(final URL url, final long time) {
-        return this.target;
+        return this.take;
     }
 
     @Override

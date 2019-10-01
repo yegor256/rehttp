@@ -149,7 +149,7 @@ public final class TkAppTest {
         final Take take = new TkApp(
             new FakeBase(
                 req -> {
-                    throw new RuntimeException(msg);
+                    throw new IllegalArgumentException(msg);
                 }
             )
         );
