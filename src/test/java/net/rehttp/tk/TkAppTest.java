@@ -60,7 +60,7 @@ public final class TkAppTest {
         MatcherAssert.assertThat(
             new RsPrint(
                 new TkApp(new FakeBase()).act(
-                    throughRequest()
+                    this.throughRequest()
                 )
             ).print(),
             Matchers.startsWith("HTTP/1.1 200")
@@ -155,7 +155,7 @@ public final class TkAppTest {
         );
         MatcherAssert.assertThat(
             new RsPrint(
-                take.act(throughRequest())
+                take.act(this.throughRequest())
             ).printBody(),
             Matchers.endsWith(msg)
         );
@@ -164,7 +164,8 @@ public final class TkAppTest {
     /**
      * Produce request with header that can pass a request through.
      * @return Request with header.
-     * @throws UnsupportedEncodingException If the named encoding is not supported
+     * @throws UnsupportedEncodingException If the named encoding
+     *  is not supported
      */
     private Request throughRequest() throws UnsupportedEncodingException {
         return new RqFake(
