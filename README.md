@@ -1,4 +1,4 @@
-<img src="https://www.rehttp.net/images/logo.svg?x" width="92px" height="92px"/>
+<img src="https://www.rehttp.net/images/logo.svg" width="92px" height="92px"/>
 
 [![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RFVLU72.svg)](https://www.0crat.com/contrib/C3RFVLU72)
 
