@@ -27,6 +27,7 @@ import com.jcabi.http.response.RestResponse;
 import com.jcabi.http.response.XmlResponse;
 import com.jcabi.http.wire.VerboseWire;
 import com.jcabi.matchers.XhtmlMatchers;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import net.rehttp.base.FakeBase;
@@ -34,6 +35,7 @@ import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.takes.Request;
 import org.takes.Take;
 import org.takes.http.FtRemote;
 import org.takes.rq.RqFake;
@@ -58,18 +60,7 @@ public final class TkAppTest {
         MatcherAssert.assertThat(
             new RsPrint(
                 new TkApp(new FakeBase()).act(
-                    new RqFake(
-                        new ListOf<>(
-                            String.format(
-                                "GET /%s",
-                                URLEncoder.encode(
-                                    "http://www.yegor256.com", "UTF-8"
-                                )
-                            ),
-                            "Host: p.rehttp.net"
-                        ),
-                        ""
-                    )
+                    this.throughRequest()
                 )
             ).print(),
             Matchers.startsWith("HTTP/1.1 200")
@@ -147,4 +138,47 @@ public final class TkAppTest {
         );
     }
 
+    /**
+     * App can return a response with error message
+     * when a RintimeException throws.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    public void responseBodyContainsErrorMessageOnly() throws Exception {
+        final String msg = "Execution error";
+        final Take take = new TkApp(
+            new FakeBase(
+                req -> {
+                    throw new IllegalArgumentException(msg);
+                }
+            )
+        );
+        MatcherAssert.assertThat(
+            new RsPrint(
+                take.act(this.throughRequest())
+            ).printBody(),
+            Matchers.endsWith(msg)
+        );
+    }
+
+    /**
+     * Produce request with header that can pass a request through.
+     * @return Request with header.
+     * @throws UnsupportedEncodingException If the named encoding
+     *  is not supported
+     */
+    private Request throughRequest() throws UnsupportedEncodingException {
+        return new RqFake(
+            new ListOf<>(
+                String.format(
+                    "GET /%s",
+                    URLEncoder.encode(
+                        "http://www.yegor256.com", "UTF-8"
+                    )
+                ),
+                "Host: p.rehttp.net"
+            ),
+            ""
+        );
+    }
 }
