@@ -72,12 +72,27 @@ public final class TkAppTest {
      * @throws Exception If some problem inside
      */
     @Test
+    public void simpleHomePage() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake("GET", "/")
+                )
+            ).print(),
+            Matchers.containsString("<?xml")
+        );
+    }
+
+    /**
+     * App can render front page.
+     * @throws Exception If some problem inside
+     */
+    @Test
     public void rendersHomePage() throws Exception {
-        final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
             XhtmlMatchers.xhtml(
                 new RsPrint(
-                    take.act(
+                    new TkApp(new FakeBase()).act(
                         new RqWithHeader(
                             new RqFake("GET", "/"),
                             // @checkstyle MultipleStringLiteralsCheck (1 line)

@@ -32,8 +32,8 @@ import net.rehttp.Dynamo;
 import net.rehttp.Retry;
 import net.rehttp.base.Base;
 import net.rehttp.base.DyBase;
-import org.cactoos.func.RunnableOf;
 import org.cactoos.list.ListOf;
+import org.cactoos.proc.RunnableOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -95,7 +95,7 @@ public final class TkAppITCase {
                     ).print(),
                     Matchers.startsWith("HTTP/1.1 500")
                 );
-                final Runnable retry = new RunnableOf<>(new Retry(base));
+                final Runnable retry = new RunnableOf(new Retry(base));
                 for (int idx = 0; idx < Tv.TEN; ++idx) {
                     retry.run();
                 }

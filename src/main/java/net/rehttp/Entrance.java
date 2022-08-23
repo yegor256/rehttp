@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import net.rehttp.base.Base;
 import net.rehttp.base.DyBase;
 import net.rehttp.tk.TkApp;
-import org.cactoos.func.RunnableOf;
+import org.cactoos.proc.RunnableOf;
 import org.takes.http.Exit;
 import org.takes.http.FtCli;
 
@@ -60,7 +60,7 @@ public final class Entrance {
         Sentry.init(Manifests.read("Rehttp-SentryDsn"));
         final Base base = new DyBase(new Dynamo());
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
-            new RunnableOf<>(new VerboseCallable<Void>(new Retry(base), true)),
+            new RunnableOf(new VerboseCallable<Void>(new Retry(base), true)),
             1L, 1L, TimeUnit.MINUTES
         );
         new FtCli(new TkApp(base), args).start(Exit.NEVER);

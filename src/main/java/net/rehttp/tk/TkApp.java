@@ -27,10 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import net.rehttp.base.Base;
-import org.takes.Response;
 import org.takes.Take;
-import org.takes.facets.fallback.Fallback;
-import org.takes.facets.fallback.RqFallback;
 import org.takes.facets.fallback.TkFallback;
 import org.takes.facets.flash.TkFlash;
 import org.takes.facets.fork.FkFixed;
@@ -40,7 +37,6 @@ import org.takes.facets.fork.TkFork;
 import org.takes.facets.fork.TkRegex;
 import org.takes.facets.forward.TkForward;
 import org.takes.misc.Opt;
-import org.takes.misc.Sprintf;
 import org.takes.rq.RqHref;
 import org.takes.rs.RsText;
 import org.takes.rs.RsWithStatus;
@@ -176,19 +172,15 @@ public final class TkApp extends TkWrap {
                         )
                     )
                 ),
-                new Sprintf("X-Rehttp-Revision: %s", TkApp.REV).toString(),
+                String.format("X-Rehttp-Revision: %s", TkApp.REV),
                 "Vary: Cookie"
             ),
-            new Fallback() {
-                @Override public Opt<Response> route(final RqFallback req) {
-                    return new Opt.Single<>(
-                        new RsWithStatus(
-                            new RsText(req.throwable().getMessage()),
-                            req.code()
-                        )
-                    );
-                }
-            }
+            req -> new Opt.Single<>(
+                new RsWithStatus(
+                    new RsText(req.throwable().getMessage()),
+                    req.code()
+                )
+            )
         );
     }
 }

@@ -36,15 +36,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Map;
 import org.cactoos.io.InputStreamOf;
+import org.cactoos.iterable.Joined;
 import org.cactoos.iterable.Skipped;
 import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
-import org.cactoos.map.StickyMap;
-import org.cactoos.text.SubText;
+import org.cactoos.map.MapOf;
+import org.cactoos.text.Sub;
+import org.takes.Head;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
-import org.takes.misc.Concat;
 import org.takes.rq.RqGreedy;
 import org.takes.rq.RqLive;
 import org.takes.rq.RqMethod;
@@ -84,7 +85,8 @@ final class DyTake implements Take {
     }
 
     @Override
-    public Response act(final Request req) throws IOException {
+    @SuppressWarnings("unchecked")
+    public Response act(final Request req) throws Exception {
         final URI uri = URI.create(this.item.get("url").getS());
         Request request = req;
         if (this.item.has("request")) {
@@ -125,7 +127,7 @@ final class DyTake implements Take {
                     "response",
                     new AttributeValueUpdate().withValue(
                         new AttributeValue().withS(
-                            new SubText(
+                            new Sub(
                                 new RsPrint(response).print(), 0,
                                 Tv.TWENTY * Tv.THOUSAND
                             ).asString()
@@ -181,7 +183,9 @@ final class DyTake implements Take {
                 )
             );
         }
-        this.item.put(new StickyMap<>(update));
+        this.item.put(
+            new MapOf<>((Iterable) update)
+        );
         return response;
     }
 
@@ -191,7 +195,7 @@ final class DyTake implements Take {
      * @return Code
      * @throws IOException If fails
      */
-    private static int code(final Response response) throws IOException {
+    private static int code(final Head response) throws IOException {
         final String head = response.head().iterator().next();
         final String[] parts = head.split(" ");
         return Integer.parseInt(parts[1]);
@@ -218,7 +222,7 @@ final class DyTake implements Take {
         return new Request() {
             @Override
             public Iterable<String> head() throws IOException {
-                return new Concat<>(
+                return new Joined<String>(
                     Collections.singleton(
                         String.format(
                             "%s %s HTTP/1.1",

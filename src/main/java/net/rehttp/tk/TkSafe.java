@@ -23,7 +23,6 @@
 package net.rehttp.tk;
 
 import io.sentry.Sentry;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.takes.Request;
 import org.takes.Response;
@@ -72,7 +71,7 @@ public class TkSafe implements Take {
                     )
                 ),
                 req -> {
-                    Sentry.capture(req.throwable());
+                    Sentry.captureException(req.throwable());
                     return new Opt.Empty<>();
                 },
                 req -> new TkFatal().route(req)
@@ -81,7 +80,7 @@ public class TkSafe implements Take {
     }
 
     @Override
-    public final Response act(final Request req) throws IOException {
+    public final Response act(final Request req) throws Exception {
         return this.take.act(req);
     }
 }

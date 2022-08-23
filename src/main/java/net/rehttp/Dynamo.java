@@ -60,7 +60,7 @@ public final class Dynamo implements Region {
      */
     private static Region connect() {
         final String key = Manifests.read("Rehttp-DynamoKey");
-        final Credentials creds = new Credentials.Simple(
+        final Credentials.Simple creds = new Credentials.Simple(
             key, Manifests.read("Rehttp-DynamoSecret")
         );
         final Region region;

@@ -28,8 +28,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import net.rehttp.base.Base;
+import org.cactoos.iterable.HeadOf;
 import org.cactoos.iterable.Joined;
-import org.cactoos.iterable.Limited;
 import org.cactoos.list.ListOf;
 import org.takes.Request;
 import org.takes.Response;
@@ -37,7 +37,6 @@ import org.takes.Take;
 import org.takes.rq.RqHref;
 import org.takes.rs.xe.XeAppend;
 import org.takes.rs.xe.XeDirectives;
-import org.xembly.Directive;
 
 /**
  * Info about URL.
@@ -79,8 +78,8 @@ final class TkInfo implements Take {
                 new XeAppend(
                     "targets",
                     new XeDirectives(
-                        new Joined<Directive>(
-                            new Limited<Iterable<Directive>>(
+                        new Joined<>(
+                            new HeadOf<>(
                                 Tv.TWENTY,
                                 this.base.status(url).failures(Long.MAX_VALUE)
                             )
@@ -90,8 +89,8 @@ final class TkInfo implements Take {
                 new XeAppend(
                     "history",
                     new XeDirectives(
-                        new Joined<Directive>(
-                            new Limited<Iterable<Directive>>(
+                        new Joined<>(
+                            new HeadOf<>(
                                 Tv.TEN,
                                 this.base.status(url).history(Long.MAX_VALUE)
                             )

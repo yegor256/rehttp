@@ -25,6 +25,7 @@ package net.rehttp.tk;
 import com.jcabi.manifests.Manifests;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import org.cactoos.text.IoCheckedText;
 import org.cactoos.text.TextOf;
 import org.takes.Response;
 import org.takes.facets.fallback.Fallback;
@@ -52,7 +53,7 @@ public class TkFatal implements Fallback {
                         TkApp.class.getResource("error.html.vm"),
                         new RsVelocity.Pair(
                             "err",
-                            new TextOf(req.throwable()).asString()
+                            new IoCheckedText(new TextOf(req.throwable())).asString()
                         ),
                         new RsVelocity.Pair(
                             "rev",

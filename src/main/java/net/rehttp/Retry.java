@@ -22,7 +22,6 @@
  */
 package net.rehttp;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 import net.rehttp.base.Base;
 import org.takes.Request;
@@ -52,7 +51,7 @@ public final class Retry implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws IOException {
+    public Void call() throws Exception {
         final Request req = new RqFake();
         for (final Take take : this.base.expired()) {
             take.act(req);

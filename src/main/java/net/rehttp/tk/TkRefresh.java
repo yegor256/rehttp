@@ -71,7 +71,7 @@ public class TkRefresh implements Take {
     }
 
     @Override
-    public final Response act(final Request req) throws IOException {
+    public final Response act(final Request req) throws Exception {
         return this.take.act(req);
     }
 }
