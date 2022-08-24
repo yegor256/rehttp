@@ -79,7 +79,7 @@ public final class TkAppTest {
                     new RqFake("GET", "/")
                 )
             ).print(),
-            Matchers.containsString("<?xml")
+            Matchers.containsString("<!DOCTYPE html")
         );
     }
 
@@ -89,6 +89,18 @@ public final class TkAppTest {
      */
     @Test
     public void rendersHomePage() throws Exception {
+        System.out.println(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqWithHeader(
+                        new RqFake("GET", "/"),
+                        // @checkstyle MultipleStringLiteralsCheck (1 line)
+                        "Accept",
+                        "text/xml"
+                    )
+                )
+            ).printBody()
+        );
         MatcherAssert.assertThat(
             XhtmlMatchers.xhtml(
                 new RsPrint(
