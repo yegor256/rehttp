@@ -36,6 +36,8 @@ import org.cactoos.list.ListOf;
 import org.cactoos.proc.RunnableOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.takes.Response;
 import org.takes.Take;
@@ -51,6 +53,13 @@ import org.takes.rs.RsWithStatus;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class TkAppITCase {
+
+    @BeforeEach
+    public void resourcesAvailable() {
+        Assumptions.assumeFalse(
+            TkAppTest.class.getResourceAsStream("/xsl/index.xsl") == null
+        );
+    }
 
     @Test
     void passesRequestThrough() throws Exception {

@@ -23,14 +23,13 @@
 package net.rehttp.tk;
 
 import java.net.HttpURLConnection;
-import java.util.Arrays;
-import java.util.Collection;
 import net.rehttp.base.FakeBase;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.takes.Take;
 import org.takes.facets.hamcrest.HmRsStatus;
 import org.takes.rq.RqFake;
@@ -43,31 +42,30 @@ import org.takes.rq.RqFake;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle VisibilityModifierCheck (500 lines)
  */
-@RunWith(Parameterized.class)
 final class PingingTest {
 
-    @Parameterized.Parameter
-    public String url;
-
-    @Parameterized.Parameters(name = "{0}")
-    public static Collection<Object[]> params() {
-        return Arrays.asList(
-            new Object[][] {
-                {"/?x=y"},
-                {"/robots.txt"},
-                {"/xsl/layout.xsl"},
-                {"/css/main.css"},
-                {"/images/logo.svg"},
-            }
+    @BeforeEach
+    public void resourcesAvailable() {
+        Assumptions.assumeFalse(
+            TkAppTest.class.getResourceAsStream("/xsl/index.xsl") == null
         );
     }
 
-    @Test
-    void rendersAllPossibleUrls() throws Exception {
+    @ParameterizedTest
+    @CsvSource(
+        {
+            "/?x=y",
+            "/robots.txt",
+            "/xsl/layout.xsl",
+            "/css/main.css",
+            "/images/logo.svg",
+        }
+    )
+    void rendersAllPossibleUrls(final String url) throws Exception {
         final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
-            this.url,
-            take.act(new RqFake("INFO", this.url)),
+            url,
+            take.act(new RqFake("INFO", url)),
             Matchers.not(
                 new HmRsStatus(
                     HttpURLConnection.HTTP_NOT_FOUND
