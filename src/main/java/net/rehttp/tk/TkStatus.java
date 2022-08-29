@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -38,8 +38,6 @@ import org.takes.rs.RsWithStatus;
 /**
  * Status for the URL.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

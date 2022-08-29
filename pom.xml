@@ -26,7 +26,7 @@ software.
   <parent>
     <groupId>com.jcabi</groupId>
     <artifactId>parent</artifactId>
-    <version>0.60.4</version>
+    <version>0.60.5</version>
   </parent>
   <groupId>net.rehttp</groupId>
   <artifactId>rehttp</artifactId>
@@ -34,11 +34,11 @@ software.
   <packaging>jar</packaging>
   <name>rehttp</name>
   <description>rehttp</description>
-  <url>http://www.rehttp.net</url>
+  <url>https://www.rehttp.net</url>
   <inceptionYear>2017</inceptionYear>
   <organization>
     <name>Yegor Bugayenko</name>
-    <url>http://www.zerocracy.com</url>
+    <url>https://www.zerocracy.com</url>
   </organization>
   <licenses>
     <license>
@@ -53,12 +53,12 @@ software.
       <name>Yegor Bugayenko</name>
       <email>yegor256@gmail.com</email>
       <organization>Zerocracy</organization>
-      <organizationUrl>http://www.zerocracy.com</organizationUrl>
+      <organizationUrl>https://www.zerocracy.com</organizationUrl>
       <roles>
         <role>Architect</role>
         <role>Developer</role>
       </roles>
-      <timezone>-7</timezone>
+      <timezone>+3</timezone>
     </developer>
   </developers>
   <issueManagement>
@@ -71,11 +71,11 @@ software.
     <url>https://github.com/yegor256/rehttp</url>
   </scm>
   <ciManagement>
-    <system>travis</system>
-    <url>https://travis-ci.org/yegor256/rehttp</url>
+    <system>GitHub</system>
+    <url>https://github.com/yegor256/rehttp</url>
   </ciManagement>
   <properties>
-    <timestamp>${maven.build.timestamp}</timestamp>
+    <argLine/>
   </properties>
   <dependencies>
     <dependency>
@@ -86,12 +86,12 @@ software.
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-dynamodb</artifactId>
-      <version>1.12.286</version>
+      <version>1.12.290</version>
     </dependency>
     <dependency>
       <groupId>org.takes</groupId>
       <artifactId>takes</artifactId>
-      <version>1.24.3</version>
+      <version>1.24.4</version>
     </dependency>
     <dependency>
       <groupId>org.cactoos</groupId>
@@ -100,21 +100,14 @@ software.
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
+      <artifactId>hamcrest</artifactId>
       <version>2.2</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-core</artifactId>
-      <version>2.2</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>javax.json</groupId>
@@ -154,12 +147,12 @@ software.
     <dependency>
       <groupId>com.jcabi.incubator</groupId>
       <artifactId>xembly</artifactId>
-      <version>0.27.0</version>
+      <version>0.28.1</version>
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>
       <artifactId>jcabi-xml</artifactId>
-      <version>0.25.1</version>
+      <version>0.25.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
@@ -213,13 +206,6 @@ software.
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.8</version>
@@ -227,13 +213,13 @@ software.
         <plugin>
           <artifactId>maven-failsafe-plugin</artifactId>
           <configuration>
-            <argLine>-Djava.awt.headless=true</argLine>
+            <argLine>@{argLine} -Djava.awt.headless=true</argLine>
           </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
-            <argLine>-Duser.language=en -Duser.region=US -Djava.awt.headless=true</argLine>
+            <argLine>@{argLine} -Duser.language=en -Duser.region=US -Djava.awt.headless=true</argLine>
           </configuration>
         </plugin>
       </plugins>
@@ -278,7 +264,7 @@ software.
           <plugin>
             <groupId>com.samaxes.maven</groupId>
             <artifactId>minify-maven-plugin</artifactId>
-            <version>1.7.2</version>
+            <version>1.7.6</version>
             <configuration>
               <charset>UTF-8</charset>
               <nosuffix>true</nosuffix>
@@ -382,7 +368,7 @@ software.
           <plugin>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-dynamodb-maven-plugin</artifactId>
-            <version>0.7.1</version>
+            <version>0.10.0</version>
             <executions>
               <execution>
                 <id>dynamodb-integration-test</id>
@@ -505,7 +491,7 @@ software.
           <plugin>
             <groupId>com.qulice</groupId>
             <artifactId>qulice-maven-plugin</artifactId>
-            <version>0.16.2</version>
+            <version>0.22.0</version>
             <configuration>
               <excludes combine.children="append">
                 <exclude>checkstyle:/src/main/resources/images/.*</exclude>

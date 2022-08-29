@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -31,25 +31,19 @@ import org.cactoos.io.TeeInput;
 import org.cactoos.list.ListOf;
 import org.cactoos.text.TextOf;
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.takes.rq.RqFake;
 import org.takes.rs.RsPrint;
 
 /**
  * Test case for {@link TkBadge}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class TkBadgeTest {
+final class TkBadgeTest {
 
-    /**
-     * TkBadge can render an SVG badge.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersSvgBadge() throws Exception {
+    void rendersSvgBadge() throws Exception {
         MatcherAssert.assertThat(
             XhtmlMatchers.xhtml(
                 new TextOf(

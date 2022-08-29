@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -28,7 +28,7 @@ import java.util.Collection;
 import net.rehttp.base.FakeBase;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.takes.Take;
@@ -37,8 +37,6 @@ import org.takes.rq.RqFake;
 
 /**
  * Test case for {@link TkApp}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocVariableCheck (500 lines)
@@ -46,7 +44,7 @@ import org.takes.rq.RqFake;
  * @checkstyle VisibilityModifierCheck (500 lines)
  */
 @RunWith(Parameterized.class)
-public final class PingingTest {
+final class PingingTest {
 
     @Parameterized.Parameter
     public String url;
@@ -65,7 +63,7 @@ public final class PingingTest {
     }
 
     @Test
-    public void rendersAllPossibleUrls() throws Exception {
+    void rendersAllPossibleUrls() throws Exception {
         final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
             this.url,

@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -34,7 +34,9 @@ import net.rehttp.base.FakeBase;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.takes.Request;
 import org.takes.Take;
 import org.takes.http.FtRemote;
@@ -44,19 +46,20 @@ import org.takes.rs.RsPrint;
 
 /**
  * Test case for {@link TkApp}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class TkAppTest {
+final class TkAppTest {
 
-    /**
-     * App can pass a request through.
-     * @throws Exception If some problem inside
-     */
+    @BeforeEach
+    public void resourcesAvailable() {
+        Assumptions.assumeFalse(
+            TkAppTest.class.getResourceAsStream("/xsl/index.xsl") == null
+        );
+    }
+
     @Test
-    public void passesRequestThrough() throws Exception {
+    void passesRequestThrough() throws Exception {
         MatcherAssert.assertThat(
             new RsPrint(
                 new TkApp(new FakeBase()).act(
@@ -67,12 +70,8 @@ public final class TkAppTest {
         );
     }
 
-    /**
-     * App can render front page.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void simpleHomePage() throws Exception {
+    void simpleHomePage() throws Exception {
         MatcherAssert.assertThat(
             new RsPrint(
                 new TkApp(new FakeBase()).act(
@@ -83,31 +82,14 @@ public final class TkAppTest {
         );
     }
 
-    /**
-     * App can render front page.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersHomePage() throws Exception {
-        System.out.println(
-            new RsPrint(
-                new TkApp(new FakeBase()).act(
-                    new RqWithHeader(
-                        new RqFake("GET", "/"),
-                        // @checkstyle MultipleStringLiteralsCheck (1 line)
-                        "Accept",
-                        "text/xml"
-                    )
-                )
-            ).printBody()
-        );
+    void rendersHomePage() throws Exception {
         MatcherAssert.assertThat(
             XhtmlMatchers.xhtml(
                 new RsPrint(
                     new TkApp(new FakeBase()).act(
                         new RqWithHeader(
                             new RqFake("GET", "/"),
-                            // @checkstyle MultipleStringLiteralsCheck (1 line)
                             "Accept",
                             "text/xml"
                         )
@@ -123,12 +105,26 @@ public final class TkAppTest {
         );
     }
 
-    /**
-     * App can render front page.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersHomePageViaHttp() throws Exception {
+    void rendersHomePageAsHtml() throws Exception {
+        MatcherAssert.assertThat(
+            XhtmlMatchers.xhtml(
+                new RsPrint(
+                    new TkApp(new FakeBase()).act(
+                        new RqWithHeader(
+                            new RqFake("GET", "/"),
+                            "Accept",
+                            "text/html"
+                        )
+                    )
+                ).printBody()
+            ),
+            XhtmlMatchers.hasXPath("//xhtml:body")
+        );
+    }
+
+    @Test
+    void rendersHomePageViaHttp() throws Exception {
         final Take app = new TkApp(new FakeBase());
         new FtRemote(app).exec(
             home -> {
@@ -150,12 +146,8 @@ public final class TkAppTest {
         );
     }
 
-    /**
-     * App can render not found.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersNotFoundPage() throws Exception {
+    void rendersNotFoundPage() throws Exception {
         final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
             new RsPrint(
@@ -165,13 +157,8 @@ public final class TkAppTest {
         );
     }
 
-    /**
-     * App can return a response with error message
-     * when a RintimeException throws.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void responseBodyContainsErrorMessageOnly() throws Exception {
+    void responseBodyContainsErrorMessageOnly() throws Exception {
         final String msg = "Execution error";
         final Take take = new TkApp(
             new FakeBase(

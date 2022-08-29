@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -36,7 +36,7 @@ import org.cactoos.list.ListOf;
 import org.cactoos.proc.RunnableOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.takes.Response;
 import org.takes.Take;
 import org.takes.http.FtRemote;
@@ -47,19 +47,13 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Integration case for {@link TkApp}.
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class TkAppITCase {
+final class TkAppITCase {
 
-    /**
-     * App can pass a request through.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void passesRequestThrough() throws Exception {
+    void passesRequestThrough() throws Exception {
         final AtomicInteger count = new AtomicInteger(3);
         final Take take = req -> {
             final Response response;

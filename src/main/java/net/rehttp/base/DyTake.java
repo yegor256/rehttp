@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -56,8 +56,6 @@ import org.takes.tk.TkProxy;
 /**
  * Take in DynamoDB.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
@@ -85,7 +83,7 @@ final class DyTake implements Take {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "PMD.ExcessiveMethodLength" })
     public Response act(final Request req) throws Exception {
         final URI uri = URI.create(this.item.get("url").getS());
         Request request = req;
@@ -233,6 +231,7 @@ final class DyTake implements Take {
                     new Skipped<>(1, req.head())
                 );
             }
+
             @Override
             public InputStream body() throws IOException {
                 return req.body();

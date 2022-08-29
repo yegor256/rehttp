@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -38,8 +38,6 @@ import org.takes.tk.TkFiles;
  * Fork by hit-refresh header.
  * To refresh resources.
  *
- * @author Eugene Nikolaev (eug.nikolaev@gmail.com)
- * @version $Id$
  * @since 1.0
  */
 public class TkRefresh implements Take {

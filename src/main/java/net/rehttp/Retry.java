@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -31,8 +31,6 @@ import org.takes.rq.RqFake;
 /**
  * Retry them all.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 1.0
  */
 public final class Retry implements Callable<Void> {

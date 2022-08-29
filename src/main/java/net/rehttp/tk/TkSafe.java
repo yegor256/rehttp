@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2017-2019 Yegor Bugayenko
@@ -37,8 +37,6 @@ import org.takes.rs.RsWithStatus;
 /**
  * Authenticated take.
  *
- * @author Eugene Nikolaev (eug.nikolaev@gmail.com)
- * @version $Id$
  * @since 1.0
  */
 public class TkSafe implements Take {
