@@ -1,7 +1,5 @@
 <img alt="logo" src="https://www.rehttp.net/images/logo.svg" width="92px" height="92px"/>
 
-[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RFVLU72.svg)](https://www.0crat.com/contrib/C3RFVLU72)
-
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![Managed by Zerocracy](https://www.0crat.com/badge/C3RFVLU72.svg)](http://www.zerocracy.com)
 [![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/rehttp)](http://www.rultor.com/p/yegor256/rehttp)
