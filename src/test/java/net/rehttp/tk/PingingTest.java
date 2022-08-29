@@ -58,7 +58,7 @@ final class PingingTest {
             "/robots.txt",
             "/xsl/layout.xsl",
             "/css/main.css",
-            "/images/logo.svg",
+            "/images/logo.svg"
         }
     )
     void rendersAllPossibleUrls(final String url) throws Exception {
