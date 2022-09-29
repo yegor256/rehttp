@@ -86,7 +86,7 @@ software.
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-dynamodb</artifactId>
-      <version>1.12.312</version>
+      <version>1.12.313</version>
     </dependency>
     <dependency>
       <groupId>org.takes</groupId>
