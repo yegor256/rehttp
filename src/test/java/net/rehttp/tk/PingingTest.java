@@ -57,6 +57,7 @@ final class PingingTest {
             "/?x=y",
             "/robots.txt",
             "/xsl/layout.xsl",
+            "/xsl/index.xsl",
             "/css/main.css",
             "/images/logo.svg"
         }

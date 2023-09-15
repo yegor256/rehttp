@@ -117,7 +117,9 @@ public final class TkApp extends TkWrap {
                                                             "/xsl/[a-z\\-]+\\.xsl",
                                                             new TkWithType(
                                                                 new TkRefresh(
-                                                                    new File("./src/main/xsl")
+                                                                    new File(
+                                                                        "./src/main/resources/xsl"
+                                                                    )
                                                                 ),
                                                                 "text/xsl"
                                                             )

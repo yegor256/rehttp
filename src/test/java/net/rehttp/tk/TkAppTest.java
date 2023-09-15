@@ -58,6 +58,18 @@ final class TkAppTest {
     }
 
     @Test
+    void returnsXslStylesheet() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake("GET", "/xsl/index.xsl")
+                )
+            ).printBody(),
+            Matchers.startsWith("<?xml")
+        );
+    }
+
+    @Test
     void passesRequestThrough() throws Exception {
         MatcherAssert.assertThat(
             new RsPrint(
@@ -128,6 +140,7 @@ final class TkAppTest {
         new FtRemote(app).exec(
             home -> {
                 new JdkRequest(home)
+                    .header("Accept", "text/plain")
                     .fetch()
                     .as(RestResponse.class)
                     .assertStatus(HttpURLConnection.HTTP_OK)
