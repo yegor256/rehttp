@@ -22,7 +22,9 @@
  */
 package net.rehttp.base;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import org.cactoos.list.ListOf;
 import org.takes.Take;
@@ -61,8 +63,12 @@ public final class FakeBase implements Base {
     }
 
     @Override
-    public Iterable<Take> expired() throws MalformedURLException {
-        return new ListOf<>(this.target(new URL("#"), 0L));
+    public Iterable<Take> expired() throws IOException {
+        try {
+            return new ListOf<>(this.target(new URI("#").toURL(), 0L));
+        } catch (final URISyntaxException ex) {
+            throw new IOException(ex);
+        }
     }
 
     @Override

@@ -26,6 +26,8 @@ import com.jcabi.xml.XMLDocument;
 import com.jcabi.xml.XSL;
 import com.jcabi.xml.XSLDocument;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import net.rehttp.base.Base;
 import org.takes.Request;
@@ -68,7 +70,12 @@ final class TkBadge implements Take {
 
     @Override
     public Response act(final Request req) throws IOException {
-        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final URL url;
+        try {
+            url = new URI(new RqHref.Smart(req).single("u")).toURL();
+        } catch (final URISyntaxException ex) {
+            throw new IOException(ex);
+        }
         return new RsWithType(
             new RsWithHeaders(
                 new RsWithBody(

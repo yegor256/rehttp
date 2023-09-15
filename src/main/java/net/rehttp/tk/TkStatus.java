@@ -24,6 +24,8 @@ package net.rehttp.tk;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import net.rehttp.base.Base;
 import org.cactoos.scalar.IoChecked;
@@ -58,7 +60,12 @@ final class TkStatus implements Take {
 
     @Override
     public Response act(final Request req) throws IOException {
-        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final URL url;
+        try {
+            url = new URI(new RqHref.Smart(req).single("u")).toURL();
+        } catch (final URISyntaxException ex) {
+            throw new IOException(ex);
+        }
         final int errors = new IoChecked<>(
             new LengthOf(
                 this.base.status(url).failures(

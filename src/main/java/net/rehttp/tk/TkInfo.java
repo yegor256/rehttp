@@ -24,6 +24,8 @@ package net.rehttp.tk;
 
 import com.jcabi.aspects.Tv;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -61,7 +63,12 @@ final class TkInfo implements Take {
 
     @Override
     public Response act(final Request req) throws IOException {
-        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final URL url;
+        try {
+            url = new URI(new RqHref.Smart(req).single("u")).toURL();
+        } catch (final URISyntaxException ex) {
+            throw new IOException(ex);
+        }
         return new RsPage(
             "/xsl/info.xsl",
             req,

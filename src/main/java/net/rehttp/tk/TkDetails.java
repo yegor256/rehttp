@@ -23,6 +23,8 @@
 package net.rehttp.tk;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import net.rehttp.base.Base;
 import org.cactoos.list.ListOf;
@@ -54,7 +56,12 @@ final class TkDetails implements Take {
 
     @Override
     public Response act(final Request req) throws IOException {
-        final URL url = new URL(new RqHref.Smart(req).single("u"));
+        final URL url;
+        try {
+            url = new URI(new RqHref.Smart(req).single("u")).toURL();
+        } catch (final URISyntaxException ex) {
+            throw new IOException(ex);
+        }
         final long time = Long.parseLong(new RqHref.Smart(req).single("t"));
         return new RsPage(
             "/xsl/details.xsl",

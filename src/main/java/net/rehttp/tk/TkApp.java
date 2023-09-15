@@ -25,7 +25,7 @@ package net.rehttp.tk;
 import com.jcabi.manifests.Manifests;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import net.rehttp.base.Base;
 import org.takes.Take;
 import org.takes.facets.fallback.TkFallback;
@@ -90,14 +90,14 @@ public final class TkApp extends TkWrap {
                             new FkHost(
                                 "p.rehttp.net",
                                 req -> base.target(
-                                    new URL(new RqHref.Base(req).href().path().substring(1)),
+                                    new URI(new RqHref.Base(req).href().path().substring(1)).toURL(),
                                     System.currentTimeMillis()
                                 ).act(req)
                             ),
                             new FkRegex(
                                 "/p/(.+)",
                                 (TkRegex) req -> base.target(
-                                    new URL(req.matcher().group(1)),
+                                    new URI(req.matcher().group(1)).toURL(),
                                     System.currentTimeMillis()
                                 ).act(req)
                             ),
