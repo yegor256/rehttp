@@ -1,5 +1,4 @@
 {
-  "TableName": "targets",
   "AttributeDefinitions": [
     {
       "AttributeName": "url",
@@ -22,20 +21,6 @@
       "AttributeType": "N"
     }
   ],
-  "KeySchema": [
-    {
-      "AttributeName": "url",
-      "KeyType": "HASH"
-    },
-    {
-      "AttributeName": "time",
-      "KeyType": "RANGE"
-    }
-  ],
-  "ProvisionedThroughput": {
-    "ReadCapacityUnits": "1",
-    "WriteCapacityUnits": "1"
-  },
   "GlobalSecondaryIndexes": [
     {
       "IndexName": "expired",
@@ -77,5 +62,20 @@
         "WriteCapacityUnits": "1"
       }
     }
-  ]
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "url",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "time",
+      "KeyType": "RANGE"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": "1",
+    "WriteCapacityUnits": "1"
+  },
+  "TableName": "targets"
 }
