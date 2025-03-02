@@ -1,5 +1,6 @@
-target/
-.idea/
 *.iml
 .DS_Store
+.idea/
+node_modules/
+target/
 velocity.log
