@@ -141,7 +141,12 @@ public final class TkApp extends TkWrap {
                                                             )
                                                         ),
                                                         new FkRegex("/i", new TkInfo(base)),
-                                                        new FkRegex("/d", new TkDetails(base)),
+                                                        new FkRegex(
+                                                            "/d",
+                                                            new TkNotFoundSafeDetails(
+                                                                new TkDetails(base)
+                                                            )
+                                                        ),
                                                         new FkRegex("/s", new TkStatus(base)),
                                                         new FkRegex("/b", new TkBadge(base))
                                                     )
