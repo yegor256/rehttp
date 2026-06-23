@@ -58,7 +58,7 @@ public final class TkApp extends TkWrap {
     }
 
     /**
-     * Ctor.
+     * Build the application's {@link Take} pipeline.
      * @param base Base
      * @return App
      * @throws IOException If fails
