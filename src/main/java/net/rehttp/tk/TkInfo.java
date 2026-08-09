@@ -21,12 +21,11 @@ import org.takes.Take;
 import org.takes.rq.RqHref;
 import org.takes.rs.xe.XeAppend;
 import org.takes.rs.xe.XeDirectives;
+import org.takes.rs.xe.XeSource;
 
 /**
  * Info about URL.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class TkInfo implements Take {
 
@@ -51,41 +50,44 @@ final class TkInfo implements Take {
         } catch (final URISyntaxException ex) {
             throw new IOException(ex);
         }
-        return new RsPage(
-            "/xsl/info.xsl",
-            req,
-            () -> new ListOf<>(
-                new XeAppend("url", url.toString()),
-                new XeAppend(
-                    "encoded_url",
-                    URLEncoder.encode(
-                        url.toString(), StandardCharsets.UTF_8.name()
-                    )
-                ),
-                new XeAppend(
-                    "targets",
-                    new XeDirectives(
-                        new Joined<>(
-                            new HeadOf<>(
-                                Tv.TWENTY,
-                                this.base.status(url).failures(Long.MAX_VALUE)
-                            )
+        return new RsPage("/xsl/info.xsl", req, () -> this.xembly(url));
+    }
+
+    /**
+     * Xembly sources describing the URL.
+     * @param url The URL
+     * @return Sources
+     * @throws IOException If fails
+     */
+    private Iterable<XeSource> xembly(final URL url) throws IOException {
+        return new ListOf<>(
+            new XeAppend("url", url.toString()),
+            new XeAppend(
+                "encoded_url",
+                URLEncoder.encode(url.toString(), StandardCharsets.UTF_8)
+            ),
+            new XeAppend(
+                "targets",
+                new XeDirectives(
+                    new Joined<>(
+                        new HeadOf<>(
+                            Tv.TWENTY,
+                            this.base.status(url).failures(Long.MAX_VALUE)
                         )
                     )
-                ),
-                new XeAppend(
-                    "history",
-                    new XeDirectives(
-                        new Joined<>(
-                            new HeadOf<>(
-                                Tv.TEN,
-                                this.base.status(url).history(Long.MAX_VALUE)
-                            )
+                )
+            ),
+            new XeAppend(
+                "history",
+                new XeDirectives(
+                    new Joined<>(
+                        new HeadOf<>(
+                            Tv.TEN,
+                            this.base.status(url).history(Long.MAX_VALUE)
                         )
                     )
                 )
             )
         );
     }
-
 }

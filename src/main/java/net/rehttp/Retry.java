@@ -12,7 +12,6 @@ import org.takes.rq.RqFake;
 
 /**
  * Retry them all.
- *
  * @since 1.0
  */
 public final class Retry implements Callable<Void> {
@@ -38,5 +37,4 @@ public final class Retry implements Callable<Void> {
         }
         return null;
     }
-
 }

@@ -18,7 +18,6 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Authenticated take.
- *
  * @since 1.0
  */
 public class TkSafe implements Take {

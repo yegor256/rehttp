@@ -124,6 +124,11 @@
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>
+      <artifactId>jcabi-aspects</artifactId>
+      <version>0.24.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jcabi</groupId>
       <artifactId>jcabi-dynamo</artifactId>
       <version>0.22.4</version>
     </dependency>
@@ -437,7 +442,7 @@
           <plugin>
             <groupId>com.qulice</groupId>
             <artifactId>qulice-maven-plugin</artifactId>
-            <version>0.22.0</version>
+            <version>0.30.6</version>
             <configuration>
               <excludes combine.children="append">
                 <exclude>checkstyle:/src/main/resources/images/.*</exclude>

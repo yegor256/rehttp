@@ -18,7 +18,6 @@ import org.takes.rs.xe.XeDirectives;
 
 /**
  * Details of request.
- *
  * @since 1.0
  */
 final class TkDetails implements Take {
@@ -55,5 +54,4 @@ final class TkDetails implements Take {
             )
         );
     }
-
 }

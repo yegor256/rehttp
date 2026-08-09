@@ -19,7 +19,6 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Fatal error page.
- *
  * @since 1.0
  */
 public class TkFatal implements Fallback {

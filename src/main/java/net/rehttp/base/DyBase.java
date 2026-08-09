@@ -23,12 +23,8 @@ import org.takes.Take;
 
 /**
  * Base in DynamoDB.
- *
  * @since 1.0
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class DyBase implements Base {
 
     /**
@@ -62,8 +58,7 @@ public final class DyBase implements Base {
     @Override
     public Take target(final URL url, final long time) throws IOException {
         final Collection<Item> items = this.table()
-            .frame()
-            .through(
+            .frame().through(
                 new QueryValve()
                     .withSelect(Select.ALL_ATTRIBUTES)
                     .withLimit(1)
@@ -78,8 +73,7 @@ public final class DyBase implements Base {
                     .with("time", time)
                     .with("code", 0)
                     .with("attempts", 0)
-                    .with("when", System.currentTimeMillis())
-                    .with(
+                    .with("when", System.currentTimeMillis()).with(
                         "ttl",
                         (System.currentTimeMillis()
                             + TimeUnit.DAYS.toMillis(1L))
@@ -97,19 +91,16 @@ public final class DyBase implements Base {
         return new Mapped<>(
             item -> new DyTake(item, this.delay),
             this.table()
-                .frame()
-                .through(
+                .frame().through(
                     new QueryValve()
                         .withIndexName("expired")
                         .withConsistentRead(false)
                         .withSelect(Select.ALL_ATTRIBUTES)
                 )
-                .where("success", Conditions.equalTo(Boolean.toString(false)))
-                .where(
+                .where("success", Conditions.equalTo(Boolean.toString(false))).where(
                     "when",
                     new Condition()
-                        .withComparisonOperator(ComparisonOperator.LT)
-                        .withAttributeValueList(
+                        .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
                             new AttributeValue().withN(
                                 Long.toString(System.currentTimeMillis())
                             )
@@ -130,5 +121,4 @@ public final class DyBase implements Base {
     private Table table() {
         return this.region.table("targets");
     }
-
 }

@@ -33,14 +33,10 @@ import org.takes.tk.TkWrap;
 
 /**
  * App.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  * @checkstyle ClassFanOutComplexityCheck (500 lines)
  * @checkstyle LineLength (500 lines)
  */
-@SuppressWarnings({ "PMD.ExcessiveImports", "PMD.ExcessiveMethodLength" })
 public final class TkApp extends TkWrap {
 
     /**

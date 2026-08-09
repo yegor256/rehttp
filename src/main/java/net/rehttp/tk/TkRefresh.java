@@ -19,7 +19,6 @@ import org.takes.tk.TkFiles;
 /**
  * Fork by hit-refresh header.
  * To refresh resources.
- *
  * @since 1.0
  */
 public class TkRefresh implements Take {
@@ -35,7 +34,7 @@ public class TkRefresh implements Take {
      * @throws IOException If fails
      */
     public TkRefresh(final File path) throws IOException {
-        this.take =  new TkFork(
+        this.take = new TkFork(
             new FkHitRefresh(
                 path,
                 () -> new VerboseProcess(

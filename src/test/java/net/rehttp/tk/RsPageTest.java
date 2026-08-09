@@ -15,7 +15,6 @@ import org.takes.rs.RsPrint;
 /**
  * Test case for {@link RsPage}.
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class RsPageTest {
 

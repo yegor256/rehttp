@@ -5,7 +5,6 @@
 
 /**
  * ReHTTP.
- *
  * @since 1.0
  */
 package net.rehttp;

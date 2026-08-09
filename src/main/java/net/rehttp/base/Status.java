@@ -10,7 +10,6 @@ import org.xembly.Directive;
 
 /**
  * Base.
- *
  * @since 1.0
  */
 public interface Status {
@@ -38,5 +37,4 @@ public interface Status {
      * @throws IOException If fails
      */
     Iterable<Directive> details(long time) throws IOException;
-
 }

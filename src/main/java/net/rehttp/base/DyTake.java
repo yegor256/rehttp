@@ -13,9 +13,9 @@ import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Map;
 import org.cactoos.io.InputStreamOf;
 import org.cactoos.iterable.Joined;
@@ -37,10 +37,7 @@ import org.takes.tk.TkProxy;
 
 /**
  * Take in DynamoDB.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 final class DyTake implements Take {
 
@@ -65,7 +62,7 @@ final class DyTake implements Take {
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "PMD.ExcessiveMethodLength" })
+    @SuppressWarnings("unchecked")
     public Response act(final Request req) throws Exception {
         final URI uri = URI.create(this.item.get("url").getS());
         Request request = req;
@@ -83,10 +80,9 @@ final class DyTake implements Take {
             DyTake.request(request, uri)
         );
         final int code = DyTake.code(response);
-        // @checkstyle MagicNumber (1 line)
         final boolean success = code > 199 && code < 500;
         final Collection<Map.Entry<String, AttributeValueUpdate>> update =
-            new LinkedList<>();
+            new ArrayList<>(Tv.SEVEN);
         update.addAll(
             new ListOf<Map.Entry<String, AttributeValueUpdate>>(
                 new MapEntry<>(
@@ -177,8 +173,8 @@ final class DyTake implements Take {
      */
     private static int code(final Head response) throws IOException {
         final String head = response.head().iterator().next();
-        final String[] parts = head.split(" ");
-        return Integer.parseInt(parts[1]);
+        final int start = head.indexOf(' ') + 1;
+        return Integer.parseInt(head.substring(start, head.indexOf(' ', start)));
     }
 
     /**
@@ -188,7 +184,7 @@ final class DyTake implements Take {
      * @return Request
      */
     private static Request request(final Request req, final URI uri) {
-        final StringBuilder path = new StringBuilder(0);
+        final StringBuilder path = new StringBuilder();
         path.append(uri.getRawPath());
         if (path.length() == 0) {
             path.append('/');
@@ -220,5 +216,4 @@ final class DyTake implements Take {
             }
         };
     }
-
 }

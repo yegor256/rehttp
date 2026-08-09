@@ -32,12 +32,9 @@ import org.takes.rs.xe.XeStylesheet;
 
 /**
  * Index resource, front page of the website.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @EqualsAndHashCode(callSuper = true)
-@SuppressWarnings("PMD.ExcessiveImports")
 final class RsPage extends RsWrap {
 
     /**
@@ -46,7 +43,7 @@ final class RsPage extends RsWrap {
      * @param req Request
      */
     RsPage(final String xsl, final Request req) {
-        super(RsPage.make(xsl, req, Collections::emptyList));
+        this(xsl, req, Collections::emptyList);
     }
 
     /**
@@ -103,5 +100,4 @@ final class RsPage extends RsWrap {
             )
         );
     }
-
 }

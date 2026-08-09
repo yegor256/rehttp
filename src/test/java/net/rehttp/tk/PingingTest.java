@@ -12,22 +12,17 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.takes.Take;
 import org.takes.facets.hamcrest.HmRsStatus;
 import org.takes.rq.RqFake;
 
 /**
  * Test case for {@link TkApp}.
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle JavadocVariableCheck (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle VisibilityModifierCheck (500 lines)
  */
 final class PingingTest {
 
     @BeforeEach
-    public void resourcesAvailable() {
+    void resourcesAvailable() {
         Assumptions.assumeFalse(
             TkAppTest.class.getResourceAsStream("/xsl/index.xsl") == null
         );
@@ -45,10 +40,9 @@ final class PingingTest {
         }
     )
     void rendersAllPossibleUrls(final String url) throws Exception {
-        final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
             url,
-            take.act(new RqFake("INFO", url)),
+            new TkApp(new FakeBase()).act(new RqFake("INFO", url)),
             Matchers.not(
                 new HmRsStatus(
                     HttpURLConnection.HTTP_NOT_FOUND
@@ -56,5 +50,4 @@ final class PingingTest {
             )
         );
     }
-
 }

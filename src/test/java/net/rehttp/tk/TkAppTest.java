@@ -9,9 +9,9 @@ import com.jcabi.http.response.RestResponse;
 import com.jcabi.http.response.XmlResponse;
 import com.jcabi.http.wire.VerboseWire;
 import com.jcabi.matchers.XhtmlMatchers;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import net.rehttp.base.FakeBase;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.takes.Request;
-import org.takes.Take;
 import org.takes.http.FtRemote;
 import org.takes.rq.RqFake;
 import org.takes.rq.RqWithHeader;
@@ -33,7 +32,7 @@ import org.takes.rs.RsPrint;
 final class TkAppTest {
 
     @BeforeEach
-    public void resourcesAvailable() {
+    void resourcesAvailable() {
         Assumptions.assumeFalse(
             TkAppTest.class.getResourceAsStream("/xsl/index.xsl") == null
         );
@@ -118,8 +117,7 @@ final class TkAppTest {
 
     @Test
     void rendersHomePageViaHttp() throws Exception {
-        final Take app = new TkApp(new FakeBase());
-        new FtRemote(app).exec(
+        new FtRemote(new TkApp(new FakeBase())).exec(
             home -> {
                 new JdkRequest(home)
                     .header("Accept", "text/plain")
@@ -142,10 +140,11 @@ final class TkAppTest {
 
     @Test
     void rendersNotFoundPage() throws Exception {
-        final Take take = new TkApp(new FakeBase());
         MatcherAssert.assertThat(
             new RsPrint(
-                take.act(new RqFake("HEAD", "/not-found"))
+                new TkApp(new FakeBase()).act(
+                    new RqFake("HEAD", "/not-found")
+                )
             ).printBody(),
             Matchers.equalTo("Page not found")
         );
@@ -154,16 +153,15 @@ final class TkAppTest {
     @Test
     void responseBodyContainsErrorMessageOnly() throws Exception {
         final String msg = "Execution error";
-        final Take take = new TkApp(
-            new FakeBase(
-                req -> {
-                    throw new IllegalArgumentException(msg);
-                }
-            )
-        );
         MatcherAssert.assertThat(
             new RsPrint(
-                take.act(this.throughRequest())
+                new TkApp(
+                    new FakeBase(
+                        req -> {
+                            throw new IllegalArgumentException(msg);
+                        }
+                    )
+                ).act(this.throughRequest())
             ).printBody(),
             Matchers.endsWith(msg)
         );
@@ -171,17 +169,15 @@ final class TkAppTest {
 
     /**
      * Produce request with header that can pass a request through.
-     * @return Request with header.
-     * @throws UnsupportedEncodingException If the named encoding
-     *  is not supported
+     * @return Request with header
      */
-    private Request throughRequest() throws UnsupportedEncodingException {
+    private Request throughRequest() {
         return new RqFake(
             new ListOf<>(
                 String.format(
                     "GET /%s",
                     URLEncoder.encode(
-                        "http://www.yegor256.com", "UTF-8"
+                        "http://www.yegor256.com", StandardCharsets.UTF_8
                     )
                 ),
                 "Host: p.rehttp.net"

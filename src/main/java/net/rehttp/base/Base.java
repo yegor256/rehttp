@@ -10,7 +10,6 @@ import org.takes.Take;
 
 /**
  * Base.
- *
  * @since 1.0
  */
 public interface Base {
@@ -38,5 +37,4 @@ public interface Base {
      * @throws IOException If fails
      */
     Status status(URL url) throws IOException;
-
 }

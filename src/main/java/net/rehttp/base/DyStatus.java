@@ -16,11 +16,11 @@ import com.jcabi.dynamo.Region;
 import com.jcabi.dynamo.Table;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.iterable.Mapped;
@@ -31,12 +31,8 @@ import org.xembly.Xembler;
 
 /**
  * Status in DynamoDB.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class DyStatus implements Status {
 
     /**
@@ -65,23 +61,19 @@ final class DyStatus implements Status {
             new Mapped<>(
                 item -> DyStatus.xembly(item, false),
                 this.table()
-                    .frame()
-                    .through(
+                    .frame().through(
                         new QueryValve()
-                            .withIndexName("failures")
-                            .withAttributesToGet(
+                            .withIndexName("failures").withAttributesToGet(
                                 "url", "time", "code", "attempts", "when", "ttl"
                             )
                             .withLimit(Tv.TWENTY)
                             .withConsistentRead(false)
                             .withScanIndexForward(false)
                     )
-                    .where("failed_url", Conditions.equalTo(this.url))
-                    .where(
+                    .where("failed_url", Conditions.equalTo(this.url)).where(
                         "time",
                         new Condition()
-                            .withComparisonOperator(ComparisonOperator.LT)
-                            .withAttributeValueList(
+                            .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
                                 new AttributeValue().withN(
                                     Long.toString(after)
                                 )
@@ -97,21 +89,17 @@ final class DyStatus implements Status {
             new Mapped<>(
                 item -> DyStatus.xembly(item, false),
                 this.table()
-                    .frame()
-                    .through(
-                        new QueryValve()
-                            .withAttributesToGet(
-                                "url", "time", "code", "attempts", "when", "ttl"
+                    .frame().through(
+                        new QueryValve().withAttributesToGet(
+                            "url", "time", "code", "attempts", "when", "ttl"
                             )
                             .withLimit(Tv.TEN)
                             .withScanIndexForward(false)
                     )
-                    .where("url", Conditions.equalTo(this.url))
-                    .where(
+                    .where("url", Conditions.equalTo(this.url)).where(
                         "time",
                         new Condition()
-                            .withComparisonOperator(ComparisonOperator.LT)
-                            .withAttributeValueList(
+                            .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
                                 new AttributeValue().withN(
                                     Long.toString(after)
                                 )
@@ -124,8 +112,7 @@ final class DyStatus implements Status {
     @Override
     public Iterable<Directive> details(final long time) throws IOException {
         final Iterator<Item> items = this.table()
-            .frame()
-            .through(
+            .frame().through(
                 new QueryValve()
                     .withSelect(Select.ALL_ATTRIBUTES)
                     .withLimit(1)
@@ -199,7 +186,7 @@ final class DyStatus implements Status {
      */
     private static String utc(final long time) {
         return ZonedDateTime.ofInstant(
-            new Date(time).toInstant(),
+            Instant.ofEpochMilli(time),
             ZoneOffset.UTC
         ).format(DateTimeFormatter.ISO_INSTANT);
     }
@@ -211,5 +198,4 @@ final class DyStatus implements Status {
     private Table table() {
         return this.region.table("targets");
     }
-
 }

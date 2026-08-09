@@ -21,9 +21,7 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Status for the URL.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class TkStatus implements Take {
 
@@ -66,5 +64,4 @@ final class TkStatus implements Take {
         }
         return response;
     }
-
 }

@@ -14,7 +14,6 @@ import com.jcabi.manifests.Manifests;
 
 /**
  * Command line entry.
- *
  * @since 1.0
  */
 public final class Dynamo implements Region {
@@ -59,5 +58,4 @@ public final class Dynamo implements Region {
         Logger.info(Entrance.class, "DynamoDB connected as %s", key);
         return region;
     }
-
 }

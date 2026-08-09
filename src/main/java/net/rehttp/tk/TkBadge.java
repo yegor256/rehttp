@@ -24,9 +24,7 @@ import org.xembly.Xembler;
 
 /**
  * Badge for the URL.
- *
  * @since 1.0
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class TkBadge implements Take {
 
@@ -69,15 +67,13 @@ final class TkBadge implements Take {
                                     .add("url")
                                     .set(url)
                                     .up()
-                                    .add("total")
-                                    .set(
+                                    .add("total").set(
                                         this.base.status(url).history(
                                             Long.MAX_VALUE
                                         ).size()
                                     )
                                     .up()
-                                    .add("failures")
-                                    .set(
+                                    .add("failures").set(
                                         this.base.status(url).failures(
                                             Long.MAX_VALUE
                                         ).size()
@@ -92,5 +88,4 @@ final class TkBadge implements Take {
             "image/svg+xml"
         );
     }
-
 }

@@ -9,6 +9,7 @@ import com.jcabi.manifests.Manifests;
 import io.sentry.Sentry;
 import java.io.IOException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import net.rehttp.base.Base;
 import net.rehttp.base.DyBase;
@@ -19,7 +20,6 @@ import org.takes.http.FtCli;
 
 /**
  * Command line entry.
- *
  * @since 1.0
  */
 public final class Entrance {
@@ -39,11 +39,14 @@ public final class Entrance {
     public static void main(final String... args) throws IOException {
         Sentry.init(Manifests.read("Rehttp-SentryDsn"));
         final Base base = new DyBase(new Dynamo());
-        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
-            new RunnableOf(new VerboseCallable<Void>(new Retry(base), true)),
-            1L, 1L, TimeUnit.MINUTES
+        final ScheduledFuture<?> retries =
+            Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(
+                new RunnableOf(new VerboseCallable<Void>(new Retry(base), true)),
+                1L, 1L, TimeUnit.MINUTES
+            );
+        Runtime.getRuntime().addShutdownHook(
+            new Thread(() -> retries.cancel(false))
         );
         new FtCli(new TkApp(base), args).start(Exit.NEVER);
     }
-
 }
