@@ -1,4 +1,4 @@
-<img alt="logo" src="https://www.rehttp.net/images/logo.svg" width="92px" height="92px"/>
+# [![logo](https://www.rehttp.net/images/logo.svg)](https://www.rehttp.net/images/logo.svg)
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![Managed by Zerocracy](https://www.0crat.com/badge/C3RFVLU72.svg)](http://www.zerocracy.com)
