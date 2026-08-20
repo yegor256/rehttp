@@ -53,12 +53,6 @@ final class TkInfo implements Take {
         return new RsPage("/xsl/info.xsl", req, () -> this.xembly(url));
     }
 
-    /**
-     * Xembly sources describing the URL.
-     * @param url The URL
-     * @return Sources
-     * @throws IOException If fails
-     */
     private Iterable<XeSource> xembly(final URL url) throws IOException {
         return new ListOf<>(
             new XeAppend("url", url.toString()),

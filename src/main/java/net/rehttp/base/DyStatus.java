@@ -131,13 +131,6 @@ final class DyStatus implements Status {
         return DyStatus.xembly(items.next(), true);
     }
 
-    /**
-     * To Xembly.
-     * @param item The item
-     * @param full Full info?
-     * @return Directives
-     * @throws IOException If fails
-     */
     private static Iterable<Directive> xembly(
         final Item item, final boolean full) throws IOException {
         final long time = Long.parseLong(item.get("time").getN());
@@ -169,21 +162,11 @@ final class DyStatus implements Status {
         return dirs.up();
     }
 
-    /**
-     * Minutes interval between now and this date.
-     * @param time Time in msec
-     * @return Minutes
-     */
     private static long age(final long time) {
         return (time - System.currentTimeMillis())
             / TimeUnit.MINUTES.toMillis(1L);
     }
 
-    /**
-     * Time to UTC.
-     * @param time Time in the DB
-     * @return UTC
-     */
     private static String utc(final long time) {
         return ZonedDateTime.ofInstant(
             Instant.ofEpochMilli(time),
@@ -191,10 +174,6 @@ final class DyStatus implements Status {
         ).format(DateTimeFormatter.ISO_INSTANT);
     }
 
-    /**
-     * Table to work with.
-     * @return Table
-     */
     private Table table() {
         return this.region.table("targets");
     }

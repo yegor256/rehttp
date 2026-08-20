@@ -167,10 +167,6 @@ final class TkAppTest {
         );
     }
 
-    /**
-     * Produce request with header that can pass a request through.
-     * @return Request with header
-     */
     private Request throughRequest() {
         return new RqFake(
             new ListOf<>(

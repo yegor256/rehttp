@@ -62,11 +62,6 @@ final class TkAppITCase {
         MatcherAssert.assertThat(count.get(), Matchers.equalTo(0));
     }
 
-    /**
-     * Check that retries eventually succeed and history is recorded.
-     * @param home Home URI of the remote take
-     * @throws Exception If fails
-     */
     private static void check(final URI home) throws Exception {
         final Base base = new DyBase(new Dynamo(), 0L);
         MatcherAssert.assertThat(

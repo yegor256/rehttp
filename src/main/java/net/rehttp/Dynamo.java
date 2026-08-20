@@ -33,10 +33,6 @@ public final class Dynamo implements Region {
         return this.region.table(name);
     }
 
-    /**
-     * Connect.
-     * @return Region
-     */
     private static Region connect() {
         final String key = Manifests.read("Rehttp-DynamoKey");
         final Credentials.Simple creds = new Credentials.Simple(

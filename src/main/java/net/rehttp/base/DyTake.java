@@ -165,24 +165,12 @@ final class DyTake implements Take {
         return response;
     }
 
-    /**
-     * Code of the response.
-     * @param response The response
-     * @return Code
-     * @throws IOException If fails
-     */
     private static int code(final Head response) throws IOException {
         final String head = response.head().iterator().next();
         final int start = head.indexOf(' ') + 1;
         return Integer.parseInt(head.substring(start, head.indexOf(' ', start)));
     }
 
-    /**
-     * The request to send.
-     * @param req Original request
-     * @param uri Destination URI
-     * @return Request
-     */
     private static Request request(final Request req, final URI uri) {
         final StringBuilder path = new StringBuilder();
         path.append(uri.getRawPath());

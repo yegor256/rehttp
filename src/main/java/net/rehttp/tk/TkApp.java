@@ -53,12 +53,6 @@ public final class TkApp extends TkWrap {
         super(TkApp.app(base));
     }
 
-    /**
-     * Ctor.
-     * @param base Base
-     * @return App
-     * @throws IOException If fails
-     */
     private static Take app(final Base base) throws IOException {
         return new TkFallback(
             new TkWithHeaders(

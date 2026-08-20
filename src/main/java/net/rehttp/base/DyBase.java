@@ -114,10 +114,6 @@ public final class DyBase implements Base {
         return new DyStatus(this.region, url);
     }
 
-    /**
-     * Table to work with.
-     * @return Table
-     */
     private Table table() {
         return this.region.table("targets");
     }

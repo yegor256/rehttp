@@ -57,13 +57,6 @@ final class RsPage extends RsWrap {
         super(RsPage.make(xsl, req, src));
     }
 
-    /**
-     * Make it.
-     * @param xsl XSL
-     * @param req Request
-     * @param src Source
-     * @return Response
-     */
     private static Response make(final String xsl, final Request req,
         final Scalar<Iterable<XeSource>> src) {
         final Response raw = new RsXembly(
