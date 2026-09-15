@@ -14,6 +14,7 @@ import org.takes.rs.RsPrint;
 
 /**
  * Test case for {@link RsPage}.
+ *
  * @since 1.0
  */
 final class RsPageTest {

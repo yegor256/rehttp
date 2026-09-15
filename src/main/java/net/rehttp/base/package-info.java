@@ -5,6 +5,7 @@
 
 /**
  * Base.
+ *
  * @since 1.0
  */
 package net.rehttp.base;

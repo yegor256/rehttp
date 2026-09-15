@@ -10,12 +10,14 @@ import org.takes.Take;
 
 /**
  * Base.
+ *
  * @since 1.0
  */
 public interface Base {
 
     /**
      * Get target by URL and time.
+     *
      * @param url The URL
      * @param time The time
      * @return The request
@@ -25,6 +27,7 @@ public interface Base {
 
     /**
      * Expired targets.
+     *
      * @return List of expired targets
      * @throws IOException If fails
      */
@@ -32,6 +35,7 @@ public interface Base {
 
     /**
      * History of the URL.
+     *
      * @param url The URL
      * @return The status
      * @throws IOException If fails

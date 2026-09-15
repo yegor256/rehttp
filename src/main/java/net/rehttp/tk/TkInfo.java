@@ -25,6 +25,7 @@ import org.takes.rs.xe.XeSource;
 
 /**
  * Info about URL.
+ *
  * @since 1.0
  */
 final class TkInfo implements Take {
@@ -36,6 +37,7 @@ final class TkInfo implements Take {
 
     /**
      * Ctor.
+     *
      * @param bse Base
      */
     TkInfo(final Base bse) {

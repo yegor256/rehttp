@@ -24,6 +24,7 @@ import org.xembly.Xembler;
 
 /**
  * Badge for the URL.
+ *
  * @since 1.0
  */
 final class TkBadge implements Take {
@@ -42,6 +43,7 @@ final class TkBadge implements Take {
 
     /**
      * Ctor.
+     *
      * @param bse Base
      */
     TkBadge(final Base bse) {

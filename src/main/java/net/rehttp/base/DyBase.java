@@ -23,6 +23,7 @@ import org.takes.Take;
 
 /**
  * Base in DynamoDB.
+ *
  * @since 1.0
  */
 public final class DyBase implements Base {
@@ -39,6 +40,7 @@ public final class DyBase implements Base {
 
     /**
      * Ctor.
+     *
      * @param reg Region
      */
     public DyBase(final Region reg) {
@@ -47,6 +49,7 @@ public final class DyBase implements Base {
 
     /**
      * Ctor.
+     *
      * @param reg Region
      * @param msec Delay in msecs between attempts
      */

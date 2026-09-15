@@ -10,12 +10,14 @@ import org.xembly.Directive;
 
 /**
  * Base.
+ *
  * @since 1.0
  */
 public interface Status {
 
     /**
      * Failures.
+     *
      * @param after After this date (epoch in milliseconds)
      * @return Map of recent failures
      * @throws IOException If fails
@@ -24,6 +26,7 @@ public interface Status {
 
     /**
      * Full history of the URL.
+     *
      * @param after After this date (epoch in milliseconds)
      * @return The history
      * @throws IOException If fails
@@ -32,6 +35,7 @@ public interface Status {
 
     /**
      * Full details of one particular request.
+     *
      * @param time The time
      * @return The details in plain text
      * @throws IOException If fails

@@ -31,6 +31,7 @@ import org.xembly.Xembler;
 
 /**
  * Status in DynamoDB.
+ *
  * @since 1.0
  */
 final class DyStatus implements Status {
@@ -47,6 +48,7 @@ final class DyStatus implements Status {
 
     /**
      * Ctor.
+     *
      * @param reg Region
      * @param target Target URL
      */

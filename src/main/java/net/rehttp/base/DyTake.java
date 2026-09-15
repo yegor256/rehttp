@@ -37,6 +37,7 @@ import org.takes.tk.TkProxy;
 
 /**
  * Take in DynamoDB.
+ *
  * @since 1.0
  */
 final class DyTake implements Take {
@@ -53,6 +54,7 @@ final class DyTake implements Take {
 
     /**
      * Ctor.
+     *
      * @param itm The item
      * @param msec Delay
      */
@@ -67,9 +69,9 @@ final class DyTake implements Take {
         final URI uri = URI.create(this.item.get("url").getS());
         Request request = req;
         if (this.item.has("request")) {
-            request = new RqLive(
-                new InputStreamOf(this.item.get("request").getS())
-            );
+            try (InputStream body = new InputStreamOf(this.item.get("request").getS())) {
+                request = new RqLive(body);
+            }
             Logger.info(
                 this, "Retrying %s with \"%s\"",
                 uri, request.head().iterator().next()

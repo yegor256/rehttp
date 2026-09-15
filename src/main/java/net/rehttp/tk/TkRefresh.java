@@ -19,6 +19,7 @@ import org.takes.tk.TkFiles;
 /**
  * Fork by hit-refresh header.
  * To refresh resources.
+ *
  * @since 1.0
  */
 public class TkRefresh implements Take {
@@ -30,6 +31,7 @@ public class TkRefresh implements Take {
 
     /**
      * Ctor.
+     *
      * @param path Path
      * @throws IOException If fails
      */
@@ -37,12 +39,18 @@ public class TkRefresh implements Take {
         this.take = new TkFork(
             new FkHitRefresh(
                 path,
-                () -> new VerboseProcess(
-                    new ProcessBuilder(
-                        "mvn",
-                        "generate-resources"
-                    )
-                ).stdout(),
+                () -> {
+                    try (
+                        VerboseProcess process = new VerboseProcess(
+                            new ProcessBuilder(
+                                "mvn",
+                                "generate-resources"
+                            )
+                        )
+                    ) {
+                        process.stdout();
+                    }
+                },
                 new TkFiles("./target/classes")
             ),
             new FkFixed(new TkClasspath())

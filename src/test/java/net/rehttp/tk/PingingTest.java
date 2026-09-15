@@ -17,6 +17,7 @@ import org.takes.rq.RqFake;
 
 /**
  * Test case for {@link TkApp}.
+ *
  * @since 1.0
  */
 final class PingingTest {

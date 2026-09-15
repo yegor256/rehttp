@@ -11,9 +11,17 @@ import org.xembly.Directives;
 
 /**
  * Base.
+ *
  * @since 1.0
  */
 public final class FakeStatus implements Status {
+
+    /**
+     * Constructor.
+     */
+    public FakeStatus() {
+        // Nothing to initialize.
+    }
 
     @Override
     public Collection<Iterable<Directive>> failures(final long after) {

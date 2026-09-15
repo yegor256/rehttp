@@ -20,6 +20,7 @@ import org.takes.http.FtCli;
 
 /**
  * Command line entry.
+ *
  * @since 1.0
  */
 public final class Entrance {
@@ -33,6 +34,7 @@ public final class Entrance {
 
     /**
      * Main entry point.
+     *
      * @param args Arguments
      * @throws IOException If fails
      */

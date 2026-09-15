@@ -19,6 +19,7 @@ import org.takes.rs.RsPrint;
 
 /**
  * Test case for {@link TkBadge}.
+ *
  * @since 1.0
  */
 final class TkBadgeTest {

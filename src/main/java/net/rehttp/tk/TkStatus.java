@@ -21,6 +21,7 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Status for the URL.
+ *
  * @since 1.0
  */
 final class TkStatus implements Take {
@@ -32,6 +33,7 @@ final class TkStatus implements Take {
 
     /**
      * Ctor.
+     *
      * @param bse Base
      */
     TkStatus(final Base bse) {

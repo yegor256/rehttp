@@ -19,9 +19,17 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Fatal error page.
+ *
  * @since 1.0
  */
 public class TkFatal implements Fallback {
+
+    /**
+     * Constructor.
+     */
+    public TkFatal() {
+        // Nothing to initialize.
+    }
 
     @Override
     public final Opt<Response> route(final RqFallback req) throws IOException {

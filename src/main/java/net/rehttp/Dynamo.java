@@ -14,6 +14,7 @@ import com.jcabi.manifests.Manifests;
 
 /**
  * Command line entry.
+ *
  * @since 1.0
  */
 public final class Dynamo implements Region {
@@ -21,7 +22,23 @@ public final class Dynamo implements Region {
     /**
      * Region.
      */
-    private final transient Region region = Dynamo.connect();
+    private final transient Region region;
+
+    /**
+     * Constructor.
+     */
+    public Dynamo() {
+        this(Dynamo.connect());
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param reg Region
+     */
+    private Dynamo(final Region reg) {
+        this.region = reg;
+    }
 
     @Override
     public AmazonDynamoDB aws() {

@@ -18,6 +18,7 @@ import org.takes.rs.RsWithStatus;
 
 /**
  * Authenticated take.
+ *
  * @since 1.0
  */
 public class TkSafe implements Take {
@@ -29,6 +30,7 @@ public class TkSafe implements Take {
 
     /**
      * Ctor.
+     *
      * @param take Original take
      */
     public TkSafe(final Take take) {

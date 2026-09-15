@@ -14,6 +14,7 @@ import org.takes.rs.RsText;
 
 /**
  * Base.
+ *
  * @since 1.0
  */
 public final class FakeBase implements Base {
@@ -32,6 +33,7 @@ public final class FakeBase implements Base {
 
     /**
      * Ctor.
+     *
      * @param take The take as a target
      */
     public FakeBase(final Take take) {
