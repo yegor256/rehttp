@@ -27,7 +27,7 @@ jobs:
           restore-keys: |
             maven-
       - run: mvn install -Pjacoco
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           use_oidc: true
           files: ./target/site/jacoco/jacoco.xml
