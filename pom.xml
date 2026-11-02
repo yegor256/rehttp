@@ -77,9 +77,9 @@
       <version>7.22.6</version>
     </dependency>
     <dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk-dynamodb</artifactId>
-      <version>1.12.797</version>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>dynamodb</artifactId>
+      <version>2.41.22</version>
     </dependency>
     <dependency>
       <groupId>org.takes</groupId>
@@ -135,7 +135,7 @@
     <dependency>
       <groupId>com.jcabi</groupId>
       <artifactId>jcabi-dynamo</artifactId>
-      <version>0.22.4</version>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>

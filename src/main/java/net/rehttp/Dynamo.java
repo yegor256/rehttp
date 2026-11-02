@@ -4,13 +4,13 @@
  */
 package net.rehttp;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.jcabi.dynamo.Credentials;
 import com.jcabi.dynamo.Region;
 import com.jcabi.dynamo.Table;
 import com.jcabi.dynamo.retry.ReRegion;
 import com.jcabi.log.Logger;
 import com.jcabi.manifests.Manifests;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 /**
  * Command line entry.
@@ -41,7 +41,7 @@ public final class Dynamo implements Region {
     }
 
     @Override
-    public AmazonDynamoDB aws() {
+    public DynamoDbClient aws() {
         return this.region.aws();
     }
 
