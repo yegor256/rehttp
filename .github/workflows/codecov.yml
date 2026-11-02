@@ -13,13 +13,13 @@ permissions:
 jobs:
   codecov:
     timeout-minutes: 15
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 25
       - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
@@ -27,7 +27,7 @@ jobs:
           restore-keys: |
             maven-
       - run: mvn install -Pjacoco
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           use_oidc: true
           files: ./target/site/jacoco/jacoco.xml
