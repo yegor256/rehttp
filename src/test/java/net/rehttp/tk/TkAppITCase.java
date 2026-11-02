@@ -4,7 +4,6 @@
  */
 package net.rehttp.tk;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.matchers.XhtmlMatchers;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -85,7 +84,7 @@ final class TkAppITCase {
             Matchers.startsWith("HTTP/1.1 500")
         );
         final Runnable retry = new RunnableOf(new Retry(base));
-        for (int idx = 0; idx < Tv.TEN; ++idx) {
+        for (int idx = 0; idx < 10; ++idx) {
             retry.run();
         }
         MatcherAssert.assertThat(
