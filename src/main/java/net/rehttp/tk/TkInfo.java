@@ -37,10 +37,10 @@ final class TkInfo implements Take {
     /**
      * Ctor.
      *
-     * @param bse Base
+     * @param dbase Base
      */
-    TkInfo(final Base bse) {
-        this.base = bse;
+    TkInfo(final Base dbase) {
+        this.base = dbase;
     }
 
     @Override
