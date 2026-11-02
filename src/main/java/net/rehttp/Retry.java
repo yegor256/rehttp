@@ -25,10 +25,10 @@ public final class Retry implements Callable<Void> {
     /**
      * Ctor.
      *
-     * @param bse Base
+     * @param dbase Base
      */
-    public Retry(final Base bse) {
-        this.base = bse;
+    public Retry(final Base dbase) {
+        this.base = dbase;
     }
 
     @Override
