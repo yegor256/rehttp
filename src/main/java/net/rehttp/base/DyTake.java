@@ -4,7 +4,6 @@
  */
 package net.rehttp.base;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Item;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -84,7 +83,7 @@ final class DyTake implements Take {
         final int code = DyTake.code(response);
         final boolean success = code > 199 && code < 500;
         final Collection<Map.Entry<String, AttributeValueUpdate>> update =
-            new ArrayList<>(Tv.SEVEN);
+            new ArrayList<>(7);
         update.addAll(
             new ListOf<Map.Entry<String, AttributeValueUpdate>>(
                 new MapEntry<>(
@@ -107,7 +106,7 @@ final class DyTake implements Take {
                         AttributeValue.fromS(
                             new Sub(
                                 new RsPrint(response).print(), 0,
-                                Tv.TWENTY * Tv.THOUSAND
+                                20_000
                             ).asString()
                         )
                     ).action(AttributeAction.PUT).build()

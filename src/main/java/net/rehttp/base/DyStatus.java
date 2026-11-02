@@ -4,7 +4,6 @@
  */
 package net.rehttp.base;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Conditions;
 import com.jcabi.dynamo.Item;
 import com.jcabi.dynamo.QueryValve;
@@ -68,7 +67,7 @@ final class DyStatus implements Status {
                             .withIndexName("failures").withAttributesToGet(
                                 "url", "time", "code", "attempts", "when", "ttl"
                             )
-                            .withLimit(Tv.TWENTY)
+                            .withLimit(20)
                             .withConsistentRead(false)
                             .withScanIndexForward(false)
                     )
@@ -94,7 +93,7 @@ final class DyStatus implements Status {
                         new QueryValve().withAttributesToGet(
                             "url", "time", "code", "attempts", "when", "ttl"
                             )
-                            .withLimit(Tv.TEN)
+                            .withLimit(10)
                             .withScanIndexForward(false)
                     )
                     .where("url", Conditions.equalTo(this.url)).where(

@@ -4,7 +4,6 @@
  */
 package net.rehttp.tk;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,7 +66,7 @@ final class TkInfo implements Take {
                 new XeDirectives(
                     new Joined<>(
                         new HeadOf<>(
-                            Tv.TWENTY,
+                            20,
                             this.base.status(url).failures(Long.MAX_VALUE)
                         )
                     )
@@ -78,7 +77,7 @@ final class TkInfo implements Take {
                 new XeDirectives(
                     new Joined<>(
                         new HeadOf<>(
-                            Tv.TEN,
+                            10,
                             this.base.status(url).history(Long.MAX_VALUE)
                         )
                     )

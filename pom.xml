@@ -129,11 +129,6 @@
     </dependency>
     <dependency>
       <groupId>com.jcabi</groupId>
-      <artifactId>jcabi-aspects</artifactId>
-      <version>0.24.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jcabi</groupId>
       <artifactId>jcabi-dynamo</artifactId>
       <version>1.1.0</version>
     </dependency>
