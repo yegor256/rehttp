@@ -4,9 +4,6 @@
  */
 package net.rehttp.base;
 
-import com.amazonaws.services.dynamodbv2.model.AttributeAction;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.AttributeValueUpdate;
 import com.jcabi.dynamo.Item;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -33,6 +30,9 @@ import org.takes.rq.RqMethod;
 import org.takes.rq.RqPrint;
 import org.takes.rs.RsPrint;
 import org.takes.tk.TkProxy;
+import software.amazon.awssdk.services.dynamodb.model.AttributeAction;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValueUpdate;
 
 /**
  * Take in DynamoDB.
@@ -65,10 +65,10 @@ final class DyTake implements Take {
     @Override
     @SuppressWarnings("unchecked")
     public Response act(final Request req) throws Exception {
-        final URI uri = URI.create(this.item.get("url").getS());
+        final URI uri = URI.create(this.item.get("url").s());
         Request request = req;
         if (this.item.has("request")) {
-            try (InputStream body = new InputStreamOf(this.item.get("request").getS())) {
+            try (InputStream body = new InputStreamOf(this.item.get("request").s())) {
                 request = new RqLive(body);
             }
             Logger.info(
@@ -88,54 +88,54 @@ final class DyTake implements Take {
             new ListOf<Map.Entry<String, AttributeValueUpdate>>(
                 new MapEntry<>(
                     "attempts",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withN("1")
-                    ).withAction(AttributeAction.ADD)
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromN("1")
+                    ).action(AttributeAction.ADD).build()
                 ),
                 new MapEntry<>(
                     "request",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withS(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromS(
                             new RqPrint(request).print()
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 ),
                 new MapEntry<>(
                     "response",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withS(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromS(
                             new Sub(
                                 new RsPrint(response).print(), 0,
                                 20_000
                             ).asString()
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 ),
                 new MapEntry<>(
                     "success",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withS(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromS(
                             Boolean.toString(success)
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 ),
                 new MapEntry<>(
                     "code",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withN(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromN(
                             Integer.toString(code)
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 ),
                 new MapEntry<>(
                     "when",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withN(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromN(
                             Long.toString(
                                 System.currentTimeMillis() + this.delay
                             )
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 )
             )
         );
@@ -143,20 +143,20 @@ final class DyTake implements Take {
             update.add(
                 new MapEntry<>(
                     "failed_url",
-                    new AttributeValueUpdate().withAction(
-                        AttributeAction.DELETE
-                    )
+                    AttributeValueUpdate.builder()
+                        .action(AttributeAction.DELETE)
+                        .build()
                 )
             );
         } else {
             update.add(
                 new MapEntry<>(
                     "failed_url",
-                    new AttributeValueUpdate().withValue(
-                        new AttributeValue().withS(
+                    AttributeValueUpdate.builder().value(
+                        AttributeValue.fromS(
                             uri.toString()
                         )
-                    ).withAction(AttributeAction.PUT)
+                    ).action(AttributeAction.PUT).build()
                 )
             );
         }

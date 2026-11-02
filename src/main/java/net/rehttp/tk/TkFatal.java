@@ -37,7 +37,7 @@ public class TkFatal implements Fallback {
             new RsWithStatus(
                 new RsHtml(
                     new RsVelocity(
-                        TkApp.class.getResource("error.html.vm"),
+                        TkApp.class.getResourceAsStream("error.html.vm"),
                         new RsVelocity.Pair(
                             "err",
                             new IoCheckedText(new TextOf(req.throwable())).asString()

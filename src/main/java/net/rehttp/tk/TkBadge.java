@@ -44,10 +44,10 @@ final class TkBadge implements Take {
     /**
      * Ctor.
      *
-     * @param bse Base
+     * @param dbase Base
      */
-    TkBadge(final Base bse) {
-        this.base = bse;
+    TkBadge(final Base dbase) {
+        this.base = dbase;
     }
 
     @Override

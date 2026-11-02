@@ -31,10 +31,10 @@ final class TkDetails implements Take {
     /**
      * Ctor.
      *
-     * @param bse Base
+     * @param dbase Base
      */
-    TkDetails(final Base bse) {
-        this.base = bse;
+    TkDetails(final Base dbase) {
+        this.base = dbase;
     }
 
     @Override

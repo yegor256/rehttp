@@ -4,10 +4,6 @@
  */
 package net.rehttp.base;
 
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
-import com.amazonaws.services.dynamodbv2.model.Select;
 import com.jcabi.dynamo.Attributes;
 import com.jcabi.dynamo.Conditions;
 import com.jcabi.dynamo.Item;
@@ -20,6 +16,10 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import org.cactoos.iterable.Mapped;
 import org.takes.Take;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.ComparisonOperator;
+import software.amazon.awssdk.services.dynamodb.model.Condition;
+import software.amazon.awssdk.services.dynamodb.model.Select;
 
 /**
  * Base in DynamoDB.
@@ -102,12 +102,13 @@ public final class DyBase implements Base {
                 )
                 .where("success", Conditions.equalTo(Boolean.toString(false))).where(
                     "when",
-                    new Condition()
-                        .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
-                            new AttributeValue().withN(
+                    Condition.builder()
+                        .comparisonOperator(ComparisonOperator.LT).attributeValueList(
+                            AttributeValue.fromN(
                                 Long.toString(System.currentTimeMillis())
                             )
                         )
+                        .build()
                 )
         );
     }
