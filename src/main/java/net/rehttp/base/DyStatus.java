@@ -4,10 +4,6 @@
  */
 package net.rehttp.base;
 
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
-import com.amazonaws.services.dynamodbv2.model.Select;
 import com.jcabi.aspects.Tv;
 import com.jcabi.dynamo.Conditions;
 import com.jcabi.dynamo.Item;
@@ -28,6 +24,10 @@ import org.cactoos.list.ListOf;
 import org.xembly.Directive;
 import org.xembly.Directives;
 import org.xembly.Xembler;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.ComparisonOperator;
+import software.amazon.awssdk.services.dynamodb.model.Condition;
+import software.amazon.awssdk.services.dynamodb.model.Select;
 
 /**
  * Status in DynamoDB.
@@ -74,12 +74,11 @@ final class DyStatus implements Status {
                     )
                     .where("failed_url", Conditions.equalTo(this.url)).where(
                         "time",
-                        new Condition()
-                            .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
-                                new AttributeValue().withN(
-                                    Long.toString(after)
-                                )
+                        Condition.builder()
+                            .comparisonOperator(ComparisonOperator.LT).attributeValueList(
+                                AttributeValue.fromN(Long.toString(after))
                             )
+                            .build()
                     )
             )
         );
@@ -100,12 +99,11 @@ final class DyStatus implements Status {
                     )
                     .where("url", Conditions.equalTo(this.url)).where(
                         "time",
-                        new Condition()
-                            .withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(
-                                new AttributeValue().withN(
-                                    Long.toString(after)
-                                )
+                        Condition.builder()
+                            .comparisonOperator(ComparisonOperator.LT).attributeValueList(
+                                AttributeValue.fromN(Long.toString(after))
                             )
+                            .build()
                     )
             )
         );
@@ -135,20 +133,20 @@ final class DyStatus implements Status {
 
     private static Iterable<Directive> xembly(
         final Item item, final boolean full) throws IOException {
-        final long time = Long.parseLong(item.get("time").getN());
-        final long when = Long.parseLong(item.get("when").getN());
-        final long ttl = Long.parseLong(item.get("ttl").getN())
+        final long time = Long.parseLong(item.get("time").n());
+        final long when = Long.parseLong(item.get("when").n());
+        final long ttl = Long.parseLong(item.get("ttl").n())
             * TimeUnit.SECONDS.toMillis(1L);
         final Directives dirs = new Directives()
             .add("target")
             .add("url")
-            .set(item.get("url").getS()).up()
+            .set(item.get("url").s()).up()
             .add("time").set(time).up()
             .add("time_utc").set(DyStatus.utc(time)).up()
             .add("age").set(DyStatus.age(time)).up()
-            .add("code").set(Integer.parseInt(item.get("code").getN())).up()
+            .add("code").set(Integer.parseInt(item.get("code").n())).up()
             .add("attempts")
-            .set(Long.parseLong(item.get("attempts").getN())).up()
+            .set(Long.parseLong(item.get("attempts").n())).up()
             .add("when").set(when).up()
             .add("when_utc").set(DyStatus.utc(when)).up()
             .add("ttl").set(ttl).up()
@@ -157,9 +155,9 @@ final class DyStatus implements Status {
             .add("ttl_minutes_left").set(DyStatus.age(ttl)).up();
         if (full) {
             dirs.add("request")
-                .set(Xembler.escape(item.get("request").getS())).up()
+                .set(Xembler.escape(item.get("request").s())).up()
                 .add("response")
-                .set(Xembler.escape(item.get("response").getS())).up();
+                .set(Xembler.escape(item.get("response").s())).up();
         }
         return dirs.up();
     }
