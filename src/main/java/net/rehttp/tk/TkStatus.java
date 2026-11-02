@@ -34,10 +34,10 @@ final class TkStatus implements Take {
     /**
      * Ctor.
      *
-     * @param bse Base
+     * @param dbase Base
      */
-    TkStatus(final Base bse) {
-        this.base = bse;
+    TkStatus(final Base dbase) {
+        this.base = dbase;
     }
 
     @Override
