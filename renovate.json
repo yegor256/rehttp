@@ -4,5 +4,17 @@
   "extends": [
     "config:base"
   ],
+  "packageRules": [
+    {
+      "description": "Avoid replacing xml-apis with an older version of itself",
+      "enabled": false,
+      "matchPackageNames": [
+        "xml-apis:xml-apis"
+      ],
+      "matchUpdateTypes": [
+        "replacement"
+      ]
+    }
+  ],
   "platformAutomerge": false
 }
