@@ -4,13 +4,14 @@
  */
 package net.rehttp.tk;
 
-import java.io.IOException;
+import java.net.HttpURLConnection;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
+import org.takes.rs.RsWithStatus;
 
 /**
- * Decorator for handle not exist records.
+ * Decorator that answers with a not-found page when a record is missing.
  *
  * @since 1.0
  */
@@ -30,15 +31,14 @@ final class TkNotFoundSafeDetails implements Take {
     }
 
     @Override
-    public Response act(final Request req) throws IOException {
+    public Response act(final Request req) throws Exception {
         try {
             return this.origin.act(req);
-        } catch (final IOException ex) {
-            return RsPage(
-                "/xsl/not_found.xsl",
-                req
+        } catch (final IllegalArgumentException ex) {
+            return new RsWithStatus(
+                new RsPage("/xsl/not_found.xsl", req),
+                HttpURLConnection.HTTP_NOT_FOUND
             );
         }
-        
     }
 }
