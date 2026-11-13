@@ -15,6 +15,7 @@ import org.takes.Response;
 import org.takes.Take;
 import org.takes.rq.RqHref;
 import org.takes.rs.xe.XeDirectives;
+import org.xembly.Directive;
 
 /**
  * Details of request.
@@ -46,14 +47,11 @@ final class TkDetails implements Take {
             throw new IOException(ex);
         }
         final long time = Long.parseLong(new RqHref.Smart(req).single("t"));
+        final Iterable<Directive> details = this.base.status(url).details(time);
         return new RsPage(
             "/xsl/details.xsl",
             req,
-            () -> new ListOf<>(
-                new XeDirectives(
-                    this.base.status(url).details(time)
-                )
-            )
+            () -> new ListOf<>(new XeDirectives(details))
         );
     }
 }
