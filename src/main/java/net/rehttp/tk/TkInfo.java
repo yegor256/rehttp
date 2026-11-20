@@ -5,6 +5,8 @@
 package net.rehttp.tk;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,6 +16,7 @@ import net.rehttp.base.Base;
 import org.cactoos.iterable.HeadOf;
 import org.cactoos.iterable.Joined;
 import org.cactoos.list.ListOf;
+import org.takes.HttpException;
 import org.takes.Request;
 import org.takes.Response;
 import org.takes.Take;
@@ -45,11 +48,23 @@ final class TkInfo implements Take {
 
     @Override
     public Response act(final Request req) throws IOException {
+        final String value = new RqHref.Smart(req).single("u");
+        if (value.isEmpty()) {
+            throw new HttpException(
+                HttpURLConnection.HTTP_BAD_REQUEST,
+                "The \"u\" query parameter is mandatory and must contain a URL"
+            );
+        }
         final URL url;
         try {
-            url = new URI(new RqHref.Smart(req).single("u")).toURL();
-        } catch (final URISyntaxException ex) {
-            throw new IOException(ex);
+            url = new URI(value).toURL();
+        } catch (final URISyntaxException | MalformedURLException
+            | IllegalArgumentException ex) {
+            throw new HttpException(
+                HttpURLConnection.HTTP_BAD_REQUEST,
+                String.format("The URL \"%s\" is invalid", value),
+                ex
+            );
         }
         return new RsPage("/xsl/info.xsl", req, () -> this.xembly(url));
     }
