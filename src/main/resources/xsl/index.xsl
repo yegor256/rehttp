@@ -46,7 +46,7 @@
         <label>
           <xsl:text>To see the history of a URL:</xsl:text>
         </label>
-        <input type="url" name="u" size="45"/>
+        <input type="url" name="u" size="45" required="required"/>
         <button type="submit">
           <xsl:text>Open</xsl:text>
         </button>

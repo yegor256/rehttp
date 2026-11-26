@@ -152,6 +152,81 @@ final class TkAppTest {
     }
 
     @Test
+    void rendersInfoPageForValidUrl() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake(
+                        "GET",
+                        String.format(
+                            "/i?u=%s",
+                            URLEncoder.encode(
+                                "http://www.yegor256.com",
+                                StandardCharsets.UTF_8
+                            )
+                        )
+                    )
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 200")
+        );
+    }
+
+    @Test
+    void respondsBadRequestOnEmptyUrl() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake("GET", "/i?u=")
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 400")
+        );
+    }
+
+    @Test
+    void respondsBadRequestOnMissingUrl() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake("GET", "/i")
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 400")
+        );
+    }
+
+    @Test
+    void respondsBadRequestOnRelativeUrl() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake("GET", "/i?u=www.yegor256.com")
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 400")
+        );
+    }
+
+    @Test
+    void respondsBadRequestOnInvalidUrl() throws Exception {
+        MatcherAssert.assertThat(
+            new RsPrint(
+                new TkApp(new FakeBase()).act(
+                    new RqFake(
+                        "GET",
+                        String.format(
+                            "/i?u=%s",
+                            URLEncoder.encode("http://", StandardCharsets.UTF_8)
+                        )
+                    )
+                )
+            ).print(),
+            Matchers.startsWith("HTTP/1.1 400")
+        );
+    }
+
+    @Test
     void responseBodyContainsErrorMessageOnly() throws Exception {
         final String msg = "Execution error";
         MatcherAssert.assertThat(
